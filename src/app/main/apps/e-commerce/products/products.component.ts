@@ -7,6 +7,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
 
 import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
 import { takeUntil } from 'rxjs/internal/operators';
@@ -36,11 +40,14 @@ export class EcommerceProductsComponent implements OnInit
     private _unsubscribeAll: Subject<any>;
 
     constructor(
-        private _ecommerceProductsService: EcommerceProductsService
+        private _ecommerceProductsService: EcommerceProductsService,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
     }
 
     // -----------------------------------------------------------------------------------------------------

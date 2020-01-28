@@ -2,11 +2,15 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import { Subject, Event } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
 
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
 import { EcommerceProductService } from 'app/main/apps/e-commerce/product/product.service';
@@ -23,6 +27,9 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     product: Product;
     pageType: string;
     productForm: FormGroup;
+    categoryTable : any; 
+    firstCategory : string = "";
+    secondCategory : string = "";
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -39,7 +46,8 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         private _ecommerceProductService: EcommerceProductService,
         private _formBuilder: FormBuilder,
         private _location: Location,
-        private _matSnackBar: MatSnackBar
+        private _matSnackBar: MatSnackBar,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Set the default
@@ -47,6 +55,9 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -76,6 +87,28 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
                 this.productForm = this.createProductForm();
             });
+        
+            this.categoryTable = 
+            {
+                "assiete" : {
+                    "little assiete" : ['assieteA', 'assieteB'],
+                    "big assiete" : ['bigassieteA', 'bigassieteB']
+                },
+                "apple" : {
+                    "little apple" : ['appleA', 'appleB'],
+                    "big apple" : ['bigappleA', 'bigappleB']
+                }
+            };
+            
+        // this._ecommerceProductService.getCategory()
+        //     .then(category => {
+        //         if(category)
+        //         {
+        //             this.categoryTable = category;
+        //         }else{
+        //             //TODO
+        //         }
+        //     })
     }
 
     /**
@@ -102,26 +135,61 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         return this._formBuilder.group({
             id              : [this.product.id],
             name            : [this.product.name],
+            reference       : [this.product.reference],
             handle          : [this.product.handle],
             description     : [this.product.description],
-            categories      : [this.product.categories],
+            category        : [this.product.category],
             tags            : [this.product.tags],
             images          : [this.product.images],
             priceTaxExcl    : [this.product.priceTaxExcl],
             priceTaxIncl    : [this.product.priceTaxIncl],
             taxRate         : [this.product.taxRate],
             comparedPrice   : [this.product.comparedPrice],
-            quantity        : [this.product.quantity],
-            sku             : [this.product.sku],
-            width           : [this.product.width],
-            height          : [this.product.height],
-            depth           : [this.product.depth],
-            weight          : [this.product.weight],
-            extraShippingFee: [this.product.extraShippingFee],
+            size            : [this.product.size],
+            color           : [this.product.color],
+            material        : [this.product.material],
+            quantityPerBox  : [this.product.quantityPerBox],
+            minQuantity     : [this.product.minQuantity],
             active          : [this.product.active]
         });
     }
 
+    changeFirstCategory(event : any){
+        this.firstCategory = event.value;
+        this.secondCategory = '';
+        this.productForm.get('category').setValue('');
+    }
+
+    changeSecondCategory(event : any){
+        this.secondCategory = event.value;
+        this.productForm.get('category').setValue('');
+    }
+
+    firstCategoryTable() : Array<string>{
+        let keys = Array<string>();
+        for(let key in this.categoryTable){
+            keys.push(key);
+        }
+        return keys;
+    }
+
+    secondCategoryTable(firstCategory : string) : Array<string>{
+        if (firstCategory == ""){
+            return [];
+        }
+        let keys = Array<string>();
+        for(let key in this.categoryTable[firstCategory]){
+            keys.push(key)
+        }
+        return keys;
+    }
+
+    ProductCategoryTable(firstCategory : string, secondCategory : string) : Array<String>{
+        if(firstCategory == "" || secondCategory == ""){
+            return [];
+        }
+        return this.categoryTable[firstCategory][secondCategory];
+    }
     /**
      * Save product
      */

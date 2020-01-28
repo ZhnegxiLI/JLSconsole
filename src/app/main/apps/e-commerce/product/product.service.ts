@@ -8,6 +8,7 @@ export class EcommerceProductService implements Resolve<any>
 {
     routeParams: any;
     product: any;
+    category: any;
     onProductChanged: BehaviorSubject<any>;
 
     /**
@@ -21,6 +22,7 @@ export class EcommerceProductService implements Resolve<any>
     {
         // Set the defaults
         this.onProductChanged = new BehaviorSubject({});
+
     }
 
     /**
@@ -69,6 +71,17 @@ export class EcommerceProductService implements Resolve<any>
                         resolve(response);
                     }, reject);
             }
+        });
+    }
+
+    getCategory() : Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get('api/e-commerce-products/category')
+                .subscribe((response: any) => {
+                    this.category = response;
+                    resolve(response);
+                },reject);
         });
     }
 
