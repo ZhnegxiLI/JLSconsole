@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, Event } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -12,6 +12,7 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 
+//import { MatFileUploadModule } from 'angular-material-fileupload';
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
 import { EcommerceProductService } from 'app/main/apps/e-commerce/product/product.service';
 
@@ -30,6 +31,8 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     categoryTable : any; 
     firstCategory : string = "";
     secondCategory : string = "";
+    imageData : File;
+    imageUrl : any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -77,6 +80,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
                 if ( product )
                 {
                     this.product = new Product(product);
+                    this.imageUrl = this.product.image;
                     this.pageType = 'edit';
                 }
                 else
@@ -135,23 +139,38 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         return this._formBuilder.group({
             id              : [this.product.id],
             name            : [this.product.name],
-            reference       : [this.product.reference],
-            handle          : [this.product.handle],
+            productReferenceCode       : [this.product.reference],
+ //           handle          : [this.product.handle],
             description     : [this.product.description],
             category        : [this.product.category],
-            tags            : [this.product.tags],
-            images          : [this.product.images],
-            priceTaxExcl    : [this.product.priceTaxExcl],
-            priceTaxIncl    : [this.product.priceTaxIncl],
+            price           : [this.product.price],
             taxRate         : [this.product.taxRate],
-            comparedPrice   : [this.product.comparedPrice],
             size            : [this.product.size],
             color           : [this.product.color],
             material        : [this.product.material],
             quantityPerBox  : [this.product.quantityPerBox],
             minQuantity     : [this.product.minQuantity],
-            active          : [this.product.active]
+            validity        : [this.product.active]
         });
+    }
+
+    uploadImage(event : any){
+        this.imageData = event.target.files[0];
+        this.preview();
+    }
+
+    preview() {
+        // Show preview 
+        var mimeType = this.imageData.type;
+        if (mimeType.match(/image\/*/) == null) {
+          return;
+        }
+     
+        var reader = new FileReader();      
+        reader.readAsDataURL(this.imageData); 
+        reader.onload = (_event) => { 
+          this.imageUrl = reader.result; 
+        }
     }
 
     changeFirstCategory(event : any){
@@ -195,8 +214,16 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     saveProduct(): void
     {
-        const data = this.productForm.getRawValue();
-        data.handle = FuseUtils.handleize(data.name);
+        
+        //data = eval("data" + "imageData" + this.imageData);
+        //data.handle = FuseUtils.handleize(data.name);
+
+        const data: FormData = new FormData();
+
+        data.append('file', this.imageData, this.imageData.name);
+        data.append('product', JSON.stringify(this.productForm.getRawValue()));
+
+        console.log(data);
 
         this._ecommerceProductService.saveProduct(data)
             .then(() => {

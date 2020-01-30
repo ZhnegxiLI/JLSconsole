@@ -17,10 +17,10 @@
                     <mat-icon>arrow_back</mat-icon>
                 </button>
 
-                <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                <!-- <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     <img *ngIf="product.images[0]" [src]="product.images[0].url">
                     <img *ngIf="!product.images[0]" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
-                </div>
+                </div> -->
 
                 <div fxLayout="column" fxLayoutAlign="start start"
                      [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
@@ -79,7 +79,7 @@
                                     <mat-label>{{'PRODUCT.REFERENCE_CODE'| translate}}</mat-label>
                                         <input matInput placeholder="{{'PRODUCT.REFERENCE_CODE'| translate}}"
                                                name="reference"
-                                               formControlName="reference"
+                                               formControlName="productReferenceCode"
                                                required>
                                 </mat-form-field>
 
@@ -123,26 +123,6 @@
 
                                 </div>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-
-                                    <mat-label>{{'PRODUCT.TAGS'| translate}}</mat-label>
-
-                                    <mat-chip-list #tagList name="tags" formControlName="tags">
-
-                                        <mat-chip *ngFor="let tag of product.tags"
-                                                  [removable]="true" (removed)="product.removeTag(tag)">
-                                            {{tag}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input [matChipInputFor]="tagList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="product.addTag($event)"/>
-
-                                    </mat-chip-list>
-
-                                </mat-form-field>
-
                             </div>
 
                         </mat-tab>
@@ -150,8 +130,17 @@
                         <mat-tab label="{{'PRODUCT.PRODUCT_IMAGE' | translate}}">
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
-                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                                <section>
+                                    <mat-label>{{'PRODUCT.UPLOAD_IMAGE' | translate}}</mat-label>
+                                    <input mat-input type="file" (change)="uploadImage($event)">
+                                </section>
 
+                                <div class="image-preview mb-3" *ngIf="imageUrl">
+                                    <img [src]="imageUrl" height="300" />                 
+                                </div>
+
+                                <!-- <div fxLayout="row wrap" fxLayoutAlign="start start">
+                                    
                                     <div *ngIf="product.images.length === 0"
                                          class="product-image" fxlayout="row" fxLayoutAlign="center center">
                                         <img class="media"
@@ -164,7 +153,7 @@
                                             <img class="media" [src]="image.url">
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                         </mat-tab>
@@ -174,19 +163,10 @@
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>{{'PRODUCT.TAX_EXCLUDED_PRICE'| translate}}</mat-label>
+                                    <mat-label>{{'PRODUCT.PRICE'| translate}}</mat-label>
                                     <input matInput placeholder="Tax Excluded Price"
-                                           name="priceTaxExcl"
-                                           formControlName="priceTaxExcl"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                </mat-form-field>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>{{'PRODUCT.TAX_INCLUDED_PRICE'| translate}}</mat-label>
-                                    <input matInput placeholder="Tax Included Price"
-                                           name="priceTaxIncl"
-                                           formControlName="priceTaxIncl"
+                                           name="Price"
+                                           formControlName="price"
                                            type="number">
                                     <span matPrefix>$&nbsp;</span>
                                 </mat-form-field>
@@ -198,17 +178,6 @@
                                            formControlName="taxRate"
                                            type="number">
                                     <span matPrefix>&#37;&nbsp;</span>
-                                </mat-form-field>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>{{'PRODUCT.COMPARED_PRICE'| translate}}</mat-label>
-                                    <input matInput placeholder="Compared Price"
-                                           name="comparedPrice"
-                                           formControlName="comparedPrice"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <mat-hint align="start">Add a compare price to show next to the real price
-                                    </mat-hint>
                                 </mat-form-field>
 
                             </div>

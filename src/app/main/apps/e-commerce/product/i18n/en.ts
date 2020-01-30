@@ -24,7 +24,8 @@ export const locale = {
             'PACKING' : 'Packing',
             'QUANTITY_PER_BOX' : 'Quantity Per Box',
             'MIN_QUANTITY' : 'Min Quantity',
-            'PRICING' : 'Pricing'
+            'PRICING' : 'Pricing',
+            'PRICE' : 'price'
         }
     }
 };

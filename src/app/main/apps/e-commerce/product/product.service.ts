@@ -93,8 +93,9 @@ export class EcommerceProductService implements Resolve<any>
      */
     saveProduct(product): Promise<any>
     {
+        console.log(product);
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/e-commerce-products/' + product.id, product)
+            this._httpClient.post('http://localhost/JLSConsoleApplication/api/Product/save', product)
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);

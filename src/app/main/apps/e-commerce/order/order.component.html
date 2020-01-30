@@ -39,10 +39,10 @@
 
             <!-- CONTENT -->
             <div class="content">
-
+                <form name="orderForm" [formGroup]="orderForm" fxLayout="column" fxFlex>
                 <mat-tab-group fxLayout="column" fxFlex>
 
-                    <mat-tab label="Order Details">
+                    <mat-tab label="{{'Order.Order_Details' | translate }}">
 
                         <div class="order-details tab-content p-24" fusePerfectScrollbar>
 
@@ -50,17 +50,17 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 secondary-text">Customer</div>
+                                <div class="h2 secondary-text">{{'ORDER.Customer'|translate}}</div>
                                 </div>
 
                                 <div class="customer mb-32">
                                     <table class="simple">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Company</th>
+                                                <th>{{'ORDER.NAME' | translate}}</th>
+                                                <th>{{'ORDER.EMAIL' | translate}}</th>
+                                                <th>{{'ORDER.PHONE' | translate}}</th>
+                                                <th>{{'ORDER.COMPANY' | translate}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,63 +74,24 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="email text-truncate">{{order.customer.email}}</span>
+                                                    <mat-form-field>
+                                                        <input class="email text-truncate" matInput name="email" formControlName="email">
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
-                                                    <span class="phone text-truncate">{{order.customer.phone}}</span>
+                                                    <mat-form-field>
+                                                        <input class="phone text-truncate" matInput name="phone" formControlName="phone">
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
-                                                    <span class="company text-truncate">{{order.customer.company}}
-                                                    </span>
+                                                    <mat-form-field>
+                                                        <input class="company text-truncate" matInput name="company" formControlName="company">
+                                                    </mat-form-field>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <mat-accordion class="addresses">
-
-                                    <mat-expansion-panel>
-
-                                        <mat-expansion-panel-header>
-                                            <mat-panel-title>Shipping Address</mat-panel-title>
-                                        </mat-expansion-panel-header>
-
-                                        <div fxFlex fxLayout="column">
-                                            <div class="address h4 py-24">{{order.customer.shippingAddress.address}}
-                                            </div>
-                                            <agm-map class="w-100-p h-400" [zoom]="15"
-                                                     [latitude]="order.customer.shippingAddress.lat"
-                                                     [longitude]="order.customer.shippingAddress.lng">
-                                                <agm-marker [latitude]="order.customer.shippingAddress.lat"
-                                                            [longitude]="order.customer.shippingAddress.lng">
-                                                </agm-marker>
-                                            </agm-map>
-                                        </div>
-
-                                    </mat-expansion-panel>
-
-                                    <mat-expansion-panel>
-
-                                        <mat-expansion-panel-header>
-                                            <mat-panel-title>Invoice Address</mat-panel-title>
-                                        </mat-expansion-panel-header>
-
-                                        <div fxFlex fxLayout="column">
-                                            <div class="address h4 py-24">{{order.customer.invoiceAddress.address}}
-                                            </div>
-                                            <agm-map class="w-100-p h-400" [zoom]="15"
-                                                     [latitude]="order.customer.invoiceAddress.lat"
-                                                     [longitude]="order.customer.invoiceAddress.lng">
-                                                <agm-marker [latitude]="order.customer.invoiceAddress.lat"
-                                                            [longitude]="order.customer.invoiceAddress.lng">
-                                                </agm-marker>
-                                            </agm-map>
-                                        </div>
-
-                                    </mat-expansion-panel>
-
-                                </mat-accordion>
 
                             </div>
 
@@ -312,6 +273,12 @@
                         </div>
                     </mat-tab>
 
+                    <mat-tab label="{{'Order.Shapping' | translate }}">
+                        <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+          
+                        </div>
+                    </mat-tab>
+
                     <mat-tab label="Invoice">
 
                         <div class="invoice tab-content p-24" fusePerfectScrollbar>
@@ -443,7 +410,10 @@
                         </div>
                     </mat-tab>
 
+                    
+
                 </mat-tab-group>
+                </form>
 
             </div>
             <!-- / CONTENT -->

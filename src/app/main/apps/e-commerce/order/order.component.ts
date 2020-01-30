@@ -4,6 +4,10 @@ import { Subject} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
 
 import { orderStatuses } from 'app/main/apps/e-commerce/order/order-statuses';
 import { Order } from 'app/main/apps/e-commerce/order/order.model';
@@ -21,6 +25,7 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
     order: Order;
     orderStatuses: any;
     statusForm: FormGroup;
+    orderForm:FormGroup;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -33,7 +38,8 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
      */
     constructor(
         private _ecommerceOrderService: EcommerceOrderService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Set the defaults
@@ -42,6 +48,9 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,6 +71,20 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
 
         this.statusForm = this._formBuilder.group({
             newStatus: ['']
+        });
+
+        this.orderForm = this.createOrderForm();
+    }
+
+    createOrderForm(): FormGroup
+    {
+        return this._formBuilder.group({
+            id              : [this.order.id],
+            firstName       : [this.order.customer.firstName],
+            lastName        : [this.order.customer.lastName],
+            email           : [this.order.customer.email],
+            phone           : [this.order.customer.phone],
+            company         : [this.order.customer.company],
         });
     }
 

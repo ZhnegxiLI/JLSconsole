@@ -24,7 +24,8 @@ export const locale = {
             'PACKING' : '装箱',
             'QUANTITY_PER_BOX' : '每箱数量',
             'MIN_QUANTITY' : '最小数量',
-            'PRICING' : '价格'
+            'PRICING' : '价格',
+            'PRICE' : '价格'
         }
     }
 };
