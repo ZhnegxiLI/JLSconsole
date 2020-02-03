@@ -8,7 +8,8 @@ export const locale = {
             'SAVE' : '保存',
             'PRODUCT_NAME': '商品名称',
             'PRODUCT_DESCRIPTION': '商品描述',
-            'CATEGORITES': '类别',
+            'MAIN_CATEGORY': '主类别',
+            'PRODUCT_CATEGORY' : '商品类别',
             'TAGS': '标签',
             'TAX_EXCLUDED_PRICE': '不含税价',
             'TAX_INCLUDED_PRICE': '含税价',
@@ -25,7 +26,8 @@ export const locale = {
             'QUANTITY_PER_BOX' : '每箱数量',
             'MIN_QUANTITY' : '最小数量',
             'PRICING' : '价格',
-            'PRICE' : '价格'
+            'PRICE' : '价格',
+            'ADD_NEW_IMAGE' : "添加新图片"
         }
     }
 };

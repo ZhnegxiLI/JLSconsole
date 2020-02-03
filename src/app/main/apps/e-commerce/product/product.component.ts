@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, merge } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -28,11 +28,16 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     product: Product;
     pageType: string;
     productForm: FormGroup;
-    categoryTable : any; 
-    firstCategory : string = "";
-    secondCategory : string = "";
-    imageData : File;
+    categoryTable : Array<any>; 
+    mainCategory : string = "";
+    imageDatas : Array<File> = [];
     imageUrl : any;
+    langLabels : Array<{"lang" : string, "label" : string}> = [
+        {"lang" : 'fr', "label" : null},
+        {"lang" : 'en', "label" : null},
+        {"lang" : 'cn', "label" : null}
+    ];
+    taxRateTable : Array<any> = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -61,6 +66,9 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
 
+        this.categoryTable = _ecommerceProductService.category;
+        this.taxRateTable = _ecommerceProductService.taxRateTable;
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -72,6 +80,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        console.log("enter page");
         // Subscribe to update product on changes
         this._ecommerceProductService.onProductChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -80,29 +89,18 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
                 if ( product )
                 {
                     this.product = new Product(product);
-                    this.imageUrl = this.product.image;
                     this.pageType = 'edit';
                 }
                 else
                 {
                     this.pageType = 'new';
                     this.product = new Product();
+                    this.imageUrl = 'assets/images/ecommerce/product-image-placeholder.png';
                 }
 
                 this.productForm = this.createProductForm();
             });
-        
-            this.categoryTable = 
-            {
-                "assiete" : {
-                    "little assiete" : ['assieteA', 'assieteB'],
-                    "big assiete" : ['bigassieteA', 'bigassieteB']
-                },
-                "apple" : {
-                    "little apple" : ['appleA', 'appleB'],
-                    "big apple" : ['bigappleA', 'bigappleB']
-                }
-            };
+    
             
         // this._ecommerceProductService.getCategory()
         //     .then(category => {
@@ -137,91 +135,88 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     createProductForm(): FormGroup
     {
         return this._formBuilder.group({
-            id              : [this.product.id],
-            name            : [this.product.name],
-            productReferenceCode       : [this.product.reference],
- //           handle          : [this.product.handle],
-            description     : [this.product.description],
-            category        : [this.product.category],
-            price           : [this.product.price],
-            taxRate         : [this.product.taxRate],
-            size            : [this.product.size],
-            color           : [this.product.color],
-            material        : [this.product.material],
-            quantityPerBox  : [this.product.quantityPerBox],
-            minQuantity     : [this.product.minQuantity],
-            validity        : [this.product.active]
+            id                   : [this.product.id],
+            name                 : [this.product.name],
+            productReferenceCode : [this.product.reference],
+ //         handle               : [this.product.handle],
+            images               : [this.product.images],
+            description          : [this.product.description],
+            category             : [this.product.category],
+            price                : [this.product.price],
+            taxRate              : [this.product.taxRate],
+            size                 : [this.product.size],
+            color                : [this.product.color],
+            material             : [this.product.material],
+            quantityPerBox       : [this.product.quantityPerBox],
+            minQuantity          : [this.product.minQuantity],
+            validity             : [this.product.active]
         });
     }
 
-    uploadImage(event : any){
-        this.imageData = event.target.files[0];
-        this.preview();
+    getTaxRateTable() : Array<number>{
+        return this.taxRateTable.map(item => item.value);
     }
 
-    preview() {
+    addLangLabel(event, lang : string){
+        var langLabel = this.langLabels.filter( label => label.lang == lang)[0];
+        langLabel.label = event.target.value;
+        console.log(this.langLabels);
+    }
+
+    uploadImage(event : any){
+        var imageData = event.target.files[0];
+        this.imageDatas.push(imageData);
+        this.preview(imageData);
+    }
+
+    preview(imageData : File) {
         // Show preview 
-        var mimeType = this.imageData.type;
+        var mimeType = imageData.type;
         if (mimeType.match(/image\/*/) == null) {
           return;
         }
      
         var reader = new FileReader();      
-        reader.readAsDataURL(this.imageData); 
+        reader.readAsDataURL(imageData); 
         reader.onload = (_event) => { 
           this.imageUrl = reader.result; 
+          this.product.images.push({default : false, id : null, url : reader.result, type : imageData.type});
         }
     }
 
-    changeFirstCategory(event : any){
-        this.firstCategory = event.value;
-        this.secondCategory = '';
+    changeMainCategory(event : any){
+        this.mainCategory = event.value;
         this.productForm.get('category').setValue('');
     }
 
-    changeSecondCategory(event : any){
-        this.secondCategory = event.value;
-        this.productForm.get('category').setValue('');
+
+    mainCategoryTable() : Array<any>{
+        var table = this.categoryTable.filter(category => category.category == "MainCategory");
+        console.log(table);
+        return table;
     }
 
-    firstCategoryTable() : Array<string>{
-        let keys = Array<string>();
-        for(let key in this.categoryTable){
-            keys.push(key);
-        }
-        return keys;
+    productCategoryTable(mainCategoryId : number) : Array<any>{
+        var table = this.categoryTable.filter(category => category.category == "SecondCategory" || category.parentId == mainCategoryId);
+        return table;
     }
 
-    secondCategoryTable(firstCategory : string) : Array<string>{
-        if (firstCategory == ""){
-            return [];
-        }
-        let keys = Array<string>();
-        for(let key in this.categoryTable[firstCategory]){
-            keys.push(key)
-        }
-        return keys;
-    }
-
-    ProductCategoryTable(firstCategory : string, secondCategory : string) : Array<String>{
-        if(firstCategory == "" || secondCategory == ""){
-            return [];
-        }
-        return this.categoryTable[firstCategory][secondCategory];
-    }
     /**
      * Save product
      */
     saveProduct(): void
     {
-        
-        //data = eval("data" + "imageData" + this.imageData);
-        //data.handle = FuseUtils.handleize(data.name);
-
+        if(!this._ecommerceProductService.checkNetWork()){
+            return;
+        }
         const data: FormData = new FormData();
 
-        data.append('file', this.imageData, this.imageData.name);
+        this.imageDatas.forEach(image => {
+            data.append(image.name, image, image.name);
+        });
+
         data.append('product', JSON.stringify(this.productForm.getRawValue()));
+        data.append('langLabel', JSON.stringify(this.langLabels));
 
         console.log(data);
 
@@ -244,8 +239,17 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     addProduct(): void
     {
-        const data = this.productForm.getRawValue();
-        data.handle = FuseUtils.handleize(data.name);
+        if(!this._ecommerceProductService.checkNetWork()){
+            return;
+        }
+        const data: FormData = new FormData();
+
+        this.imageDatas.forEach(image => {
+            data.append(image.name, image, image.name);
+        });
+
+        data.append('product', JSON.stringify(this.productForm.getRawValue()));
+        data.append('langLabel', JSON.stringify(this.langLabels));
 
         this._ecommerceProductService.addProduct(data)
             .then(() => {

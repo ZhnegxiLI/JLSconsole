@@ -8,7 +8,8 @@ export const locale = {
             'SAVE' : 'Save',
             'PRODUCT_NAME': 'Product Name33',
             'PRODUCT_DESCRIPTION': 'Product Description',
-            'CATEGORITES': 'Caregorites',
+            'MAIN_CATEGORY': 'main categoty',
+            'PRODUCT_CATEGORY' : 'product category',
             'TAGS': 'Tags',
             'TAX_EXCLUDED_PRICE': 'Tax Excluded Price',
             'TAX_INCLUDED_PRICE': 'Tax Inclided Price',
@@ -25,7 +26,8 @@ export const locale = {
             'QUANTITY_PER_BOX' : 'Quantity Per Box',
             'MIN_QUANTITY' : 'Min Quantity',
             'PRICING' : 'Pricing',
-            'PRICE' : 'price'
+            'PRICE' : 'price',
+            'ADD_NEW_IMAGE' : "add new image"
         }
     }
 };

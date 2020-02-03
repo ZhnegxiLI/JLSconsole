@@ -9,8 +9,13 @@ export class Product
     handle: string;
     reference : string;
     description: string;
-    category: string;
-    image: string;
+    category: number;
+    images: {
+        default: boolean,
+        id: string,
+        url: string | ArrayBuffer,
+        type: string
+    }[];
     price : number;
     taxRate: number;
     size: string;
@@ -28,13 +33,13 @@ export class Product
     constructor(product?)
     {
         product = product || {};
-        this.id = product.id || FuseUtils.generateGUID();
+        this.id = product.id || null;
         this.name = product.name || '';
         this.reference = product.reference || '';
         this.handle = product.handle || FuseUtils.handleize(this.name);
         this.description = product.description || '';
-        this.category = product.category || '';
-        this.image = product.image || '';
+        this.category = product.category || null;
+        this.images = product.images || [];
         this.taxRate = product.taxRate || 0;      
         this.size = product.size || 0;
         this.color = product.color || '';

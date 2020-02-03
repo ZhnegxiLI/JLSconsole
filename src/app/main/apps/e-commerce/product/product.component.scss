@@ -1,3 +1,5 @@
+@import "src/@fuse/scss/fuse";
+
 #product {
 
     .header {
@@ -17,6 +19,7 @@
                 width: auto;
                 max-width: none;
             }
+            
         }
 
         .subtitle {
@@ -53,6 +56,22 @@
                 height: 100%;
                 width: auto;
                 max-width: none;
+            }
+
+            &:hover:not(.add-new-image) {
+                @include mat-elevation(8);
+            }
+
+            &.add-new-image {
+                border: 2px dashed black;
+                cursor: pointer;
+            }
+
+            .add-image-descript {
+                padding: 8px 0 0 0;
+                font-weight: 300;
+                font-size: 12px;
+                text-align: center; 
             }
         }
 
