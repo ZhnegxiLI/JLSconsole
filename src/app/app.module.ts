@@ -1,3 +1,4 @@
+import { DialogModule } from './dialog/dialog.module';
 import { appServiceBase } from 'app/app.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +23,8 @@ import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
 import { AppStoreModule } from 'app/store/store.module';
+import {MatProgressSpinnerModule} from '@angular/material';
+import {MatDialogModule} from "@angular/material";
 
 const appRoutes: Routes = [
     
@@ -41,6 +44,9 @@ const appRoutes: Routes = [
         AppComponent
     ],
     imports     : [
+        DialogModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,

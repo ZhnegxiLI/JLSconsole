@@ -1,3 +1,5 @@
+import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
+import { DialogModule } from './../../../dialog/dialog.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,20 +16,24 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatDialogModule} from "@angular/material";
+
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatProgressSpinnerModule} from '@angular/material'
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
 import { EcommerceProductsComponent } from 'app/main/apps/e-commerce/products/products.component';
 import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
-import { EcommerceProductComponent } from 'app/main/apps/e-commerce/product/product.component';
+import { EcommerceProductComponent, ImageOverViewDialog } from 'app/main/apps/e-commerce/product/product.component';
 import { EcommerceProductService } from 'app/main/apps/e-commerce/product/product.service';
 import { EcommerceOrdersComponent } from 'app/main/apps/e-commerce/orders/orders.component';
 import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
 import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.component';
 import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.service';
+
 
 const routes: Routes = [
     {
@@ -72,11 +78,15 @@ const routes: Routes = [
         EcommerceProductsComponent,
         EcommerceProductComponent,
         EcommerceOrdersComponent,
-        EcommerceOrderComponent
+        EcommerceOrderComponent,
+        ImageOverViewDialog
     ],
     imports     : [
         RouterModule.forChild(routes),
 
+        DialogModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
         MatButtonModule,
         MatChipsModule,
         MatExpansionModule,
@@ -105,7 +115,10 @@ const routes: Routes = [
         EcommerceProductService,
         EcommerceOrdersService,
         EcommerceOrderService
-    ]
+    ],
+    entryComponents: [
+        ImageOverViewDialog,
+        ConfimDialog],
 })
 export class EcommerceModule
 {

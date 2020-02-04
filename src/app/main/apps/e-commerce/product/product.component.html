@@ -18,14 +18,18 @@
                 </button>
 
                 <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    <img *ngIf="product.images[0]" [src]="product.images[0].path">
+                    <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" *ngIf="product.images[0]">
+                        <img *ngIf="product.images[0].status == 'new'" [src]="product.images[0].path">
+                        <img *ngIf="product.images[0].status == 'save'" [src]="imageRoot + product.images[0].path">
+                    </div>
                     <img *ngIf="!product.images[0]" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                    
                 </div>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
                      [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2" *ngIf="pageType ==='edit'">
-                        {{product.name}}
+                        {{getCurrentName()}}
                     </div>
                     <div class="h2" *ngIf="pageType ==='new'">
                         {{'PRODUCT.NEW_PRODUCT'| translate}}
@@ -50,7 +54,7 @@
                     *ngIf="pageType ==='edit'" (click)="saveProduct()">
                 <span>{{'PRODUCT.SAVE'| translate}}</span>
             </button>
-        </div>
+    </div>
         <!-- / HEADER -->
 
         <!-- CONTENT CARD -->
@@ -58,6 +62,7 @@
 
             <!-- CONTENT -->
             <div class="content">
+                <div class="overlay" *ngIf="loading"><div class="center"><mat-spinner></mat-spinner></div></div>
 
                 <form name="productForm" [formGroup]="productForm" class="product w-100-p" fxLayout="column" fxFlex>
 
@@ -72,7 +77,6 @@
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="frName"
                                             formControlName="frName"
-                                            (change) = "addLangLabel($event, 'fr')"
                                             required>
                                     </mat-form-field>
 
@@ -80,16 +84,14 @@
                                         <mat-label>{{'PRODUCT.PRODUCT_NAME'| translate}}<span>(cn)</span></mat-label>
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="cnName"
-                                            formControlName="cnName"
-                                            (change) = "addLangLabel($event, 'cn')">
+                                            formControlName="cnName">
                                     </mat-form-field>
 
                                     <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
                                         <mat-label>{{'PRODUCT.PRODUCT_NAME'| translate}}<span>(en)</span></mat-label>
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="enName"
-                                            formControlName="enName"
-                                            (change) = "addLangLabel($event, 'en')">
+                                            formControlName="enName">
                                     </mat-form-field>
                                 </div>
 
@@ -149,7 +151,14 @@
                                     <div *ngFor="let image of product.images">
                                         <div *ngIf="product.images.length > 0"
                                              class="product-image" fxlayout="row" fxLayoutAlign="center center">
-                                            <img class="media" [src]="image.path">
+                                            <img class="media"
+                                            *ngIf="image.status == 'new'"
+                                            [src]="image.path"
+                                            (click)="openImageViewDialog(image)" >
+                                            <img class="media" 
+                                            *ngIf="image.status == 'save'" 
+                                            [src]="imageRoot + image.path"
+                                            (click)="openImageViewDialog(image)">
                                         </div>
                                     </div>
 

@@ -67,7 +67,7 @@
                     <mat-cell *matCellDef="let product">
                         <img class="product-image"
                              *ngIf="product.image" [alt]="product.name"
-                             [src]="product.image"/>
+                             [src]="imageRoot + product.image"/>
                         <img *ngIf="!product.image"
                              [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                     </mat-cell>

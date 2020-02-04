@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { appServiceBase } from 'app/app.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class EcommerceProductService extends appServiceBase implements Resolve<any> 
@@ -25,9 +26,10 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
         protected _httpClient: HttpClient,
         protected _location: Location,
         private _translateService: TranslateService,
+        protected _matSnackBar: MatSnackBar
     )
     {
-        super(_httpClient,_location);
+        super(_httpClient,_location,_matSnackBar);
         // Set the defaults
         this.onProductChanged = new BehaviorSubject({});
 
@@ -113,6 +115,19 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
                     }
                     this.taxRateTable = response.data;
                     resolve(response)
+                },reject);
+        })
+    }
+
+    removeImage(id : number): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            this.postUrl(this.productHost + 'removeImageById', id)
+                .subscribe((response : any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                    resolve(response)
                 })
         })
     }
@@ -132,6 +147,8 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
                 }, reject);
         });
     }
+
+  
 
     /**
      * Add product

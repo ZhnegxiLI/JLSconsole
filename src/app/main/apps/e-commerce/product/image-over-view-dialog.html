@@ -1,0 +1,21 @@
+<div mat-dialog>
+    <div mat-dialog-title>image View</div>
+    <div mat-dialog-content>
+        <div style="overflow: hidden;
+                    width: 256px;
+                    height: 256px;
+                    margin-right: 16px;
+                    margin-bottom: 16px;
+                    border-radius: 4px;"    >
+            <img [src]="imagePath" alt="image at full size" style="height: 100%;
+                                                                    width: auto;
+                                                                    max-width: none;">
+        </div>
+    </div>
+
+    <mat-dialog-actions fxLayoutAlign="end end">
+        <button class="mat-raised-button mat-primary"(click)="remove()">Remove</button>
+        <button class="mat-raised-button"(click)="close()">Close</button>
+    </mat-dialog-actions>
+</div>
+

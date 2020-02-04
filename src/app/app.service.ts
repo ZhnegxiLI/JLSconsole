@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { timeout, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Injectable()
 export abstract class appServiceBase {
@@ -11,11 +13,19 @@ export abstract class appServiceBase {
 
     constructor(
         protected _httpClient: HttpClient,
-        protected _location: Location){
+        protected _location: Location,
+        protected _matSnackBar: MatSnackBar,){
 
     }
 
     checkNetWork() : boolean{
+        if(false){
+            this._matSnackBar.open('Please Check your netWork','Fail', {
+                verticalPosition: 'top',
+                duration        : 2000
+            });
+            return false;
+        }
         return true;
     }
 

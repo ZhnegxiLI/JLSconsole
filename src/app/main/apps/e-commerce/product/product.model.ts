@@ -5,13 +5,16 @@ import { FuseUtils } from '@fuse/utils';
 export class Product
 {
     id: string;
-    name: string;
+    frName: string;
+    enName : string;
+    cnName : string;
     handle: string;
     reference : string;
     description: string;
     category: number;
+    mainCategory : number;
     images: {
-        default: boolean,
+        status: string,
         id: string,
         path: string | ArrayBuffer
     }[];
@@ -33,11 +36,9 @@ export class Product
     {
         product = product || {};
         this.id = product.id || 0;
-        this.name = product.name || '';
         this.reference = product.referenceCode || '';
-        this.handle = product.handle || FuseUtils.handleize(this.name);
         this.description = product.description || '';
-        this.category = product.category || null;
+        this.category = product.category || 0;
         this.images = product.images || [];
         this.taxRate = product.taxRate || 0;      
         this.size = product.size || 0;
@@ -47,5 +48,24 @@ export class Product
         this.minQuantity = product.minQuantity || 0;
         this.active = product.active || true;
         this.price = product.price || 0;
+
+        if(product.label){
+            this.frName = product.label.find(n => n.lang == 'fr').label;
+            this.enName = product.label.find(n => n.lang == 'en').label;
+            this.cnName = product.label.find(n => n.lang == 'cn').label;
+        }else{
+            this.frName = '';
+            this.enName = '';
+            this.cnName = '';
+        }
+
+        this.images.forEach(image => {
+            image.status = 'save';
+        });
+        
+
+        
+
+        
     }
 }

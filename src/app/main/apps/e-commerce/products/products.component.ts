@@ -26,7 +26,7 @@ export class EcommerceProductsComponent implements OnInit
 {
     dataSource: FilesDataSource | null;
     displayedColumns = ['reference', 'image', 'name', 'category', 'price', 'active'];
-    imageRoot = this._ecommerceProductsService.host + "images";
+    imageRoot = this._ecommerceProductsService.host + "images/";
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

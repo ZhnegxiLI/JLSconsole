@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { appServiceBase } from 'app/app.service';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class EcommerceProductsService extends appServiceBase implements Resolve<any>
@@ -22,9 +23,10 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
         protected _httpClient: HttpClient,
         private _translateService: TranslateService,
         protected _location: Location,
+        protected _matSnackBar: MatSnackBar
     )
     {
-        super(_httpClient,_location);
+        super(_httpClient,_location,_matSnackBar);
         // Set the defaults
         this.onProductsChanged = new BehaviorSubject({});
     }
