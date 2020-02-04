@@ -2,19 +2,38 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { timeout, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Injectable()
 export abstract class appServiceBase {
 
-    protected host : string = "http://localhost/JLSConsoleApplication/";
+    public host : string = "http://localhost/JLSConsoleApplication/";
 
     constructor(
-        protected _httpClient: HttpClient){
+        protected _httpClient: HttpClient,
+        protected _location: Location){
 
     }
 
     checkNetWork() : boolean{
         return true;
+    }
+
+    checkResult(result : any) : boolean{
+        console.log(result.type);
+        if(result.success){
+            return true;
+        }else{
+            if(result.type == "500"){
+                console.log("true");
+                this._location.go('apps/errors/error-500');
+            }
+            else if(result.Type == "404"){
+                
+                this._location.go('apps/errors/error-404');
+            }
+            return false;
+        }
     }
 
     protected postUrl(url : string, body : any) : Observable<any>{

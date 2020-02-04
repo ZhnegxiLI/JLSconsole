@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { appServiceBase } from 'app/app.service';
+import { Location } from '@angular/common';
 
 @Injectable()
-export class EcommerceProductsService implements Resolve<any>
+export class EcommerceProductsService extends appServiceBase implements Resolve<any>
 {
     products: any[];
     onProductsChanged: BehaviorSubject<any>;
+    productHost : string = this.host + "api/Product/";
 
     /**
      * Constructor
@@ -15,9 +19,12 @@ export class EcommerceProductsService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        protected _httpClient: HttpClient,
+        private _translateService: TranslateService,
+        protected _location: Location,
     )
     {
+        super(_httpClient,_location);
         // Set the defaults
         this.onProductsChanged = new BehaviorSubject({});
     }
@@ -51,10 +58,14 @@ export class EcommerceProductsService implements Resolve<any>
      */
     getProducts(): Promise<any>
     {
+        var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/e-commerce-products')
+            this._httpClient.get(this.productHost + "getAll?lang="+lang)
                 .subscribe((response: any) => {
-                    this.products = response;
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                    this.products = response.data;
                     this.onProductsChanged.next(this.products);
                     resolve(response);
                 }, reject);

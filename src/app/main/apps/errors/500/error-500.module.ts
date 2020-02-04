@@ -3,24 +3,25 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
+import { Error500Component } from 'app/main/apps/errors/500/error-500.component';
 
 const routes = [
     {
-        path        : 'e-commerce',
-        loadChildren: './e-commerce/e-commerce.module#EcommerceModule'
-    },
-    {
-        path : 'errors',
-        loadChildren : './errors/errors.module#ErrorsModule'
+        path     : 'error-500',
+        component: Error500Component
     }
 ];
 
 @NgModule({
+    declarations: [
+        Error500Component
+    ],
     imports     : [
         RouterModule.forChild(routes),
+
         FuseSharedModule
     ]
 })
-export class AppsModule
+export class Error500Module
 {
 }

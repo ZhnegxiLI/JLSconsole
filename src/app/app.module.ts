@@ -1,3 +1,4 @@
+import { appServiceBase } from 'app/app.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
         path        : 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
     },
+    
     {
         path      : '**',
         redirectTo: 'sample'
@@ -71,6 +73,8 @@ const appRoutes: Routes = [
     ],
     bootstrap   : [
         AppComponent
+    ],
+    providers   : [
     ]
 })
 export class AppModule

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, merge } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, map } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -31,16 +31,12 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     categoryTable : Array<any>; 
     mainCategory : string = "";
     imageDatas : Array<File> = [];
-    imageUrl : any;
-    langLabels : Array<{"lang" : string, "label" : string}> = [
-        {"lang" : 'fr', "label" : null},
-        {"lang" : 'en', "label" : null},
-        {"lang" : 'cn', "label" : null}
-    ];
+    langLabels : Array<{"lang" : string, "label" : string}>;
     taxRateTable : Array<any> = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
+    imageRoot = this._ecommerceProductService.host + "images";
 
     /**
      * Constructor
@@ -80,7 +76,6 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        console.log("enter page");
         // Subscribe to update product on changes
         this._ecommerceProductService.onProductChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -88,29 +83,28 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
                 if ( product )
                 {
+                    console.log(product);
                     this.product = new Product(product);
+                    product.label.map(l =>{return {label : l.label, lang : l.lang};} );
+                    var productCategory = this.categoryTable.find(c => c.id == this.product.category);
+                    this.mainCategory = this.categoryTable.find(c => c.id == productCategory.parentId).id;
                     this.pageType = 'edit';
                 }
                 else
                 {
                     this.pageType = 'new';
                     this.product = new Product();
-                    this.imageUrl = 'assets/images/ecommerce/product-image-placeholder.png';
+                    this.langLabels = [
+                        {"lang" : 'fr', "label" : null},
+                        {"lang" : 'en', "label" : null},
+                        {"lang" : 'cn', "label" : null}
+                    ];
                 }
 
                 this.productForm = this.createProductForm();
+
             });
-    
-            
-        // this._ecommerceProductService.getCategory()
-        //     .then(category => {
-        //         if(category)
-        //         {
-        //             this.categoryTable = category;
-        //         }else{
-        //             //TODO
-        //         }
-        //     })
+
     }
 
     /**
@@ -136,11 +130,14 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     {
         return this._formBuilder.group({
             id                   : [this.product.id],
-            name                 : [this.product.name],
+            frName               : [this.langLabels.find(x => x.lang == "fr").label],
+            cnName               : [this.langLabels.find(x => x.lang == "cn").label],
+            enName               : [this.langLabels.find(x => x.lang == "en").label],
             productReferenceCode : [this.product.reference],
  //         handle               : [this.product.handle],
             images               : [this.product.images],
             description          : [this.product.description],
+            mainCategory         : [this.mainCategory],
             category             : [this.product.category],
             price                : [this.product.price],
             taxRate              : [this.product.taxRate],
@@ -160,7 +157,6 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     addLangLabel(event, lang : string){
         var langLabel = this.langLabels.filter( label => label.lang == lang)[0];
         langLabel.label = event.target.value;
-        console.log(this.langLabels);
     }
 
     uploadImage(event : any){
@@ -179,8 +175,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         var reader = new FileReader();      
         reader.readAsDataURL(imageData); 
         reader.onload = (_event) => { 
-          this.imageUrl = reader.result; 
-          this.product.images.push({default : false, id : null, url : reader.result, type : imageData.type});
+          this.product.images.push({default : false, id : null, path : reader.result});
         }
     }
 
@@ -192,7 +187,6 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
     mainCategoryTable() : Array<any>{
         var table = this.categoryTable.filter(category => category.category == "MainCategory");
-        console.log(table);
         return table;
     }
 

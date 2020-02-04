@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { appServiceBase } from 'app/app.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class EcommerceProductService extends appServiceBase implements Resolve<any> 
@@ -22,10 +23,11 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
      */
     constructor(
         protected _httpClient: HttpClient,
+        protected _location: Location,
         private _translateService: TranslateService,
     )
     {
-        super(_httpClient);
+        super(_httpClient,_location);
         // Set the defaults
         this.onProductChanged = new BehaviorSubject({});
 
@@ -66,16 +68,19 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     getProduct(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            if ( this.routeParams.id === null )
+            if ( this.routeParams.id === "new" )
             {
                 this.onProductChanged.next(false);
                 resolve(false);
             }
             else
             {
-                this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
+                this._httpClient.get(this.productHost + 'getById?id='+this.routeParams.id)
                     .subscribe((response: any) => {
-                        this.product = response;
+                        if(!this.checkResult(response)){
+                            return;
+                        }
+                        this.product = response.data;
                         this.onProductChanged.next(this.product);
                         resolve(response);
                     }, reject);
@@ -87,8 +92,11 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     {
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.productHost + 'category?'+"lang="+lang)
+            this._httpClient.get(this.productHost + 'category?lang='+lang)
                 .subscribe((response: any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
                     this.category = response.data;
                     resolve(response);
                 },reject);
@@ -100,6 +108,9 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
         return new Promise((resolve, reject) => {
             this._httpClient.get(this.productHost + 'taxRate')
                 .subscribe((response : any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
                     this.taxRateTable = response.data;
                     resolve(response)
                 })
@@ -114,7 +125,6 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
      */
     saveProduct(product): Promise<any>
     {
-        console.log(product);
         return new Promise((resolve, reject) => {
             this.postUrl(this.productHost + 'save', product)
                 .subscribe((response: any) => {

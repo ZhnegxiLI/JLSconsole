@@ -4,7 +4,7 @@ export const locale = {
         'PRODUCTS': {
             'PRODUCTS': '商品列表',
             'ADD_NEW_PRODUCT': '添加新商品',
-            'ID': '编号',
+            'REFERENCE': '编号',
             'NAME': '名字',
             'CATEGORY': '类别',
             'PRICE': '价格',

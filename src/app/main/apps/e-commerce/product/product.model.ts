@@ -13,8 +13,7 @@ export class Product
     images: {
         default: boolean,
         id: string,
-        url: string | ArrayBuffer,
-        type: string
+        path: string | ArrayBuffer
     }[];
     price : number;
     taxRate: number;
@@ -33,9 +32,9 @@ export class Product
     constructor(product?)
     {
         product = product || {};
-        this.id = product.id || null;
+        this.id = product.id || 0;
         this.name = product.name || '';
-        this.reference = product.reference || '';
+        this.reference = product.referenceCode || '';
         this.handle = product.handle || FuseUtils.handleize(this.name);
         this.description = product.description || '';
         this.category = product.category || null;

@@ -25,7 +25,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 export class EcommerceProductsComponent implements OnInit
 {
     dataSource: FilesDataSource | null;
-    displayedColumns = ['id', 'image', 'name', 'category', 'price', 'quantity', 'active'];
+    displayedColumns = ['reference', 'image', 'name', 'category', 'price', 'active'];
+    imageRoot = this._ecommerceProductsService.host + "images";
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -119,7 +120,9 @@ export class FilesDataSource extends DataSource<any>
             .pipe(
                 map(() => {
                         let data = this._ecommerceProductsService.products.slice();
-
+                        if(data == []){
+                            return;
+                        }
                         data = this.filterData(data);
 
                         this.filteredData = [...data];
@@ -197,20 +200,17 @@ export class FilesDataSource extends DataSource<any>
 
             switch ( this._matSort.active )
             {
-                case 'id':
-                    [propertyA, propertyB] = [a.id, b.id];
+                case 'reference':
+                    [propertyA, propertyB] = [a.referenceCode, b.referenceCode];
                     break;
                 case 'name':
                     [propertyA, propertyB] = [a.name, b.name];
                     break;
                 case 'categories':
-                    [propertyA, propertyB] = [a.categories[0], b.categories[0]];
+                    [propertyA, propertyB] = [a.category, b.category];
                     break;
                 case 'price':
-                    [propertyA, propertyB] = [a.priceTaxIncl, b.priceTaxIncl];
-                    break;
-                case 'quantity':
-                    [propertyA, propertyB] = [a.quantity, b.quantity];
+                    [propertyA, propertyB] = [a.price, b.price];
                     break;
                 case 'active':
                     [propertyA, propertyB] = [a.active, b.active];
