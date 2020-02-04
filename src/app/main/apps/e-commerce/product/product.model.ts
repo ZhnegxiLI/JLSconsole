@@ -16,7 +16,8 @@ export class Product
     images: {
         status: string,
         id: string,
-        path: string | ArrayBuffer
+        path: string | ArrayBuffer,
+        name:string
     }[];
     price : number;
     taxRate: number;
@@ -61,6 +62,7 @@ export class Product
 
         this.images.forEach(image => {
             image.status = 'save';
+            image.name = image.path.toString().split("/")[1];
         });
         
 

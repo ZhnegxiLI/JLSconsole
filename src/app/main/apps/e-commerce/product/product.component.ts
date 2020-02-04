@@ -189,7 +189,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         var reader = new FileReader();      
         reader.readAsDataURL(imageData); 
         reader.onload = (_event) => { 
-          this.product.images.push({status : "new", id : null, path : reader.result});
+          this.product.images.push({status : "new", id : null, path : reader.result,name : imageData.name});
         }
     }
 
@@ -211,7 +211,9 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
     openImageViewDialog(image : any): void {
         const dialogRef = this.dialog.open(ImageOverViewDialog, {
-          data: {image: image}
+          data: {
+              image: image
+            }
         });
     
         dialogRef.afterClosed().subscribe(result => {
@@ -234,7 +236,8 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
                     });
                 }else{
                     console.log(this.imageDatas);
-                    var imgName = image.path.split("/")[-1];
+                    var imgName = image.name;
+                    console.log(imgName);
                     var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
                     this.product.images.splice(removeImageIndex, 1);
                     var imageDataIndex = this.imageDatas.findIndex(img => img.name == imgName);
@@ -351,9 +354,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
       @Inject(MAT_DIALOG_DATA) public data: any,
       private _ecommerceProductService: EcommerceProductService,
       private dialog: MatDialog) {
-     
-        this.image = this.data.image;
-
+        this.image = data.image;
         if(this.image.status == 'save'){
             this.imagePath = this.imageRoot + this.image.path;
         }else{
