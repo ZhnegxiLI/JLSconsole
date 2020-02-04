@@ -4,9 +4,8 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { appServiceBase } from 'app/app.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { Router } from '@angular/router';
 @Injectable()
 export class EcommerceProductService extends appServiceBase implements Resolve<any> 
 {
@@ -24,12 +23,12 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
      */
     constructor(
         protected _httpClient: HttpClient,
-        protected _location: Location,
         private _translateService: TranslateService,
-        protected _matSnackBar: MatSnackBar
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router
     )
     {
-        super(_httpClient,_location,_matSnackBar);
+        super(_httpClient,_matSnackBar,_router);
         // Set the defaults
         this.onProductChanged = new BehaviorSubject({});
 

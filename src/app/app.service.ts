@@ -1,8 +1,8 @@
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { timeout, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -13,14 +13,14 @@ export abstract class appServiceBase {
 
     constructor(
         protected _httpClient: HttpClient,
-        protected _location: Location,
-        protected _matSnackBar: MatSnackBar,){
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router){
 
     }
 
     checkNetWork() : boolean{
         if(false){
-            this._matSnackBar.open('Please Check your netWork','Fail', {
+            this._matSnackBar.open('Please Check your netWork','Ok', {
                 verticalPosition: 'top',
                 duration        : 2000
             });
@@ -35,12 +35,12 @@ export abstract class appServiceBase {
             return true;
         }else{
             if(result.type == "500"){
-                console.log("true");
-                this._location.go('apps/errors/error-500');
+                this._router.navigateByUrl('/apps/errors/error-500');
+                //this._location.go('/apps/errors/error-500');
             }
             else if(result.Type == "404"){
-                
-                this._location.go('apps/errors/error-404');
+                this._router.navigateByUrl('/apps/errors/error-500');
+                //this._location.go('/apps/errors/error-404');
             }
             return false;
         }

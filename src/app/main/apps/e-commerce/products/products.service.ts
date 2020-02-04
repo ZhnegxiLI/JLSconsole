@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { appServiceBase } from 'app/app.service';
-import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class EcommerceProductsService extends appServiceBase implements Resolve<any>
@@ -22,11 +22,11 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
     constructor(
         protected _httpClient: HttpClient,
         private _translateService: TranslateService,
-        protected _location: Location,
-        protected _matSnackBar: MatSnackBar
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router
     )
     {
-        super(_httpClient,_location,_matSnackBar);
+        super(_httpClient,_matSnackBar,_router);
         // Set the defaults
         this.onProductsChanged = new BehaviorSubject({});
     }
