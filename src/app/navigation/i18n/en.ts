@@ -7,10 +7,16 @@ export const locale = {
                 'TITLE': 'Sample',
                 'BADGE': '25'
             },
-            'ORDER_DETAIL':'order detail',
-            'ORDERS' : 'orders',
-            'PRODUCT_DETAIL' : 'product detail',
-            'PRODUCTS' : 'products'
+            'ORDER_DETAIL':'Order Detail',
+            'ORDERS' : 'Orders',
+            'PRODUCT_DETAIL' : 'Product Detail',
+            'PRODUCTS' : 'Products',
+            'PRODUCTS_MANAGEMENT' : 'Products Management',
+            'ORDERS_MANAGEMENT' : 'Orders Management',
+            'REFERENCE_MANAGEMENT' : 'Reference Management',
+            'REFERENCE_ITEMS' : 'Rererence Items',
+            'REFERENCE_CATEGORY' : 'Reference Categoty',
+
         }
     }
 };

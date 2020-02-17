@@ -10,7 +10,12 @@ export const locale = {
             'ORDER_DETAIL':'订单详情',
             'ORDERS' : '订单列表',
             'PRODUCT_DETAIL' : '商品详情',
-            'PRODUCTS' : '商品列表'
+            'PRODUCTS' : '商品列表',
+            'PRODUCTS_MANAGEMENT' : '商品管理',
+            'ORDERS_MANAGEMENT' : '订单管理',
+            'REFERENCE_MANAGEMENT' : '引用管理',
+            'REFERENCE_ITEMS' : '引用项',
+            'REFERENCE_CATEGORY' : '引用类型',
         }
     }
 };

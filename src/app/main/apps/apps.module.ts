@@ -11,6 +11,10 @@ const routes = [
         loadChildren: './e-commerce/e-commerce.module#EcommerceModule'
     },
     {
+        path : 'reference',
+        loadChildren : './reference/reference.module#ReferenceModule'
+    },
+    {
         path : 'errors',
         loadChildren : './errors/errors.module#ErrorsModule'
     }

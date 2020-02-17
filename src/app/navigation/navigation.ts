@@ -8,41 +8,79 @@ export const navigation: FuseNavigation[] = [
         type     : 'group',
         children : [
             {
-                id        : 'products',
-                title     : 'Products',
-                translate: 'NAV.PRODUCTS',
-                type      : 'item',
-                icon     : 'dashboard',
-                url       : '/apps/e-commerce/products',
-                exactMatch: true
-            },
-            {
-                id        : 'productDetail',
-                title     : 'Product Detail',
-                translate: 'NAV.PRODUCT_DETAIL',
-                type      : 'item',
+                id : 'products-management',
+                title : 'Products Management',
+                translate : 'NAV.PRODUCTS_MANAGEMENT',
+                type : 'collapsable',
+                icon     : 'shopping_cart',
+                children : [
+                    {
+                        id        : 'products',
+                        title     : 'Products',
+                        translate: 'NAV.PRODUCTS',
+                        type      : 'item',
+                        url       : '/apps/e-commerce/products',
+                        exactMatch: true
+                    },
+                    {
+                        id        : 'productDetail',
+                        title     : 'Product Detail',
+                        translate: 'NAV.PRODUCT_DETAIL',
+                        type      : 'item',
+                        url       : '/apps/e-commerce/products/1/printed-dress',
+                        exactMatch: true
+                    }
+                ]
+            },{
+                id : 'orders-management',
+                title : 'Orders Management',
+                translate : 'NAV.ORDERS_MANAGEMENT',
+                type : 'collapsable',
                 icon    : 'receipt',
-                url       : '/apps/e-commerce/products/1/printed-dress',
-                exactMatch: true
+                children: [
+                    {
+                        id        : 'orders',
+                        title     : 'Orders',
+                        translate: 'NAV.ORDERS',
+                        type      : 'item',
+                        url       : '/apps/e-commerce/orders',
+                        exactMatch: true
+                    },
+                    {
+                        id        : 'orderDetail',
+                        title     : 'Order Detail',
+                        translate: 'NAV.ORDER_DETAIL',
+                        type      : 'item',
+                        url       : '/apps/e-commerce/orders/1',
+                        exactMatch: true
+                    }
+                ]
+            },{
+                id : 'reference-management',
+                title : 'Reference Management',
+                translate : 'NAV.REFERENCE_MANAGEMENT',
+                type : 'collapsable',
+                icon : 'build',
+                children: [
+                    {
+                        id        : 'reference-items',
+                        title     : 'Reference Items',
+                        translate: 'NAV.REFERENCE_ITEMS',
+                        type      : 'item',
+                        url       : '/apps/reference/items',
+                        exactMatch: true
+                    },
+                    {
+                        id        : 'reference-category',
+                        title     : 'Reference Category',
+                        translate: 'NAV.REFERENCE_CATEGORY',
+                        type      : 'item',
+                        url       : '/apps/reference/category',
+                        exactMatch: true
+                    }
+                ]
             },
-            {
-                id        : 'orders',
-                title     : 'Orders',
-                translate: 'NAV.ORDERS',
-                type      : 'item',
-                icon     : 'dashboard',
-                url       : '/apps/e-commerce/orders',
-                exactMatch: true
-            },
-            {
-                id        : 'orderDetail',
-                title     : 'Order Detail',
-                translate: 'NAV.ORDER_DETAIL',
-                icon    : 'receipt',
-                type      : 'item',
-                url       : '/apps/e-commerce/orders/1',
-                exactMatch: true
-            },
+
             {
                 id       : 'sample',
                 title    : 'Sample',

@@ -1,0 +1,109 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="itemForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.CODE' | translate}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="code" formControlName="code" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.VALUE' | translate}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="value" formControlName="value" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.LABEL' | translate}}<span>(fr)</span></mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="frLabel" formControlName="frLabel" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.LABEL' | translate}}<span>(cn)</span></mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="cnLabel" formControlName="cnLabel" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.LABEL' | translate}}<span>(en)</span></mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="enLabel" formControlName="enLabel" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.ORDER' | translate}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">star</mat-icon>
+                    <input name="order" formControlName="order" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.PARENT' | translate}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">parentId</mat-icon>
+                    <input formControlName="parentId" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{'ITEMS.CATEGORY' | translate}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <mat-select 
+                        formControlName = "referenceCategoryId"
+                        name = "referenceCategoryId"
+                        required>
+                        <mat-option *ngFor="let category of categoryTable" [value]="category.id">{{category.shortLabel}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+            </div>
+
+            <div fxLayout="row" class="validity-div" fxLayoutAlign="end end">
+                <mat-slide-toggle 
+                name="validity" 
+                formControlName="validity"
+                class="validity-slide">
+                {{'ITEMS.ACTIVE' | translate}}</mat-slide-toggle>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button 
+                mat-button
+                class="save-button"
+                (click)="matDialogRef.close(itemForm)"
+                [disabled]="itemForm.invalid"
+                aria-label="SAVE">
+            SAVE
+        </button>
+
+    </div>
+</div>
