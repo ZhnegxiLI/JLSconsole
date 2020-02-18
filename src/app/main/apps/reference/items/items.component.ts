@@ -8,6 +8,7 @@ import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {FormGroup } from '@angular/forms';
+import { ConfimDialog } from './../../../../dialog/confim-dialog/confim-dialog.component';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -32,7 +33,7 @@ export class ReferenceItemsComponent implements OnInit
 
     private _unsubscribeAll : Subject<any>;
     dataSource : FilesDataSource | null;
-    displayedColumns = ['id', 'code', 'parent', 'value', 'label', 'order', 'category', 'active'];
+    displayedColumns = ['id', 'code', 'parentId', 'value', 'label', 'order', 'category', 'active'];
     dialogRef: any;
     categoryTable : any;
     langLabels : Array<{"lang" : string, "label" : string}>;
@@ -75,7 +76,8 @@ export class ReferenceItemsComponent implements OnInit
             data      : {
                 item: item,
                 action : 'edit',
-                category : this.categoryTable
+                category : this.categoryTable,
+                items : this.dataSource.filteredData
             }
         });
 
@@ -86,7 +88,7 @@ export class ReferenceItemsComponent implements OnInit
                     return;
                 }
 
-                //this._contactsService.updateContact(response.getRawValue());
+                this.updateItem(response.getRawValue());
         });
     }
     
@@ -96,7 +98,8 @@ export class ReferenceItemsComponent implements OnInit
             panelClass: 'item-form-dialog',
             data      : {
                 action: 'new',
-                category : this.categoryTable
+                category : this.categoryTable,
+                items : this.dataSource.filteredData
             }
         });
 
@@ -107,8 +110,8 @@ export class ReferenceItemsComponent implements OnInit
                     return;
                 }
 
-                //this._contactsService.updateContact(response.getRawValue());
-            });
+                this.updateItem(response.getRawValue());
+        });
     }
 
     
@@ -130,8 +133,6 @@ export class ReferenceItemsComponent implements OnInit
         data.append('item', JSON.stringify(formValues));
         data.append('langLabel', JSON.stringify(this.langLabels));
 
-        console.log(data);
-
         this._referenceItemsService.updateItem(data)
             .then(() => {
 
@@ -148,7 +149,12 @@ export class ReferenceItemsComponent implements OnInit
     ngOnInit(): void
     {
         this.dataSource = new FilesDataSource(this._referenceItemsService, this.paginator, this.sort);
-        this.categoryTable = this._referenceItemsService.category;
+
+        this._referenceItemsService.onCategoryChanged
+        .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(category => {
+                this.categoryTable = category;
+            });
 
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
@@ -198,7 +204,7 @@ export class FilesDataSource extends DataSource<any>
     connect(): Observable<any[]>
     {
         const displayDataChanges = [
-            this._referenceItemsService.onCategoryChanged,
+            this._referenceItemsService.onItemsChanged,
             this._matPaginator.page,
             this._filterChange,
             this._matSort.sortChange
@@ -297,8 +303,8 @@ export class FilesDataSource extends DataSource<any>
                 case 'code':
                     [propertyA, propertyB] = [a.code, b.code];
                     break;
-                case 'parent':
-                    [propertyA, propertyB] = [a.parent, b.parent];
+                case 'parentId':
+                    [propertyA, propertyB] = [a.parentId, b.parentId];
                     break;
                 case 'value':
                     [propertyA, propertyB] = [a.value, b.value];

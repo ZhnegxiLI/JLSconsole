@@ -1,12 +1,14 @@
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 
 import { locale as english } from '../i18n/en';
 import { locale as chinese } from '../i18n/cn';
+
+import { ConfimDialog } from './../../../../../dialog/confim-dialog/confim-dialog.component';
 
 @Component({
     selector     : 'categories-category-form-dialog',
@@ -33,7 +35,8 @@ export class CategoriesCategoryFormDialogComponent
         public matDialogRef: MatDialogRef<CategoriesCategoryFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _matDialog: MatDialog,
     )
     {
         // Set the defaults
@@ -58,6 +61,19 @@ export class CategoriesCategoryFormDialogComponent
         this.categoryForm = this.createCategoryForm();
 
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+    }
+
+    saveCategory(){
+        const dialogRefConfig = this._matDialog.open(ConfimDialog, {
+            data: {title : "confim",
+                    message : "sure update the category?"}
+          });
+
+          dialogRefConfig.afterClosed().subscribe(result => {
+            if(result.action == 'yes'){
+                this.matDialogRef.close(this.categoryForm)
+            }
+         });
     }
 
     // -----------------------------------------------------------------------------------------------------

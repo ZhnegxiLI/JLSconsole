@@ -4,8 +4,8 @@
         {{data.message}}
     </div>
 
-    <mat-dialog-actions fxLayoutAlign="space-between">
-        <button class="mat-raised-button"(click)="choseYes()">Yes</button>
-        <button class="mat-raised-button"(click)="choseNo()">No</button>
-    </mat-dialog-actions>
+    <div mat-dialog-actions class="pt-24">
+        <button mat-raised-button class="mat-accent mr-16" (click)="choseYes()">Confirm</button>
+        <button mat-button (click)="choseNo()">Cancel</button>
+    </div>
 </div>

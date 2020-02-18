@@ -12,6 +12,7 @@ export const locale = {
             'CATEGORY' : 'Category',
             'ACTIVE' : 'Avtive',
             'LABEL' : 'Label',
+            'PARENT_CATEGORY' : 'Parent Category',
         }
         
     }

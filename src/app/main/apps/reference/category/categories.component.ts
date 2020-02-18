@@ -11,6 +11,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
@@ -34,6 +35,7 @@ export class ReferenceCategoryComponent implements OnInit
     dataSource : FilesDataSource | null;
     displayedColumns = ['id', 'shortLabel', 'longLabel', 'active'];
     dialogRef: any;
+    loading : boolean = false;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -47,7 +49,8 @@ export class ReferenceCategoryComponent implements OnInit
     constructor(
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _referenceCategoryService : ReferenceCategoryService,
-        public _matDialog: MatDialog
+        public _matDialog: MatDialog,
+        private _matSnackBar: MatSnackBar,
     ){
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -81,7 +84,7 @@ export class ReferenceCategoryComponent implements OnInit
                     return;
                 }
 
-                //this._contactsService.updateContact(response.getRawValue());
+                this.updateCategory(response.getRawValue());
         });
     }
     
@@ -101,8 +104,27 @@ export class ReferenceCategoryComponent implements OnInit
                     return;
                 }
 
-                //this._contactsService.updateContact(response.getRawValue());
+                this.updateCategory(response.getRawValue());
             });
+    }
+
+    updateCategory(formData){
+        if(!this._referenceCategoryService.checkNetWork()){
+            return;
+        }
+
+        this.loading = true;
+
+        this._referenceCategoryService.updateCategory(formData)
+        .then(() => {
+
+            this.loading = false;
+            // Show the success message
+            this._matSnackBar.open('category saved', 'OK', {
+                verticalPosition: 'top',
+                duration        : 2000
+            });
+        });
     }
 
     ngOnInit(): void
@@ -158,6 +180,7 @@ export class FilesDataSource extends DataSource<any>
     {
         const displayDataChanges = [
             this._matPaginator.page,
+            this._referenceCategoryService.onCategoryChanged,
             this._filterChange,
             this._matSort.sortChange
         ];

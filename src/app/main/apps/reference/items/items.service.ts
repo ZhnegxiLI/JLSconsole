@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 export class ReferenceItemsService extends appServiceBase implements Resolve<any>
 {
     items: any[];
-    onCategoryChanged: BehaviorSubject<any>;
+    onItemsChanged : BehaviorSubject<any>;
+    onCategoryChanged : BehaviorSubject<any>;
     referenceHost : string = this.host + "api/reference/";
     category: any[];
 
@@ -30,7 +31,8 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
     {
         super(_httpClient,_matSnackBar,_router);
 
-        this.onCategoryChanged = new BehaviorSubject({});
+        this.onItemsChanged = new BehaviorSubject({});
+        this.onCategoryChanged =  new BehaviorSubject({});
     }
 
     /**
@@ -64,7 +66,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
     getItems() : Promise<any>{
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.referenceHost + "getItems?lang="+lang)
+            this._httpClient.get(this.referenceHost + "getItems")
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -76,6 +78,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
                         }
                         return item;
                     } );
+                    this.onItemsChanged.next(response.data);
                     resolve(response);
                 }, reject);
         });
@@ -89,6 +92,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
                         return;
                     }
                     this.category = response.data;
+                    this.onCategoryChanged.next(response.data);
                     resolve(response);
                 }, reject);
         });
@@ -98,6 +102,10 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
         return new Promise((resolve, reject) => {
             this.postUrl(this.referenceHost + 'updateItem', item)
                 .subscribe((response: any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                    this.getItems();
                     resolve(response);
                 }, reject);
         })

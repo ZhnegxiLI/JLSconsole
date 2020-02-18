@@ -7,6 +7,8 @@
     <!-- CENTER -->
     <div class="center">
 
+        <div class="overlay" *ngIf="loading"><div class="spinner-center"><mat-spinner></mat-spinner></div></div>
+
         <!-- HEADER -->
         <div class="header accent"
              fxLayout="column" fxLayoutAlign="center center"
@@ -71,8 +73,8 @@
 
                 <!-- LongLabel Column -->
                 <ng-container matColumnDef="longLabel">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'CATEGORIES.LONGLABEL' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let category" fxHide fxShow.gt-md>
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-xs>{{'CATEGORIES.LONGLABEL' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let category" fxHide fxShow.gt-xs>
                         <p class="category text-truncate">
                             {{category.longLabel}}
                         </p>

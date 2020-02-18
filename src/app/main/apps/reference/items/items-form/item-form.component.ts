@@ -1,9 +1,11 @@
+import { filter } from 'rxjs/operators';
 import { Item } from '../items.module';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog,MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import { ConfimDialog } from './../../../../../dialog/confim-dialog/confim-dialog.component';
 
 import { locale as english } from '../i18n/en';
 import { locale as chinese } from '../i18n/cn';
@@ -22,6 +24,8 @@ export class ItemsItemFormDialogComponent
     itemForm: FormGroup;
     dialogTitle: string;
     categoryTable: any;
+    parentCategotyId : number = 0;
+    items : Array<Item>;
 
     /**
      * Constructor
@@ -34,17 +38,23 @@ export class ItemsItemFormDialogComponent
         public matDialogRef: MatDialogRef<ItemsItemFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _matDialog: MatDialog,
     )
     {
         // Set the defaults
         this.action = _data.action;
         this.categoryTable = _data.category;
+        this.items = _data.items;
 
         if ( this.action === 'edit' )
         {
             this.dialogTitle = 'Edit Item';
             this.item = new Item(_data.item);
+            var parent = this.items.find(item => item.id == this.item.parentId);
+            if(parent != null){
+                this.parentCategotyId = this.categoryTable.find(category => category.id == parent.referenceCategoryId).id;
+            }
         }
         else
         {
@@ -55,6 +65,24 @@ export class ItemsItemFormDialogComponent
         this.itemForm = this.createItemForm();
 
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+    }
+
+    saveItem(){
+        const dialogRefConfig = this._matDialog.open(ConfimDialog, {
+            data: {title : "confim",
+                    message : "sure update the item?"}
+          });
+
+          dialogRefConfig.afterClosed().subscribe(result => {
+            if(result.action == 'yes'){
+                this.matDialogRef.close(this.itemForm)
+            }
+         });
+    }
+
+    getParentItem(){
+        var filtedItem = this.items.filter(item => item.validity == true && item.referenceCategoryId == this.parentCategotyId);
+        return filtedItem;
     }
 
     // -----------------------------------------------------------------------------------------------------

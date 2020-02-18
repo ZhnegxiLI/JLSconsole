@@ -11,7 +11,8 @@ export const locale = {
             'ORDER' : '排序',
             'CATEGORY' : '类别',
             'ACTIVE' : '激活',
-            'LABEL' : '描述'
+            'LABEL' : '描述',
+            'PARENT_CATEGORY' : '父项类别',
         }
     }
 };
