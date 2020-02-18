@@ -48,7 +48,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
 
             Promise.all([
                 this.getItems(),
-                this.getCategory()
+                this.getValidityCategory()
             ]).then(
                 () => {
                     resolve();
@@ -84,9 +84,9 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
         });
     }
 
-    getCategory() : Promise<any>{
+    getValidityCategory() : Promise<any>{
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.referenceHost + "getCategory")
+            this._httpClient.get(this.referenceHost + "getValidityCategory")
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
