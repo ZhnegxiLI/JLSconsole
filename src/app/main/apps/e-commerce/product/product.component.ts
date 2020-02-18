@@ -218,7 +218,8 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     
         dialogRef.afterClosed().subscribe(result => {
             if(result.action == "remove"){
-                if(image.state == "save"){
+                console.log(image);
+                if(image.status == "save"){
                     this._ecommerceProductService.removeImage(image.id).then(result => {
                         if(result.success){
                             var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
@@ -235,14 +236,11 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
                         }
                     });
                 }else{
-                    console.log(this.imageDatas);
                     var imgName = image.name;
-                    console.log(imgName);
                     var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
                     this.product.images.splice(removeImageIndex, 1);
                     var imageDataIndex = this.imageDatas.findIndex(img => img.name == imgName);
                     this.imageDatas.splice(imageDataIndex);
-                    console.log(this.imageDatas);
                 }
                 
             }
