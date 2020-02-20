@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { appServiceBase } from 'app/app.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceOrdersService implements Resolve<any>
+export class EcommerceOrdersService extends appServiceBase implements Resolve<any>
 {
     orders: any[];
     onOrdersChanged: BehaviorSubject<any>;
+    orderHost : string = this.host + "api/Order/";
 
     /**
      * Constructor
@@ -15,10 +20,15 @@ export class EcommerceOrdersService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        protected _httpClient: HttpClient,
+        private _translateService: TranslateService,
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router
     )
     {
+        super(_httpClient,_matSnackBar,_router);
         // Set the defaults
+
         this.onOrdersChanged = new BehaviorSubject({});
     }
 
@@ -51,9 +61,13 @@ export class EcommerceOrdersService implements Resolve<any>
      */
     getOrders(): Promise<any>
     {
+        var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/e-commerce-orders')
+            this._httpClient.get(this.orderHost + 'getAll?lang='+lang)
                 .subscribe((response: any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
                     this.orders = response;
                     this.onOrdersChanged.next(this.orders);
                     resolve(response);

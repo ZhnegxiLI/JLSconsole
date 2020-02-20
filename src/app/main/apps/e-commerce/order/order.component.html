@@ -21,11 +21,11 @@
                 <div fxLayout="column" fxLayoutAlign="start start"
                      [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2">
-                        Order {{order.reference}}
+                        Order {{order.orderReferenceCode}}
                     </div>
                     <div class="subtitle secondary-text">
                         <span>from</span>
-                        <span>{{order.customer.firstName}} {{order.customer.lastName}}</span>
+                        <span>{{order.user.name}}</span>
                     </div>
                 </div>
             </div>
@@ -67,9 +67,7 @@
                                             <tr>
                                                 <td>
                                                     <div fxLayout="row" fxLayoutAlign="start center">
-                                                        <img class="avatar" [src]="order.customer.avatar">
-                                                        <span class="name text-truncate">{{order.customer.firstName}}
-                                                            {{order.customer.lastName}}
+                                                        <span class="name text-truncate">{{order.user.name}}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -95,7 +93,7 @@
 
                             </div>
 
-                            <div class="section pb-48">
+                            <!-- <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">access_time</mat-icon>
@@ -148,9 +146,9 @@
                                     </button>
                                 </form>
 
-                            </div>
+                            </div> -->
 
-                            <div class="section pb-48">
+                            <!-- <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">attach_money</mat-icon>
@@ -191,9 +189,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> -->
 
-
+<!-- 
                             <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
@@ -231,7 +229,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> -->
 
                         </div>
                     </mat-tab>
@@ -298,19 +296,18 @@
                                                     <div class="invoice-number" fxLayout="row"
                                                          fxLayoutAlign="start center">
                                                         <span class="title">INVOICE</span>
-                                                        <span class="number">{{order.reference}}</span>
+                                                        <span class="number">{{order.orderReferenceCode}}</span>
                                                     </div>
 
                                                     <div class="info">
                                                         <div class="title">
-                                                            {{order.customer.firstName}}
-                                                            {{order.customer.lastName}}
+                                                            {{order.user.name}}
                                                         </div>
                                                         <div class="address">
-                                                            {{order.customer.invoiceAddress.address}}
+                                                            {{order.adresse.detail}}
                                                         </div>
-                                                        <div class="phone">{{order.customer.phone}}</div>
-                                                        <div class="email">{{order.customer.email}}</div>
+                                                        <div class="phone">{{order.contactTelephone}}</div>
+                                                        <div class="email">{{order.user.email}}</div>
                                                     </div>
                                                 </div>
 
@@ -364,21 +361,21 @@
 
                                             <table class="simple invoice-table-footer">
                                                 <tbody>
-                                                    <tr class="subtotal">
+                                                    <!-- <tr class="subtotal">
                                                         <td>SUBTOTAL</td>
                                                         <td>{{order.subtotal | currency:'USD':'symbol'}}</td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr class="tax">
                                                         <td>TAX</td>
-                                                        <td>{{order.tax | currency:'USD':'symbol'}}</td>
+                                                        <td>{{order.taxRate | currency:'USD':'symbol'}}</td>
                                                     </tr>
-                                                    <tr class="discount">
+                                                    <!-- <tr class="discount">
                                                         <td>DISCOUNT</td>
                                                         <td>-{{order.discount | currency:'USD':'symbol'}}</td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr class="total">
                                                         <td>TOTAL</td>
-                                                        <td>{{order.total | currency:'USD':'symbol'}}</td>
+                                                        <td>{{order.totalPrice | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

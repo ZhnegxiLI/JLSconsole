@@ -79,12 +79,11 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
     createOrderForm(): FormGroup
     {
         return this._formBuilder.group({
-            id              : [this.order.id],
-            firstName       : [this.order.customer.firstName],
-            lastName        : [this.order.customer.lastName],
-            email           : [this.order.customer.email],
-            phone           : [this.order.customer.phone],
-            company         : [this.order.customer.company],
+            id                : [this.order.id],
+            name         : [this.order.user.name],
+            email             : [this.order.user.email],
+            contackTelephone           : [this.order.contactTelephone],
+            company           : [this.order.user.entrepriseName],
         });
     }
 

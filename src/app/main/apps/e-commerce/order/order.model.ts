@@ -3,17 +3,18 @@ import { FuseUtils } from '@fuse/utils';
 export class Order
 {
     id: string;
-    reference: string;
-    subtotal: string;
-    tax: string;
-    discount: string;
-    total: string;
+    orderReferenceCode: string;
+    contactTelephone: string;
+    paymentInfo: string;
+    clienRemark: string;
+    adminRemark: string;
     date: string;
-    customer: any;
+    totalPrice: number;
     products: any[];
-    status: any[];
-    payment: any;
-    shippingDetails: any[];
+    statusReferenceItem : any
+    taxRate: number;
+    adresse: Adresse;
+    user : User;
 
     /**
      * Constructor
@@ -24,16 +25,45 @@ export class Order
     {
         order = order || {};
         this.id = order.id || FuseUtils.generateGUID();
-        this.reference = order.reference || FuseUtils.generateGUID();
-        this.subtotal = order.subtotal || 0;
-        this.tax = order.tax || 0;
-        this.discount = order.discount || 0;
-        this.total = order.total || 0;
+        this.orderReferenceCode = order.orderReferenceCode || FuseUtils.generateGUID();
+        this.contactTelephone = order.contactTelephone || "";
+        this.paymentInfo = order.paymentInfo || "";
+        this.clienRemark = order.ClienRemark || "";
+        this.adminRemark = order.AdminRemark || 0;
         this.date = order.date || '';
-        this.customer = order.customer || {};
+        this.statusReferenceItem = order.statusReferenceItem || {};
         this.products = order.products || [];
-        this.status = order.status || [];
-        this.payment = order.payment || {};
-        this.shippingDetails = order.shippingDetails || [];
+        this.taxRate = order.taxRate || 0;
+        this.totalPrice = order.totalPrice || 0;
+        this.adresse = new Adresse(order.adresse) || new Adresse({});
+        this.user = new User(order.user) || new User({});
+    }
+}
+
+export class User{
+    id : number;
+    entrepriseName : string;
+    name : string;
+    email : string;
+
+
+    constructor(user?)
+    {
+        user = user || {};
+        this.id = user.id || FuseUtils.generateGUID();
+        this.entrepriseName = user.entrepriseName || "";
+        this.name = user.name || "";
+        this.email = user.email || "";
+    }
+}
+
+export class Adresse{
+    id : number;
+    detail : string;
+
+    constructor(adresse?){
+        adresse = adresse || {};
+        this.id = adresse.id || FuseUtils.generateGUID();
+        this.detail = adresse.detail || "";
     }
 }

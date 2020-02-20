@@ -209,19 +209,16 @@ export class FilesDataSource extends DataSource<any>
                     [propertyA, propertyB] = [a.id, b.id];
                     break;
                 case 'reference':
-                    [propertyA, propertyB] = [a.reference, b.reference];
+                    [propertyA, propertyB] = [a.orderReferenceCode, b.orderReferenceCode];
                     break;
-                case 'customer':
-                    [propertyA, propertyB] = [a.customer.firstName, b.customer.firstName];
+                case 'name':
+                    [propertyA,propertyB] = ['name1', 'name2'];
                     break;
                 case 'total':
-                    [propertyA, propertyB] = [a.total, b.total];
-                    break;
-                case 'payment':
-                    [propertyA, propertyB] = [a.payment.method, b.payment.method];
+                    [propertyA, propertyB] = [a.totalPrice, b.totalPrice];
                     break;
                 case 'status':
-                    [propertyA, propertyB] = [a.status[0].name, b.status[0].name];
+                    [propertyA, propertyB] = [a.statusReferenceItemLabel, b.statusReferenceItemLabel];
                     break;
                 case 'date':
                     [propertyA, propertyB] = [a.date, b.date];
