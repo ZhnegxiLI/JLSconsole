@@ -76,7 +76,7 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
             }
             else
             {
-                this._httpClient.get(this.productHost + 'getById?id='+this.routeParams.id)
+                this._httpClient.get(this.productHost + 'GetProductById?id='+this.routeParams.id)
                     .subscribe((response: any) => {
                         if(!this.checkResult(response)){
                             return;
@@ -93,7 +93,7 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     {
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.productHost + 'category?lang='+lang)
+            this._httpClient.get(this.productHost + 'GetProductCategory?lang='+lang)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -107,7 +107,7 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     getTaxRate() : Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.productHost + 'taxRate')
+            this._httpClient.get(this.productHost + 'GetTaxRate')
                 .subscribe((response : any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -121,7 +121,7 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     removeImage(id : number): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this.postUrl(this.productHost + 'removeImageById', id)
+            this.postUrl(this.productHost + 'RemoveImageById', id)
                 .subscribe((response : any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -140,7 +140,7 @@ export class EcommerceProductService extends appServiceBase implements Resolve<a
     saveProduct(product): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this.postUrl(this.productHost + 'save', product)
+            this.postUrl(this.productHost + 'SaveProduct', product)
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);

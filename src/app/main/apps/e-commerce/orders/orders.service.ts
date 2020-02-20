@@ -44,7 +44,7 @@ export class EcommerceOrdersService extends appServiceBase implements Resolve<an
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getOrders()
+                this.getOrders(0, 10, null, null)
             ]).then(
                 () => {
                     resolve();
@@ -59,16 +59,20 @@ export class EcommerceOrdersService extends appServiceBase implements Resolve<an
      *
      * @returns {Promise<any>}
      */
-    getOrders(): Promise<any>
+    getOrders(intervalCount : number, size : number, orderActive : string, orderDirection : string): Promise<any>
     {
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.orderHost + 'getAll?lang='+lang)
+            this._httpClient.get(this.orderHost + 'GetAllOrders?lang='+lang
+                +"&intervalCount=" + intervalCount 
+                +"&size="+size 
+                + "&orderActive=" + orderActive 
+                + "&orderDirection=" + orderDirection)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
                     }
-                    this.orders = response;
+                    this.orders = response.data;
                     this.onOrdersChanged.next(this.orders);
                     resolve(response);
                 }, reject);

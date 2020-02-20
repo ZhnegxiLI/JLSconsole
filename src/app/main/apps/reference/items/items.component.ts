@@ -38,6 +38,7 @@ export class ReferenceItemsComponent implements OnInit
     categoryTable : any;
     langLabels : Array<{"lang" : string, "label" : string}>;
     loading : boolean = false;
+    itemsCount : number;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -52,7 +53,7 @@ export class ReferenceItemsComponent implements OnInit
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _referenceItemsService : ReferenceItemsService,
         public _matDialog: MatDialog,
-        private _matSnackBar: MatSnackBar,
+        private _matSnackBar: MatSnackBar
     ){
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -90,6 +91,14 @@ export class ReferenceItemsComponent implements OnInit
 
                 this.updateItem(response.getRawValue());
         });
+    }
+
+    getServerData(event){
+        if(!this._referenceItemsService.checkNetWork()){
+            return;
+        }
+
+        this._referenceItemsService.getItems(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
     }
     
     newItem(): void
@@ -151,10 +160,27 @@ export class ReferenceItemsComponent implements OnInit
         this.dataSource = new FilesDataSource(this._referenceItemsService, this.paginator, this.sort);
 
         this._referenceItemsService.onCategoryChanged
-        .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(category => {
                 this.categoryTable = category;
             });
+        
+        this._referenceItemsService.onItemsCountChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(itemsCount => {
+                this.itemsCount = itemsCount;
+            });
+
+        this.sort.sortChange
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                if(!this._referenceItemsService.checkNetWork()){
+                    return;
+                }
+
+                this._referenceItemsService.getItems(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
+                this.paginator.pageIndex = 0;
+            })
 
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
@@ -206,13 +232,13 @@ export class FilesDataSource extends DataSource<any>
         const displayDataChanges = [
             this._referenceItemsService.onItemsChanged,
             this._matPaginator.page,
-            this._filterChange,
-            this._matSort.sortChange
+            this._filterChange
         ];
 
         return merge(...displayDataChanges)
             .pipe(
                 map(() => {
+                        console.log("data change");
                         let data = this._referenceItemsService.items.slice();
 
                         if(data == []){
@@ -222,11 +248,7 @@ export class FilesDataSource extends DataSource<any>
 
                         this.filteredData = [...data];
 
-                        data = this.sortData(data);
-
-                        // Grab the page's slice of data.
-                        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
-                        return data.splice(startIndex, this._matPaginator.pageSize);
+                        return data;
                     }
                 ));
     }
@@ -284,7 +306,7 @@ export class FilesDataSource extends DataSource<any>
      * @param data
      * @returns {any[]}
      */
-    sortData(data): any[]
+    sortData(data)
     {
         if ( !this._matSort.active || this._matSort.direction === '' )
         {

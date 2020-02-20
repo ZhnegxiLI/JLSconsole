@@ -62,6 +62,17 @@ export class EcommerceProductsComponent implements OnInit
     {
         this.dataSource = new FilesDataSource(this._ecommerceProductsService, this.paginator, this.sort);
 
+        this.sort.sortChange
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                if(!this._ecommerceProductsService.checkNetWork()){
+                    return;
+                }
+
+                this._ecommerceProductsService.getProducts(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
+                this.paginator.pageIndex = 0;
+            });
+
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -76,6 +87,14 @@ export class EcommerceProductsComponent implements OnInit
 
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
+    }
+
+    getServerData(event){
+        if(!this._ecommerceProductsService.checkNetWork()){
+            return;
+        }
+
+        this._ecommerceProductsService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
     }
 }
 
@@ -113,7 +132,6 @@ export class FilesDataSource extends DataSource<any>
             this._ecommerceProductsService.onProductsChanged,
             this._matPaginator.page,
             this._filterChange,
-            this._matSort.sortChange
         ];
 
         return merge(...displayDataChanges)
@@ -127,11 +145,7 @@ export class FilesDataSource extends DataSource<any>
 
                         this.filteredData = [...data];
 
-                        data = this.sortData(data);
-
-                        // Grab the page's slice of data.
-                        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
-                        return data.splice(startIndex, this._matPaginator.pageSize);
+                        return data;
                     }
                 ));
     }

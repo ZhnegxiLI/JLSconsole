@@ -58,7 +58,7 @@ export class ReferenceCategoryService extends appServiceBase implements Resolve<
      */
     getCategory() : Promise<any>{
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.referenceHost + "getCategory")
+            this._httpClient.get(this.referenceHost + "GetAllReferenceCategory")
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -72,7 +72,7 @@ export class ReferenceCategoryService extends appServiceBase implements Resolve<
 
     updateCategory(category) : Promise<any>{
         return new Promise((resolve, reject) => {
-            this.postUrl(this.referenceHost + 'updateCategory', category)
+            this.postUrl(this.referenceHost + 'CreatorUpdateReferenceCategory', category)
                 .subscribe((response: any) => {
                     this.getCategory();
                     resolve(response);

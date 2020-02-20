@@ -18,7 +18,7 @@
                 <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     shopping_basket
                 </mat-icon>
-                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Orders</span>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{'ORDERS.ORDERS' | translate}}</span>
             </div>
             <!-- / APP TITLE -->
 
@@ -26,7 +26,7 @@
             <div class="search-wrapper  ml-sm-32">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for an order">
+                    <input #filter placeholder="{{'ORDERS.SEARCH_FOR_AN_ORDER' | translate}}">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -53,25 +53,33 @@
 
                 <!-- Reference Column -->
                 <ng-container matColumnDef="reference">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Reference</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.REFERENCE' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
                         <p class="text-truncate">{{order.orderReferenceCode}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="customer">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Customer</mat-header-cell>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.USERNAME' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let order">
+                        <p class="text-truncate">{{order.userName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="entrepriseName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.ENTREPRISE_NAME' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="text-truncate">
-                            name
+                            {{order.entrepriseName}}
                         </p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Total Price Column -->
                 <ng-container matColumnDef="total">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-md>Total</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-md>{{'ORDERS.TOTAL_PRICE' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-md>
                         <p class="total-price text-truncate">
                             {{order.totalPrice | currency:'USD':'symbol'}}
@@ -82,7 +90,7 @@
 
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.STATUS' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="status text-truncate h6 p-4">
                             {{order.statusReferenceItemLabel}}
@@ -92,7 +100,7 @@
 
                 <!-- Date Column -->
                 <ng-container matColumnDef="date">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Date</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>{{'ORDERS.DATE' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
                         <p class="text-truncate">
                             {{order.date}}
@@ -113,7 +121,8 @@
                            [length]="dataSource.filteredData.length"
                            [pageIndex]="0"
                            [pageSize]="10"
-                           [pageSizeOptions]="[5, 10, 25, 100]">
+                           [pageSizeOptions]="[5, 10, 25, 100]"
+                           (page) = "pageEvent = getServerData($event)">
             </mat-paginator>
 
         </div>

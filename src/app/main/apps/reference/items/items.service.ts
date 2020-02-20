@@ -14,8 +14,10 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
     items: any[];
     onItemsChanged : BehaviorSubject<any>;
     onCategoryChanged : BehaviorSubject<any>;
+    onItemsCountChanged : BehaviorSubject<any>;
     referenceHost : string = this.host + "api/reference/";
     category: any[];
+    itemsCount : number;
 
     /**
      * Constructor
@@ -33,6 +35,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
 
         this.onItemsChanged = new BehaviorSubject({});
         this.onCategoryChanged =  new BehaviorSubject({});
+        this.onItemsCountChanged = new BehaviorSubject({});
     }
 
     /**
@@ -47,8 +50,9 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getItems(),
-                this.getValidityCategory()
+                this.getItems(0, 10, null, null),
+                this.getValidityCategory(),
+                this.getReferenceItemCount()
             ]).then(
                 () => {
                     resolve();
@@ -63,10 +67,14 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
      *
      * @returns {Promise<any>}
      */
-    getItems() : Promise<any>{
+    getItems(intervalCount : number, size : number, orderActive : string, orderDirection : string) : Promise<any>{
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.referenceHost + "getItems")
+            this._httpClient.get(this.referenceHost + "GetAllReferenceItems?intervalCount=" 
+                + intervalCount 
+                +"&size="+size 
+                + "&orderActive=" + orderActive 
+                + "&orderDirection=" + orderDirection)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -86,7 +94,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
 
     getValidityCategory() : Promise<any>{
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.referenceHost + "getValidityCategory")
+            this._httpClient.get(this.referenceHost + "GetAllValidityReferenceCategory")
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -100,14 +108,28 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
 
     updateItem(item) : Promise<any>{
         return new Promise((resolve, reject) => {
-            this.postUrl(this.referenceHost + 'updateItem', item)
+            this.postUrl(this.referenceHost + 'CreatorUpdateReferenceItem', item)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
                     }
-                    this.getItems();
+                    this.getItems(0,10,null,null);
                     resolve(response);
                 }, reject);
+        })
+    }
+
+    getReferenceItemCount() : Promise<any>{
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(this.referenceHost + 'GetReferenceItemsCount')
+                .subscribe((response : any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                    this.itemsCount = response.data;
+                    this.onItemsCountChanged.next(this.itemsCount);
+                    resolve(response.data);
+                })
         })
     }
 

@@ -4,6 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -21,7 +25,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 export class EcommerceOrdersComponent implements OnInit, OnDestroy
 {
     dataSource: FilesDataSource | null;
-    displayedColumns = ['id', 'reference', 'customer', 'total', 'payment', 'status', 'date'];
+    displayedColumns = ['id', 'reference', 'name', 'entrepriseName', 'total', 'status', 'date'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -41,11 +45,14 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
      * @param {EcommerceOrdersService} _ecommerceOrdersService
      */
     constructor(
-        private _ecommerceOrdersService: EcommerceOrdersService
+        private _ecommerceOrdersService: EcommerceOrdersService,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,6 +65,17 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.dataSource = new FilesDataSource(this._ecommerceOrdersService, this.paginator, this.sort);
+
+        this.sort.sortChange
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                if(!this._ecommerceOrdersService.checkNetWork()){
+                    return;
+                }
+
+                this._ecommerceOrdersService.getOrders(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
+                this.paginator.pageIndex = 0;
+        });
 
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
@@ -72,6 +90,14 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
                 }
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
+    }
+
+    getServerData(event){
+        if(!this._ecommerceOrdersService.checkNetWork()){
+            return;
+        }
+
+        this._ecommerceOrdersService.getOrders(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
     }
 
     /**
@@ -149,8 +175,7 @@ export class FilesDataSource extends DataSource<any>
         const displayDataChanges = [
             this._ecommerceOrdersService.onOrdersChanged,
             this._matPaginator.page,
-            this._filterChange,
-            this._matSort.sortChange
+            this._filterChange
         ];
 
         return merge(...displayDataChanges).pipe(map(() => {
@@ -161,11 +186,7 @@ export class FilesDataSource extends DataSource<any>
 
                 this.filteredData = [...data];
 
-                data = this.sortData(data);
-
-                // Grab the page's slice of data.
-                const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
-                return data.splice(startIndex, this._matPaginator.pageSize);
+                return data;
             })
         );
 
