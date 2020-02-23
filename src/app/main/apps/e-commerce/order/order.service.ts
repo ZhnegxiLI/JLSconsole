@@ -2,13 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { appServiceBase } from 'app/app.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceOrderService implements Resolve<any>
+export class EcommerceOrderService extends appServiceBase implements Resolve<any>
 {
     routeParams: any;
     order: any;
+    searchProductData : any;
     onOrderChanged: BehaviorSubject<any>;
+    onSearchProductChanged: BehaviorSubject<any>;
+    orderHost = this.host + "api/Order/";
+    productHost = this.host + "api/Product/"
 
     /**
      * Constructor
@@ -16,11 +24,16 @@ export class EcommerceOrderService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        protected _httpClient: HttpClient,
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router,
+        private _translateService: TranslateService,
     )
     {
+        super(_httpClient,_matSnackBar,_router);
         // Set the defaults
         this.onOrderChanged = new BehaviorSubject({});
+        this.onSearchProductChanged = new BehaviorSubject({});
     }
 
     /**
@@ -93,6 +106,26 @@ export class EcommerceOrderService implements Resolve<any>
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);
+        });
+    }
+
+    searchProduct(intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string) : Promise<any>{
+        var lang = this._translateService.currentLang;
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(this.productHost + "GetAllProducts?lang=" + lang
+                +"&intervalCount="+ intervalCount 
+                +"&size="+size 
+                + "&orderActive=" + orderActive 
+                + "&orderDirection=" + orderDirection
+                + "&filter=" + filter)
+                .subscribe((response: any) => {
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                this.searchProductData = response.data;
+                this.onSearchProductChanged.next(response.data);
+                resolve(response.data);
+            }, reject);
         });
     }
 }

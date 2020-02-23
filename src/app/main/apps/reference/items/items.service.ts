@@ -50,7 +50,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getItems(0, 10, null, null),
+                this.getItems(0, 10, null, null, ""),
                 this.getValidityCategory(),
                 this.getReferenceItemCount()
             ]).then(
@@ -67,14 +67,15 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
      *
      * @returns {Promise<any>}
      */
-    getItems(intervalCount : number, size : number, orderActive : string, orderDirection : string) : Promise<any>{
+    getItems(intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string) : Promise<any>{
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
             this._httpClient.get(this.referenceHost + "GetAllReferenceItems?intervalCount=" 
                 + intervalCount 
                 +"&size="+size 
                 + "&orderActive=" + orderActive 
-                + "&orderDirection=" + orderDirection)
+                + "&orderDirection=" + orderDirection
+                + "&filter=" + filter)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;
@@ -113,7 +114,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
                     if(!this.checkResult(response)){
                         return;
                     }
-                    this.getItems(0,10,null,null);
+                    this.getItems(0,10,null,null, "");
                     resolve(response);
                 }, reject);
         })

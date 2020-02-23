@@ -98,7 +98,11 @@ export class ReferenceItemsComponent implements OnInit
             return;
         }
 
-        this._referenceItemsService.getItems(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+        this._referenceItemsService.getItems(this.paginator.pageIndex, 
+            this.paginator.pageSize, 
+            this.sort.active, 
+            this.sort.direction, 
+            this.filter.nativeElement.value);
     }
     
     newItem(): void
@@ -178,7 +182,7 @@ export class ReferenceItemsComponent implements OnInit
                     return;
                 }
 
-                this._referenceItemsService.getItems(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
+                this._referenceItemsService.getItems(0, this.paginator.pageSize, this.sort.active, this.sort.direction,this.filter.nativeElement.value);
                 this.paginator.pageIndex = 0;
             })
 
@@ -193,7 +197,12 @@ export class ReferenceItemsComponent implements OnInit
                 {
                     return;
                 }
-                this.dataSource.filter = this.filter.nativeElement.value;
+
+                if(!this._referenceItemsService.checkNetWork()){
+                    return;
+                }
+                this._referenceItemsService.getItems(0, this.paginator.pageSize, this.sort.active, this.sort.direction,this.filter.nativeElement.value);
+                this.paginator.pageIndex = 0;
                 
             });
     }
@@ -231,20 +240,17 @@ export class FilesDataSource extends DataSource<any>
     {
         const displayDataChanges = [
             this._referenceItemsService.onItemsChanged,
-            this._matPaginator.page,
-            this._filterChange
+            this._matPaginator.page
         ];
 
         return merge(...displayDataChanges)
             .pipe(
                 map(() => {
-                        console.log("data change");
                         let data = this._referenceItemsService.items.slice();
 
                         if(data == []){
                             return;
                         }
-                        data = this.filterData(data);
 
                         this.filteredData = [...data];
 

@@ -10,10 +10,12 @@ export class Order
     adminRemark: string;
     date: string;
     totalPrice: number;
-    products: any[];
-    statusReferenceItem : any
+    products: Product[];
+    statusReferenceItem : any;
+    statusLabel : string;
     taxRate: number;
-    adresse: Adresse;
+    shippingAdresse: Adresse;
+    facturationAdress : Adresse;
     user : User;
 
     /**
@@ -29,41 +31,84 @@ export class Order
         this.contactTelephone = order.contactTelephone || "";
         this.paymentInfo = order.paymentInfo || "";
         this.clienRemark = order.ClienRemark || "";
-        this.adminRemark = order.AdminRemark || 0;
+        this.adminRemark = order.AdminRemark || "";
         this.date = order.date || '';
         this.statusReferenceItem = order.statusReferenceItem || {};
         this.products = order.products || [];
         this.taxRate = order.taxRate || 0;
         this.totalPrice = order.totalPrice || 0;
-        this.adresse = new Adresse(order.adresse) || new Adresse({});
+        this.shippingAdresse = new Adresse(order.shippingAdresse) || new Adresse({});
+        this.facturationAdress = new Adresse(order.facturationAdress) || new Adresse({});
         this.user = new User(order.user) || new User({});
+        this.statusLabel = order.statusLabel || "";
     }
 }
 
-export class User{
+class User{
     id : number;
     entrepriseName : string;
     name : string;
     email : string;
+    telephone : string;
 
 
     constructor(user?)
     {
         user = user || {};
-        this.id = user.id || FuseUtils.generateGUID();
+        this.id = user.id || 0;
         this.entrepriseName = user.entrepriseName || "";
         this.name = user.name || "";
         this.email = user.email || "";
+        this.telephone = user.telephone || "";
     }
 }
 
-export class Adresse{
+class Adresse{
     id : number;
-    detail : string;
+    adressDetail : string;
+    contactTelephone : string;
+    contactFax : string;
+    contactLastName : string;
+    contactFirstName : string;
+    postCode : string;
+    streeName : string;
+    city : string;
+    provence : string;
+    genter : string;
+    country : string;
+
 
     constructor(adresse?){
         adresse = adresse || {};
-        this.id = adresse.id || FuseUtils.generateGUID();
-        this.detail = adresse.detail || "";
+        this.id = adresse.id || 0;
+        this.adressDetail = adresse.adressDetail || "";
+        this.contactFax = adresse.contactFax || "";
+        this.contactTelephone = adresse.contactTelephone || "";
+        this.contactFirstName = adresse.contactFirstName || "";
+        this.contactLastName = adresse.contactLastName || "";
+        this.streeName = adresse.streeName || "";
+        this.city = adresse.city || "";
+        this.provence = adresse.provence || "";
+        this.genter = adresse.genter || "";
+        this.country = adresse.country || "";
+    }
+}
+
+class Product{
+    id : number;
+    image : string;
+    name : string;
+    price : number;
+    quantity : number;
+    referenceCode : string;
+
+    constructor(product?){
+        product = product || {};
+        this.id = product.id;
+        this.image = product.image;
+        this.name = product.name;
+        this.price = product.price;
+        this.quantity = product.quantity;
+        this.referenceCode = product.referenceCode;
     }
 }

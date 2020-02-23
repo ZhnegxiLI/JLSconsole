@@ -69,7 +69,7 @@ export class EcommerceProductsComponent implements OnInit
                     return;
                 }
 
-                this._ecommerceProductsService.getProducts(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
+                this._ecommerceProductsService.getProducts(0, this.paginator.pageSize, this.sort.active, this.sort.direction, this.filter.nativeElement.value);
                 this.paginator.pageIndex = 0;
             });
 
@@ -85,7 +85,11 @@ export class EcommerceProductsComponent implements OnInit
                     return;
                 }
 
-                this.dataSource.filter = this.filter.nativeElement.value;
+                if(!this._ecommerceProductsService.checkNetWork()){
+                    return;
+                }
+
+                this._ecommerceProductsService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.filter.nativeElement.value);
             });
     }
 
@@ -94,7 +98,7 @@ export class EcommerceProductsComponent implements OnInit
             return;
         }
 
-        this._ecommerceProductsService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+        this._ecommerceProductsService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.filter.nativeElement.value);
     }
 }
 
@@ -131,7 +135,6 @@ export class FilesDataSource extends DataSource<any>
         const displayDataChanges = [
             this._ecommerceProductsService.onProductsChanged,
             this._matPaginator.page,
-            this._filterChange,
         ];
 
         return merge(...displayDataChanges)
@@ -141,7 +144,6 @@ export class FilesDataSource extends DataSource<any>
                         if(data == []){
                             return;
                         }
-                        data = this.filterData(data);
 
                         this.filteredData = [...data];
 

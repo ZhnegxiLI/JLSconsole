@@ -1,0 +1,81 @@
+<div id="product-search" class="page-layout carded fullwidth inner-scroll">
+
+    <div class="dialog-content-wrapper">
+        <mat-toolbar matDialogTitle class="mat-accent m-0" fxLayout="column">
+            <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="title dialog-title">{{'ORDER.ADD_NEW_PRODUCT' | translate}}</span>
+                <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+
+            <mat-toolbar-row>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input #filter placeholder="{{'ORDER.SEARCH_FOR_A_PRODUCT' | translate}}">
+                </div>
+            </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+
+        <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+                <mat-table class="items-table"
+                           #table [dataSource]="dataSource"
+                           matSort
+                           [@animateStagger]="{value:'50'}"
+                           fusePerfectScrollbar>
+    
+                    <!-- Reference Column -->
+                    <ng-container matColumnDef="reference">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Reference</mat-header-cell>
+                        <mat-cell *matCellDef="let product">
+                            <p class="text-truncate">{{product.referenceCode}}</p>
+                        </mat-cell>
+                    </ng-container>
+    
+    
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDER.NAME' | translate}}</mat-header-cell>
+                        <mat-cell *matCellDef="let product">
+                            <p class="text-truncate">{{product.name}}</p>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <!-- Category Column -->
+                    <ng-container matColumnDef="category">
+                        <mat-header-cell *matHeaderCellDef fxHide mat-sort-header>{{'ORDER.CATEGORY' | translate}}</mat-header-cell>
+                        <mat-cell *matCellDef="let product" fxHide>
+                            <p class="category text-truncate">
+                                {{product.category}}
+                            </p>
+                        </mat-cell>
+                    </ng-container>
+    
+    
+                    <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+    
+                    <mat-row *matRowDef="let product; columns: displayedColumns;"
+                             class="categories"
+                             (click)="selectProduct(product)" 
+                             matRipple>
+                    </mat-row>
+    
+                </mat-table>
+    
+                <mat-paginator #paginator
+                               [length]="1000"
+                               [pageIndex]="0"
+                               [pageSize]="10"
+                               [pageSizeOptions]="[5, 10]"
+                               (page) = "pageEvent = getServerData($event)">
+                </mat-paginator>
+    
+            </div>
+            <!-- / CONTENT CARD -->
+        </div>
+        <!-- / CENTER -->
+    </div>
+    

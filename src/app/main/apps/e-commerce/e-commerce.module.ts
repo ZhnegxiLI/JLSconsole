@@ -1,3 +1,5 @@
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProductSearchDialog } from './order/product-search/product-search.component';
 import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
 import { DialogModule } from './../../../dialog/dialog.module';
 import { NgModule } from '@angular/core';
@@ -17,6 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {MatDialogModule} from "@angular/material";
+import {MatRadioModule} from "@angular/material";
 
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -33,6 +36,7 @@ import { EcommerceOrdersComponent } from 'app/main/apps/e-commerce/orders/orders
 import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
 import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.component';
 import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.service';
+
 
 
 const routes: Routes = [
@@ -79,7 +83,8 @@ const routes: Routes = [
         EcommerceProductComponent,
         EcommerceOrdersComponent,
         EcommerceOrderComponent,
-        ImageOverViewDialog
+        ImageOverViewDialog,
+        ProductSearchDialog
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -100,6 +105,8 @@ const routes: Routes = [
         MatSnackBarModule,
         MatTableModule,
         MatTabsModule,
+        MatRadioModule,
+        MatToolbarModule,
 
         TranslateModule,
         NgxChartsModule,
@@ -118,6 +125,7 @@ const routes: Routes = [
     ],
     entryComponents: [
         ImageOverViewDialog,
+        ProductSearchDialog,
         ConfimDialog],
 })
 export class EcommerceModule

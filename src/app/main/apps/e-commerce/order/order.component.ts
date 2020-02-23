@@ -1,3 +1,4 @@
+import { ProductSearchDialog } from './product-search/product-search.component';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject} from 'rxjs';
@@ -12,6 +13,7 @@ import { locale as chinese } from './i18n/cn';
 import { orderStatuses } from 'app/main/apps/e-commerce/order/order-statuses';
 import { Order } from 'app/main/apps/e-commerce/order/order.model';
 import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector     : 'e-commerce-order',
@@ -26,6 +28,14 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
     orderStatuses: any;
     statusForm: FormGroup;
     orderForm:FormGroup;
+    dialogRef: any;
+
+    clickInput = {
+        paymentInfo : false,
+        status : false,
+        clientRemark : false,
+        adminRemark : false
+    }
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -39,9 +49,11 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
     constructor(
         private _ecommerceOrderService: EcommerceOrderService,
         private _formBuilder: FormBuilder,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _matDialog: MatDialog,
     )
     {
+ 
         // Set the defaults
         this.order = new Order();
         this.orderStatuses = orderStatuses;
@@ -76,14 +88,66 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
         this.orderForm = this.createOrderForm();
     }
 
+    changeProductQuantity(product){
+        console.log(product);
+    }
+
+    newProduct(): void
+    {
+        if(!this._ecommerceOrderService.checkNetWork){
+            return;
+        }
+
+        this._ecommerceOrderService.searchProduct(0,10,null,null,"").then(
+            (reponse) => {
+                this.dialogRef = this._matDialog.open(ProductSearchDialog, {
+                    panelClass: 'product-search-dialog',
+                    data      : {
+                        data : reponse
+                    }
+                });
+        
+                this.dialogRef.afterClosed()
+                    .subscribe((response: any) => {
+                        if ( !response )
+                        {
+                            return;
+                        }
+        
+                    });
+            }
+        );
+    }
+
     createOrderForm(): FormGroup
     {
         return this._formBuilder.group({
-            id                : [this.order.id],
-            name         : [this.order.user.name],
-            email             : [this.order.user.email],
-            contackTelephone           : [this.order.contactTelephone],
-            company           : [this.order.user.entrepriseName],
+            paymentInfo : [this.order.paymentInfo],
+            status : [this.order.statusLabel],
+            genterShippingAdress : [this.order.shippingAdresse.genter],
+            firstNameShippingAdresse : [this.order.shippingAdresse.contactFirstName],
+            lastNameShippingAdresse : [this.order.shippingAdresse.contactLastName],
+            phoneShippingAdresse : [this.order.shippingAdresse.contactTelephone],
+            faxShippingAdresse : [this.order.shippingAdresse.contactFax],
+            streeShippingAdresse : [this.order.shippingAdresse.streeName],
+            detailShippingAdresse : [this.order.shippingAdresse.adressDetail],
+            postCodeShippingAdresse : [this.order.shippingAdresse.postCode],
+            cityShippingAdresse : [this.order.shippingAdresse.city],
+            provenceShippingAdresse : [this.order.shippingAdresse.provence],
+            countryShippingAdresse : [this.order.shippingAdresse.country],
+            genterFacturationAdress : [this.order.facturationAdress.genter],
+            firstNameFacturationAdresse : [this.order.facturationAdress.contactFirstName],
+            lastNameFacturationAdresse : [this.order.facturationAdress.contactLastName],
+            phoneFacturationAdresse : [this.order.facturationAdress.contactTelephone],
+            faxFacturationAdresse : [this.order.facturationAdress.contactFax],
+            streeFacturationAdresse : [this.order.facturationAdress.streeName],
+            detailFacturationAdresse : [this.order.facturationAdress.adressDetail],
+            postCodeFacturationAdresse : [this.order.facturationAdress.postCode],
+            cityFacturationAdresse : [this.order.facturationAdress.city],
+            provenceFacturationAdresse : [this.order.facturationAdress.provence],
+            countryFacturationAdresse : [this.order.facturationAdress.country],
+            clientRemark : [this.order.clienRemark],
+            adminRemark : [this.order.adminRemark]
         });
     }
 
@@ -119,6 +183,6 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
 
         newStatus['date'] = new Date().toString();
 
-        this.order.status.unshift(newStatus);
+        //this.order.status.unshift(newStatus);
     }
 }

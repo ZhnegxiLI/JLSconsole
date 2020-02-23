@@ -43,7 +43,7 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProducts(0,10,null,null)
+                this.getProducts(0,10,null,null, "")
             ]).then(
                 () => {
                     resolve();
@@ -58,7 +58,7 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
      *
      * @returns {Promise<any>}
      */
-    getProducts(intervalCount : number, size : number, orderActive : string, orderDirection : string): Promise<any>
+    getProducts(intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string): Promise<any>
     {
         var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
@@ -66,7 +66,8 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
                 +"&intervalCount=" + intervalCount 
                 +"&size="+size 
                 + "&orderActive=" + orderActive 
-                + "&orderDirection=" + orderDirection)
+                + "&orderDirection=" + orderDirection
+                + "&filter="+ filter)
                 .subscribe((response: any) => {
                     if(!this.checkResult(response)){
                         return;

@@ -1,5 +1,7 @@
 @import "src/@fuse/scss/fuse";
 
+$animate: all 0.2s ease-in-out;
+
 #order {
 
     .header {
@@ -16,6 +18,44 @@
         .tab-content {
             flex: 1 1 auto;
             max-width: 100%;
+        }
+
+        .mat-radio-button ~ .mat-radio-button {
+            margin-left: 16px;
+          }
+        
+        .genter {
+            padding:10px 0px 21.5px;
+        }
+
+        .add-product {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .focuInput {
+            display: inline-block;
+            left: 50%;
+            right: 50%;
+            transition: all .6s linear;
+            background-color: black;
+            height: 2px;
+
+        }
+
+        .focuInput::after{
+            left: 0px;
+            right: 0px;
+        }
+
+
+        .focuInput:hover::after {
+            width: 100%;
+            //transition: width .3s;
+        }
+
+        .add-user{
+            background-color: rgba(0, 0, 0, 0.54);
         }
 
 
@@ -147,6 +187,7 @@
                                                     }
                                                 }
                                             }
+
                                         }
 
                                         .title {
