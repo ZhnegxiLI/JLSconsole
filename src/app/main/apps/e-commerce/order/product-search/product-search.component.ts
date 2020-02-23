@@ -27,6 +27,7 @@ export class ProductSearchDialog implements OnInit, OnDestroy
 {
     dataSource: FilesDataSource | null;
     displayedColumns = ['reference', 'name', 'category'];
+    productsCount : number;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -52,9 +53,10 @@ export class ProductSearchDialog implements OnInit, OnDestroy
         private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
-        console.log(_data.data);
-        this._ecommerceOrderService.searchProductData = _data.data;
-        console.log(this._ecommerceOrderService.searchProductData); 
+        console.log(_data);
+        this._ecommerceOrderService.searchProductData = _data.data.content;
+        this.productsCount = _data.data.count;
+
 
         this.dataSource = new FilesDataSource(this._ecommerceOrderService, this.paginator);
 
@@ -74,7 +76,11 @@ export class ProductSearchDialog implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        
+        this._ecommerceOrderService.onSearchProductCountChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(productCount => {
+                this.productsCount = productCount;
+            });
         this.sort.sortChange
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {

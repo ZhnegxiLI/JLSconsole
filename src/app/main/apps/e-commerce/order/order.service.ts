@@ -15,6 +15,7 @@ export class EcommerceOrderService extends appServiceBase implements Resolve<any
     searchProductData : any;
     onOrderChanged: BehaviorSubject<any>;
     onSearchProductChanged: BehaviorSubject<any>;
+    onSearchProductCountChanged : BehaviorSubject<any>;
     orderHost = this.host + "api/Order/";
     productHost = this.host + "api/Product/"
 
@@ -34,6 +35,7 @@ export class EcommerceOrderService extends appServiceBase implements Resolve<any
         // Set the defaults
         this.onOrderChanged = new BehaviorSubject({});
         this.onSearchProductChanged = new BehaviorSubject({});
+        this.onSearchProductCountChanged = new BehaviorSubject({});
     }
 
     /**
@@ -67,10 +69,14 @@ export class EcommerceOrderService extends appServiceBase implements Resolve<any
      */
     getOrder(): Promise<any>
     {
+        var lang = this._translateService.currentLang;
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/e-commerce-orders/' + this.routeParams.id)
+            this._httpClient.get(this.orderHost + "GetOrderById?" + this.routeParams.id + "&lang=" + lang)
                 .subscribe((response: any) => {
-                    this.order = response;
+                    if(!this.checkResult(response)){
+                        return;
+                    }
+                    this.order = response.data;
                     this.onOrderChanged.next(this.order);
                     resolve(response);
                 }, reject);
@@ -122,8 +128,9 @@ export class EcommerceOrderService extends appServiceBase implements Resolve<any
                     if(!this.checkResult(response)){
                         return;
                     }
-                this.searchProductData = response.data;
-                this.onSearchProductChanged.next(response.data);
+                this.searchProductData = response.data.content;
+                this.onSearchProductChanged.next(response.data.content);
+                this.onSearchProductCountChanged.next(response.data.count);
                 resolve(response.data);
             }, reject);
         });

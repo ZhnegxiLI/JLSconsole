@@ -392,7 +392,14 @@
                                         </td>
                                     </tr>
                                     <tr >
-                                        <th colspan="5" class="add-product"><mat-icon class="s-56" (click)="newProduct()" >add_circle</mat-icon></th>
+                                        <th colspan="5" class="add-product"><button mat-fab
+                                            (click)="newProduct()"
+                                            class="add-user"
+                                            aria-label="Add User"
+                                            [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
+                                            *ngIf="order.user.id == 0">
+                                            <mat-icon>add</mat-icon>
+                                        </button></th>
                                     </tr>
                                 </tbody>
                             </table>

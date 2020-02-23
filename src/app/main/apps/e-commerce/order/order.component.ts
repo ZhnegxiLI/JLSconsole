@@ -26,7 +26,6 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
 {
     order: Order;
     orderStatuses: any;
-    statusForm: FormGroup;
     orderForm:FormGroup;
     dialogRef: any;
 
@@ -81,10 +80,6 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
                 this.order = new Order(order);
             });
 
-        this.statusForm = this._formBuilder.group({
-            newStatus: ['']
-        });
-
         this.orderForm = this.createOrderForm();
     }
 
@@ -104,7 +99,8 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
                     panelClass: 'product-search-dialog',
                     data      : {
                         data : reponse
-                    }
+                    },
+                    width : "60vw"
                 });
         
                 this.dialogRef.afterClosed()
@@ -161,28 +157,4 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Update status
-     */
-    updateStatus(): void
-    {
-        const newStatusId = Number.parseInt(this.statusForm.get('newStatus').value);
-
-        if ( !newStatusId )
-        {
-            return;
-        }
-
-        const newStatus = this.orderStatuses.find((status) => {
-            return status.id === newStatusId;
-        });
-
-        newStatus['date'] = new Date().toString();
-
-        //this.order.status.unshift(newStatus);
-    }
 }

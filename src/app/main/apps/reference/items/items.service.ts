@@ -51,8 +51,7 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
 
             Promise.all([
                 this.getItems(0, 10, null, null, ""),
-                this.getValidityCategory(),
-                this.getReferenceItemCount()
+                this.getValidityCategory()
             ]).then(
                 () => {
                     resolve();
@@ -80,14 +79,15 @@ export class ReferenceItemsService extends appServiceBase implements Resolve<any
                     if(!this.checkResult(response)){
                         return;
                     }
-                    this.items = response.data.map(item => {
+                    this.items = response.data.content.map(item => {
                         var labelCurrent = item.labels.filter(label => label.lang == lang)[0];
                         if(labelCurrent != null){
                             item.label = labelCurrent.label;
                         }
                         return item;
                     } );
-                    this.onItemsChanged.next(response.data);
+                    this.onItemsChanged.next(response.data.content);
+                    this.onItemsCountChanged.next(response.data.count);
                     resolve(response);
                 }, reject);
         });

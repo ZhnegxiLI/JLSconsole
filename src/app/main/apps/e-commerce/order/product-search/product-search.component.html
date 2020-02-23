@@ -9,7 +9,7 @@
                 </button>
             </mat-toolbar-row>
 
-            <mat-toolbar-row>
+            <mat-toolbar-row fxLayoutAlign="center center">
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
@@ -19,7 +19,7 @@
             </mat-toolbar-row>
         </mat-toolbar>
 
-        <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <div mat-dialog-content class="p-0 m-0" fusePerfectScrollbar>
 
                 <mat-table class="items-table"
                            #table [dataSource]="dataSource"
@@ -46,8 +46,8 @@
     
                     <!-- Category Column -->
                     <ng-container matColumnDef="category">
-                        <mat-header-cell *matHeaderCellDef fxHide mat-sort-header>{{'ORDER.CATEGORY' | translate}}</mat-header-cell>
-                        <mat-cell *matCellDef="let product" fxHide>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDER.CATEGORY' | translate}}</mat-header-cell>
+                        <mat-cell *matCellDef="let product">
                             <p class="category text-truncate">
                                 {{product.category}}
                             </p>
@@ -66,7 +66,7 @@
                 </mat-table>
     
                 <mat-paginator #paginator
-                               [length]="1000"
+                               [length]="productsCount"
                                [pageIndex]="0"
                                [pageSize]="10"
                                [pageSizeOptions]="[5, 10]"

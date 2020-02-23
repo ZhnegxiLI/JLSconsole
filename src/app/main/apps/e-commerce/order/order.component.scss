@@ -43,7 +43,7 @@ $animate: all 0.2s ease-in-out;
 
         }
 
-        .focuInput::after{
+        .focuInput.ng-hide{
             left: 0px;
             right: 0px;
         }
@@ -55,7 +55,7 @@ $animate: all 0.2s ease-in-out;
         }
 
         .add-user{
-            background-color: rgba(0, 0, 0, 0.54);
+            background-color: accent;
         }
 
 

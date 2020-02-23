@@ -12,6 +12,7 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
 {
     products: any[];
     onProductsChanged: BehaviorSubject<any>;
+    onProductsCountChanged : BehaviorSubject<any>;
     productHost : string = this.host + "api/Product/";
 
     /**
@@ -29,6 +30,7 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
         super(_httpClient,_matSnackBar,_router);
         // Set the defaults
         this.onProductsChanged = new BehaviorSubject({});
+        this.onProductsCountChanged = new BehaviorSubject({});
     }
 
     /**
@@ -72,8 +74,9 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
                     if(!this.checkResult(response)){
                         return;
                     }
-                    this.products = response.data;
+                    this.products = response.data.content;
                     this.onProductsChanged.next(this.products);
+                    this.onProductsCountChanged.next(response.data.count);
                     resolve(response);
                 }, reject);
         });

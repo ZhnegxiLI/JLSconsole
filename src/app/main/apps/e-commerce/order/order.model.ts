@@ -81,12 +81,12 @@ class Adresse{
     constructor(adresse?){
         adresse = adresse || {};
         this.id = adresse.id || 0;
-        this.adressDetail = adresse.adressDetail || "";
+        this.adressDetail = adresse.SecondLineAddress || "";
         this.contactFax = adresse.contactFax || "";
         this.contactTelephone = adresse.contactTelephone || "";
         this.contactFirstName = adresse.contactFirstName || "";
         this.contactLastName = adresse.contactLastName || "";
-        this.streeName = adresse.streeName || "";
+        this.streeName = adresse.FirstLineAddress || "";
         this.city = adresse.city || "";
         this.provence = adresse.provence || "";
         this.genter = adresse.genter || "";

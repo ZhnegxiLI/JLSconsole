@@ -110,6 +110,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
 
             });
 
+
             // while(this.productForm == null){
             //     console.log(this.productForm)
             // };

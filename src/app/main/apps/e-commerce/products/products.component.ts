@@ -27,6 +27,7 @@ export class EcommerceProductsComponent implements OnInit
     dataSource: FilesDataSource | null;
     displayedColumns = ['reference', 'image', 'name', 'category', 'price', 'active'];
     imageRoot = this._ecommerceProductsService.host + "images/";
+    productsCount : number;
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -61,6 +62,13 @@ export class EcommerceProductsComponent implements OnInit
     ngOnInit(): void
     {
         this.dataSource = new FilesDataSource(this._ecommerceProductsService, this.paginator, this.sort);
+
+        
+        this._ecommerceProductsService.onProductsCountChanged
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(productsCount => {
+            this.productsCount = productsCount;
+        })
 
         this.sort.sortChange
             .pipe(takeUntil(this._unsubscribeAll))
