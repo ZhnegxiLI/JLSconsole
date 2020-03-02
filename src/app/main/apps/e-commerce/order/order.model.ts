@@ -94,7 +94,7 @@ class Adresse{
     }
 }
 
-class Product{
+export class Product{
     id : number;
     image : string;
     name : string;

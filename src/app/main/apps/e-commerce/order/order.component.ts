@@ -109,6 +109,8 @@ export class EcommerceOrderComponent implements OnInit, OnDestroy
                         {
                             return;
                         }
+
+                        this.order.products.push(response);
         
                     });
             }
