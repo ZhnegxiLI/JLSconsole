@@ -1,26 +1,26 @@
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { timeout, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { timeout, map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { environment } from '../environments/environment';
 
 @Injectable()
 export abstract class appServiceBase {
 
-    public host : string = "http://localhost/JLSConsoleApplication/";
+    public host: string = environment.url;
 
     constructor(
-        protected _httpClient: HttpClient,
+        protected httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
-        protected _router : Router){
+        protected router: Router){
 
     }
 
-    checkNetWork() : boolean{
-        if(false){
-            this._matSnackBar.open('Please Check your netWork','Ok', {
+    checkNetWork(): boolean{
+        if (false){
+            this._matSnackBar.open('Please Check your netWork', 'Ok', {
                 verticalPosition: 'top',
                 duration        : 2000
             });
@@ -29,55 +29,39 @@ export abstract class appServiceBase {
         return true;
     }
 
-    checkResult(result : any) : boolean{
-        console.log(result.type);
-        if(result.success){
-            return true;
-        }else{
-            if(result.type == "500"){
-                this._router.navigateByUrl('/apps/errors/error-500');
-                //this._location.go('/apps/errors/error-500');
+    public postUrl(url: string, body: any): Observable<any>{
+        return this.httpClient.post(url, body)
+            .pipe(catchError(this.handleError));
+    }
+
+    public getUrl(url: string, criteria: any): Observable<any>{
+        const params = new HttpParams({ fromObject: criteria });
+        return this.httpClient.post(url, {params: params})
+            .pipe(catchError(this.handleError));
+    }
+ 
+
+    private handleError(error: HttpErrorResponse) {
+        if (error.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.error(
+            `Backend returned code ${error.status}, ` +
+            `body was: ${error.error}`);
+
+            // tslint:disable-next-line: align
+            if (error.status == 500){
+                this.router.navigateByUrl('/apps/errors/error-500');
             }
-            else if(result.Type == "404"){
-                this._router.navigateByUrl('/apps/errors/error-500');
-                //this._location.go('/apps/errors/error-404');
+            else if (error.status == 404){
+                this.router.navigateByUrl('/apps/errors/error-500');
             }
-            return false;
         }
-    }
-
-    protected postUrl(url : string, body : any) : Observable<any>{
-        return this._httpClient.post(url, body)
-            .pipe(
-                timeout(20000),
-            )
-    }
-
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || {};
+        // return an observable with a user-facing error message
+        return throwError(
+          'Something bad happened; please try again later.');
       }
-
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        // if (error instanceof Response) {
-        //   const body = error.json() || '';
-        //   const err = body.error || JSON.stringify(body);
-        //   errMsg = `${error.status}-${error.statusText || ''} ${err}`;
-        // }
-        // else {
-        //   errMsg = error.message ? error.message : error.tostring();
-        // }
-        // console.error(errMsg);
-        // return Observable.throw(errMsg);
-        if(error.name!=null &&error.name =="TimeoutError"){
-            //超时信息
-            return Observable.throw({Msg:"连接超时请检查网络连接",Success :false});
-          }
-          else{
-        
-        console.error(JSON.parse(error._body));
-        return Observable.throw(JSON.parse(error._body));
-      }
-    }
 }

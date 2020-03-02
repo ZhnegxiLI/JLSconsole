@@ -69,9 +69,6 @@ export class EcommerceOrdersService extends appServiceBase implements Resolve<an
                 + "&orderActive=" + orderActive 
                 + "&orderDirection=" + orderDirection)
                 .subscribe((response: any) => {
-                    if(!this.checkResult(response)){
-                        return;
-                    }
                     this.orders = response.data;
                     this.onOrdersChanged.next(this.orders);
                     resolve(response);
