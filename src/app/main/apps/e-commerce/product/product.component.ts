@@ -2,7 +2,7 @@ import { state } from '@angular/animations';
 import { ConfimDialog } from './../../../../dialog/confim-dialog/confim-dialog.component';
 import { Action } from '@ngrx/store';
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, merge } from 'rxjs';
@@ -31,6 +31,9 @@ import { EcommerceProductService } from 'app/main/apps/e-commerce/product/produc
 })
 export class EcommerceProductComponent implements OnInit, OnDestroy
 {
+    ngOnDestroy(): void {
+        throw new Error("Method not implemented.");
+    }
     product: Product;
     pageType: string;
     productForm: FormGroup;
@@ -41,9 +44,8 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     taxRateTable : Array<any> = [];
     loading : boolean = false;
     
+ 
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
     imageRoot = this._ecommerceProductService.host + "images/";
 
     /**
@@ -67,13 +69,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         // Set the default
         this.product = new Product();
 
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
-
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
-
-        this.categoryTable = _ecommerceProductService.category;
-        this.taxRateTable = _ecommerceProductService.taxRateTable;
 
     }
 
@@ -86,45 +82,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to update product on changes
-        this._ecommerceProductService.onProductChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(product => {
-
-                if ( product )
-                {
-                    console.log(product);
-                    this.product = new Product(product);
-                    var productCategory = this.categoryTable.find(c => c.id == this.product.category);
-                    this.mainCategory = this.categoryTable.find(c => c.id == productCategory.parentId).id;
-
-                    this.pageType = 'edit';
-                }
-                else
-                {
-                    this.pageType = 'new';
-                    this.product = new Product();
-                }
-
-                this.productForm = this.createProductForm();
-
-            });
-
-
-            // while(this.productForm == null){
-            //     console.log(this.productForm)
-            // };
-
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+        this.productForm = this.createProductForm();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -159,7 +117,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         });
     }
 
-    getTaxRateTable() : Array<number>{
+    getTaxRateTable() : any[] {
         return this.taxRateTable.map(item => item.value);
     }
 
@@ -221,21 +179,21 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
             if(result.action == "remove"){
                 console.log(image);
                 if(image.status == "save"){
-                    this._ecommerceProductService.removeImage(image.id).then(result => {
-                        if(result.success){
-                            var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
-                            this.product.images.splice(removeImageIndex, 1);
-                            this._matSnackBar.open('Remove successif', 'OK', {
-                                verticalPosition: 'top',
-                                duration        : 2000
-                            });
-                        }else{
-                            this._matSnackBar.open('Remove fail', 'OK', {
-                                verticalPosition: 'top',
-                                duration        : 2000
-                            });
-                        }
-                    });
+                    // this._ecommerceProductService.removeImage(image.id).then(result => {
+                    //     if(result.success){
+                    //         var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
+                    //         this.product.images.splice(removeImageIndex, 1);
+                    //         this._matSnackBar.open('Remove successif', 'OK', {
+                    //             verticalPosition: 'top',
+                    //             duration        : 2000
+                    //         });
+                    //     }else{
+                    //         this._matSnackBar.open('Remove fail', 'OK', {
+                    //             verticalPosition: 'top',
+                    //             duration        : 2000
+                    //         });
+                    //     }
+                    // });
                 }else{
                     var imgName = image.name;
                     var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
@@ -284,18 +242,18 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
         
                 console.log(data);
         
-                this._ecommerceProductService.saveProduct(data)
-                    .then(() => {
+                // this._ecommerceProductService.saveProduct(data)
+                //     .then(() => {
         
-                        // Trigger the subscription with new data
-                        this._ecommerceProductService.onProductChanged.next(data);
-                        this.loading = false;
-                        // Show the success message
-                        this._matSnackBar.open('Product saved', 'OK', {
-                            verticalPosition: 'top',
-                            duration        : 2000
-                        });
-                    });
+                //         // Trigger the subscription with new data
+                //         this._ecommerceProductService.onProductChanged.next(data);
+                //         this.loading = false;
+                //         // Show the success message
+                //         this._matSnackBar.open('Product saved', 'OK', {
+                //             verticalPosition: 'top',
+                //             duration        : 2000
+                //         });
+                //     });
             }
           });
         
@@ -308,33 +266,33 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      */
     addProduct(): void
     {
-        if(!this._ecommerceProductService.checkNetWork()){
-            return;
-        }
-        const data: FormData = new FormData();
+        // if(!this._ecommerceProductService.checkNetWork()){
+        //     return;
+        // }
+        // const data: FormData = new FormData();
 
-        this.imageDatas.forEach(image => {
-            data.append(image.name, image, image.name);
-        });
+        // this.imageDatas.forEach(image => {
+        //     data.append(image.name, image, image.name);
+        // });
 
-        data.append('product', JSON.stringify(this.productForm.getRawValue()));
-        data.append('langLabel', JSON.stringify(this.langLabels));
+        // data.append('product', JSON.stringify(this.productForm.getRawValue()));
+        // data.append('langLabel', JSON.stringify(this.langLabels));
 
-        this._ecommerceProductService.addProduct(data)
-            .then(() => {
+        // this._ecommerceProductService.addProduct(data)
+        //     .then(() => {
 
-                // Trigger the subscription with new data
-                this._ecommerceProductService.onProductChanged.next(data);
+        //         // Trigger the subscription with new data
+        //         this._ecommerceProductService.onProductChanged.next(data);
 
-                // Show the success message
-                this._matSnackBar.open('Product added', 'OK', {
-                    verticalPosition: 'top',
-                    duration        : 2000
-                });
+        //         // Show the success message
+        //         this._matSnackBar.open('Product added', 'OK', {
+        //             verticalPosition: 'top',
+        //             duration        : 2000
+        //         });
 
-                // Change the location with new one
-                this._location.go('apps/e-commerce/products/' + this.product.id + '/' + this.product.handle);
-            });
+        //         // Change the location with new one
+        //         this._location.go('apps/e-commerce/products/' + this.product.id + '/' + this.product.handle);
+        //     });
     }
 }
 

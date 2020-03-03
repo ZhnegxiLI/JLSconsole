@@ -32,6 +32,5 @@ export class AuthentificationService extends appServiceBase
     login(criteria): Observable<any>
     {
        return super.postUrl(this.authHost + 'Auth', criteria);
-     
     }
 }

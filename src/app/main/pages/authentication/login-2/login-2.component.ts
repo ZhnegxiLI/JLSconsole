@@ -5,6 +5,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthentificationService } from 'app/main/pages/authentication/authentification.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'login-2',
@@ -27,7 +28,8 @@ export class Login2Component implements OnInit
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private authService : AuthentificationService,
-        private matSnackBar : MatSnackBar
+        private matSnackBar : MatSnackBar,
+        private router : Router
     )
     {
         // Configure the layout
@@ -58,6 +60,9 @@ export class Login2Component implements OnInit
      */
     ngOnInit(): void
     {
+        if(localStorage.getItem('jwt')!=null && localStorage.getItem('refreshToken')!=null){
+            this.router.navigate(['sample']);
+        }
         this.loginForm = this._formBuilder.group({
             email   : ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
@@ -68,7 +73,6 @@ export class Login2Component implements OnInit
         var loginCriteria = this.loginForm.value;
         loginCriteria.UserName = loginCriteria.email;
         loginCriteria.GrantType = 'password';
-       console.log(this.loginForm.value);
        this.authService.login(loginCriteria).subscribe(data=>{
            console.log(data);
            localStorage.setItem('login  Status', '1');
@@ -77,6 +81,7 @@ export class Login2Component implements OnInit
            localStorage.setItem('expiration', data.authToken.expiration);
            localStorage.setItem('userRole', data.authToken.roles);
            localStorage.setItem('refreshToken', data.authToken.refresh_token);
+           this.router.navigate(['sample']);
        },
        error=>{
            console.log(error);

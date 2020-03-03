@@ -8,11 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceProductsService extends appServiceBase implements Resolve<any>
+export class EcommerceProductsService extends appServiceBase 
 {
-    products: any[];
-    onProductsChanged: BehaviorSubject<any>;
-    onProductsCountChanged : BehaviorSubject<any>;
+ 
     productHost : string = this.host + "api/Product/";
 
     /**
@@ -28,58 +26,14 @@ export class EcommerceProductsService extends appServiceBase implements Resolve<
     )
     {
         super(_httpClient,_matSnackBar,_router);
-        // Set the defaults
-        this.onProductsChanged = new BehaviorSubject({});
-        this.onProductsCountChanged = new BehaviorSubject({});
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-        return new Promise((resolve, reject) => {
 
-            Promise.all([
-                this.getProducts(0,10,null,null, "")
-            ]).then(
-                () => {
-                    resolve();
-                },
-                reject
-            );
-        });
-    }
+ 
+    getProductList( criteria : any): Observable<any>
+    { //intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string
 
-    /**
-     * Get products
-     *
-     * @returns {Promise<any>}
-     */
-    getProducts(intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string): Promise<any>
-    {
-        var lang = this._translateService.currentLang;
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(this.productHost + "GetAllProducts?lang="+lang 
-                +"&intervalCount=" + intervalCount 
-                +"&size="+size 
-                + "&orderActive=" + orderActive 
-                + "&orderDirection=" + orderDirection
-                + "&filter="+ filter)
-                .subscribe((response: any) => {
-                    if(!this.checkResult(response)){
-                        return;
-                    }
-                    this.products = response.data.content;
-                    this.onProductsChanged.next(this.products);
-                    this.onProductsCountChanged.next(response.data.count);
-                    resolve(response);
-                }, reject);
-        });
+        return super.getUrl(this.productHost + "GetAllProducts",criteria);
     }
 
 

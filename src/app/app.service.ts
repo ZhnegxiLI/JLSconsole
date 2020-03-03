@@ -59,9 +59,16 @@ export abstract class appServiceBase {
             else if (error.status == 404){
                 this.router.navigateByUrl('/apps/errors/error-500');
             }
+            else if (error.status == 401 || error.status == 403 ){
+                localStorage.clear();
+                this.router.navigate(['login']);
+            }
         }
         // return an observable with a user-facing error message
         return throwError(
-          'Something bad happened; please try again later.');
+          {
+              Status: error.status,
+              Body : error.error
+          });
       }
 }

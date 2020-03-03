@@ -25,21 +25,28 @@ import { SampleModule } from 'app/main/sample/sample.module';
 import { AppStoreModule } from 'app/store/store.module';
 import {MatProgressSpinnerModule} from '@angular/material';
 import {MatDialogModule} from "@angular/material";
+import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
     
     {
         path        : 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule'
+        loadChildren: './main/apps/apps.module#AppsModule',
+        canActivate: [AuthGuard]
     },
     {
         path        : 'pages',
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
+        path      : '',
+        loadChildren: './main/pages/pages.module#PagesModule'
+    },
+    {
         path      : '**',
         redirectTo: 'sample'
-    }
+    },
+  
 ];
 
 @NgModule({

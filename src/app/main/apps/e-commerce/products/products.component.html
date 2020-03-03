@@ -23,12 +23,37 @@
                 </span>
             </div>
             <!-- / APP TITLE -->
-
+            <!-- CONDITION -->
+            
+            <div style="min-width: 10%; max-width: 10%;">
+                <mat-form-field style="display: block;">
+                    <mat-label>Main category</mat-label>
+                    <mat-select multiple [(ngModel)]="searchCriteria.mainCategories">
+                      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div style="min-width: 10%; max-width: 10%;">
+                <mat-form-field style="display: block;">
+                    <mat-label>Second category</mat-label>
+                    <mat-select multiple [(ngModel)]="searchCriteria.secondCategories">
+                      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div style="min-width: 10%; max-width: 10%;">
+                <mat-form-field style="display: block;">
+                    <mat-label>Active</mat-label>
+                    <mat-select [(ngModel)]="searchCriteria.active">
+                      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
             <!-- SEARCH -->
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'PRODUCTS.SEARCH_FOR_A_PRODUCT' | translate}}">
+                    <input #filter placeholder="{{'PRODUCTS.SEARCH_FOR_A_PRODUCT' | translate}}" [(ngModel)]="searchCriteria.searchText">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -40,7 +65,11 @@
             <span>{{'PRODUCTS.ADD_NEW_PRODUCT' | translate}}</span>
             </button>
             <!-- / ADD BUTTON -->
-
+            <button mat-raised-button
+            (click) = "search()"
+            class="add-product-button fuse-white mt-24 mt-md-0">
+            <span>Search</span>
+            </button>
         </div>
         <!-- / HEADER -->
 

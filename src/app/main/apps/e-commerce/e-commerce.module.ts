@@ -18,7 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {MatDialogModule} from "@angular/material";
+import {MatDialogModule, MatGridListModule} from "@angular/material";
 import {MatRadioModule} from "@angular/material";
 
 import { AgmCoreModule } from '@agm/core';
@@ -42,10 +42,7 @@ import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.serv
 const routes: Routes = [
     {
         path     : 'products',
-        component: EcommerceProductsComponent,
-        resolve  : {
-            data: EcommerceProductsService
-        }
+        component: EcommerceProductsComponent
     },
     {
         path     : 'products/:id',
@@ -88,7 +85,7 @@ const routes: Routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-
+        MatGridListModule,
         DialogModule,
         MatDialogModule,
         MatProgressSpinnerModule,
