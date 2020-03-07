@@ -11,7 +11,13 @@ import { Router } from '@angular/router';
 export class EcommerceProductsService extends appServiceBase 
 {
  
-    productHost : string = this.host + "api/Product/";
+    private productHost : string = this.host + "api/Product/";
+    
+    private apiUrlGetReferenceItemsByCategoryLabels: string = this.host + "api/Reference/GetReferenceItemsByCategoryLabels";
+
+    private apiUrlAdvancedProductSearchByCriteria: string = this.host + "api/Product/AdvancedProductSearchByCriteria";
+    
+    private apiUrlGetProductById: string = this.host + "api/Product/GetProductById";
 
     /**
      * Constructor
@@ -20,7 +26,6 @@ export class EcommerceProductsService extends appServiceBase
      */
     constructor(
         protected _httpClient: HttpClient,
-        private _translateService: TranslateService,
         protected _matSnackBar: MatSnackBar,
         protected _router : Router
     )
@@ -29,12 +34,26 @@ export class EcommerceProductsService extends appServiceBase
     }
 
 
- 
     getProductList( criteria : any): Observable<any>
     { //intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string
 
         return super.getUrl(this.productHost + "GetAllProducts",criteria);
     }
 
+    /* todo change to ri service */
+    getReferenceItemsByCategoryLabels(criteria : any): Observable<any>
+    {
+        return super.postUrl(this.apiUrlGetReferenceItemsByCategoryLabels,criteria);
+    } 
+
+    AdvancedProductSearchByCriteria(criteria : any) : Observable<any>
+    {
+        return super.postUrl(this.apiUrlAdvancedProductSearchByCriteria,criteria);
+    } 
+
+    GetProductById(ProductId : number) : Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetProductById, { Id : ProductId});
+    }
 
 }

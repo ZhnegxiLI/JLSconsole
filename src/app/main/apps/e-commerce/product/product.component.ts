@@ -20,7 +20,10 @@ import { locale as chinese } from './i18n/cn';
 
 //import { MatFileUploadModule } from 'angular-material-fileupload';
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
-import { EcommerceProductService } from 'app/main/apps/e-commerce/product/product.service';
+import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
+
+import { ActivatedRoute, Params } from "@angular/router";
+import { Validators } from '@angular/forms';
 
 @Component({
     selector     : 'e-commerce-product',
@@ -29,11 +32,9 @@ import { EcommerceProductService } from 'app/main/apps/e-commerce/product/produc
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class EcommerceProductComponent implements OnInit, OnDestroy
+export class EcommerceProductComponent implements OnInit
 {
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
-    }
+ 
     product: Product;
     pageType: string;
     productForm: FormGroup;
@@ -44,7 +45,12 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     taxRateTable : Array<any> = [];
     loading : boolean = false;
     
- 
+    private productId : number = 0;
+    private mainCategoryList : any[] = [];
+    private secondCategoryList : any[] = [];
+    private referenceItemList : any[] = [];
+    private taxRateList : any [] = [];
+    private productInfo : any = {};
 
     imageRoot = this._ecommerceProductService.host + "images/";
 
@@ -57,243 +63,104 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
      * @param {MatSnackBar} _matSnackBar
      */
     constructor(
-        private _ecommerceProductService: EcommerceProductService,
+        private _ecommerceProductService: EcommerceProductsService,
         private _formBuilder: FormBuilder,
         private _location: Location,
         private _matSnackBar: MatSnackBar,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private activeRoute : ActivatedRoute,
+        private formBuilder:FormBuilder, 
     )
     {
         // Set the default
         this.product = new Product();
 
+        this.productForm = this.formBuilder.group({
+            Labelfr: ['', Validators.required],
+            Labelcn: [''],
+            Labelen : [''],
+            ReferenceCode : ['',Validators.required], 
+            Description : [''],
+            MainCategoryId: ['',Validators.required],
+            SecondCategoryId : ['',Validators.required],
+            ProductId : [''],
+            ReferenceId : [''],
+            QuantityPerBox : [''],
+            MinQuantity : [''],
+            Price : ['' , Validators.required],
+            TaxRate : ['',Validators.required],
+            Size: [''],
+            Color : [''],
+            Material : ['']
+          });
+
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
 
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void
     {
-        this.productForm = this.createProductForm();
-    }
+        this.activeRoute.queryParams.subscribe((params: Params) => {
+            this.productId = params['Id'];
+            if(this.productId!=null && this.productId !=0 ){
+                // todo new product 
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+                this._ecommerceProductService.GetProductById(this.productId).subscribe(result =>{
+                    console.log(result);
+                    this.productInfo = result;
+                    if(result!=null){
+                        if(result.Translation!= null&& result.Translation.length>0){
+                            result.Translation.map(val => {
+                                result['Label'+val.Lang] = val.Label;
+                            });
+                        }
+                        delete result.Translation;     
+                        delete result.ImagesPath;
+                        this.productForm.setValue(result);
+                    }
+                    console.log(this.productForm.value);
+                },
+                error=>{
 
-    /**
-     * Create product form
-     *
-     * @returns {FormGroup}
-     */
-    createProductForm(): FormGroup
-    {
-        return this._formBuilder.group({
-            id                   : [this.product.id],
-            frName               : [this.product.frName],
-            cnName               : [this.product.cnName],
-            enName               : [this.product.enName],
-            productReferenceCode : [this.product.reference],
- //         handle               : [this.product.handle],
-            description          : [this.product.description],
-            mainCategory         : [this.mainCategory],
-            category             : [this.product.category],
-            price                : [this.product.price],
-            taxRate              : [this.product.taxRate],
-            size                 : [this.product.size],
-            color                : [this.product.color],
-            material             : [this.product.material],
-            quantityPerBox       : [this.product.quantityPerBox],
-            minQuantity          : [this.product.minQuantity],
-            validity             : [this.product.active]
-        });
-    }
-
-    getTaxRateTable() : any[] {
-        return this.taxRateTable.map(item => item.value);
-    }
-
-    getCurrentName() : string{
-        var curentLang = this._translateService.currentLang;
-        if (curentLang == 'fr'){
-            return this.productForm.value.frName;
-        }else if(curentLang == 'en'){
-            return this.productForm.value.enName;
-        }else if(curentLang == 'cn'){
-            return this.productForm.value.cnName;
-        }
-    }
-
-    uploadImage(event : any){
-        var imageData = event.target.files[0];
-        this.imageDatas.push(imageData);
-        this.preview(imageData);
-    }
-
-    preview(imageData : File) {
-        // Show preview 
-        var mimeType = imageData.type;
-        if (mimeType.match(/image\/*/) == null) {
-          return;
-        }
-     
-        var reader = new FileReader();      
-        reader.readAsDataURL(imageData); 
-        reader.onload = (_event) => { 
-          this.product.images.push({status : "new", id : null, path : reader.result,name : imageData.name});
-        }
-    }
-
-    changeMainCategory(event : any){
-        this.mainCategory = event.value;
-        this.productForm.get('category').setValue('');
-    }
-
-
-    mainCategoryTable() : Array<any>{
-        var table = this.categoryTable.filter(category => category.category == "MainCategory");
-        return table;
-    }
-
-    productCategoryTable(mainCategoryId : number) : Array<any>{
-        var table = this.categoryTable.filter(category => category.category == "SecondCategory" && category.parentId == mainCategoryId);
-        return table;
-    }
-
-    openImageViewDialog(image : any): void {
-        const dialogRef = this.dialog.open(ImageOverViewDialog, {
-          data: {
-              image: image
-            }
-        });
-    
-        dialogRef.afterClosed().subscribe(result => {
-            if(result.action == "remove"){
-                console.log(image);
-                if(image.status == "save"){
-                    // this._ecommerceProductService.removeImage(image.id).then(result => {
-                    //     if(result.success){
-                    //         var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
-                    //         this.product.images.splice(removeImageIndex, 1);
-                    //         this._matSnackBar.open('Remove successif', 'OK', {
-                    //             verticalPosition: 'top',
-                    //             duration        : 2000
-                    //         });
-                    //     }else{
-                    //         this._matSnackBar.open('Remove fail', 'OK', {
-                    //             verticalPosition: 'top',
-                    //             duration        : 2000
-                    //         });
-                    //     }
-                    // });
-                }else{
-                    var imgName = image.name;
-                    var removeImageIndex = this.product.images.findIndex(img => img.id == image.id);
-                    this.product.images.splice(removeImageIndex, 1);
-                    var imageDataIndex = this.imageDatas.findIndex(img => img.name == imgName);
-                    this.imageDatas.splice(imageDataIndex);
-                }
-                
-            }
-
-        });
-    }
-
-    /**
-     * Save product
-     */
-    saveProduct(): void
-    {
-        const dialogRef = this.dialog.open(ConfimDialog, {
-            data: {title : "confim",
-                    message : "sure save the product?"}
-          });
-      
-          dialogRef.afterClosed().subscribe(result => {
-            if(result.action == 'yes'){
-                if(!this._ecommerceProductService.checkNetWork()){
-                    return;
-                }
-                this.loading = true;
-                const data: FormData = new FormData();
-        
-                this.imageDatas.forEach(image => {
-                    data.append(image.name, image, image.name);
                 });
-        
-                var formValues = this.productForm.getRawValue();
-        
-                this.langLabels = [
-                    {"lang" : 'fr', "label" : formValues.frName},
-                    {"lang" : 'en', "label" : formValues.enName},
-                    {"lang" : 'cn', "label" : formValues.cnName}
-                ];
-        
-                data.append('product', JSON.stringify(formValues));
-                data.append('langLabel', JSON.stringify(this.langLabels));
-        
-                console.log(data);
-        
-                // this._ecommerceProductService.saveProduct(data)
-                //     .then(() => {
-        
-                //         // Trigger the subscription with new data
-                //         this._ecommerceProductService.onProductChanged.next(data);
-                //         this.loading = false;
-                //         // Show the success message
-                //         this._matSnackBar.open('Product saved', 'OK', {
-                //             verticalPosition: 'top',
-                //             duration        : 2000
-                //         });
-                //     });
             }
           });
-        
+        this.initLoadData();
     }
 
-    
-
-    /**
-     * Add product
-     */
-    addProduct(): void
+    initLoadData() : void
     {
-        // if(!this._ecommerceProductService.checkNetWork()){
-        //     return;
-        // }
-        // const data: FormData = new FormData();
+        var criteria = {
+        Lang: this._translateService.getDefaultLang(),
+        ShortLabels:['MainCategory','SecondCategory','TaxRate']
+        };
+        this._ecommerceProductService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+            if(result!=null && result.length>0){
+                this.referenceItemList = result;
+                this.mainCategoryList = result.filter(p=> p.ReferenceCategoryLabel == "MainCategory");
+                this.taxRateList = result.filter(p=> p.ReferenceCategoryLabel == "TaxRate");
 
-        // this.imageDatas.forEach(image => {
-        //     data.append(image.name, image, image.name);
-        // });
+                console.log(this.mainCategoryList); // todo remove
+                console.log(this.taxRateList); // todo remove
+            }
+        },
+        error=>{
 
-        // data.append('product', JSON.stringify(this.productForm.getRawValue()));
-        // data.append('langLabel', JSON.stringify(this.langLabels));
-
-        // this._ecommerceProductService.addProduct(data)
-        //     .then(() => {
-
-        //         // Trigger the subscription with new data
-        //         this._ecommerceProductService.onProductChanged.next(data);
-
-        //         // Show the success message
-        //         this._matSnackBar.open('Product added', 'OK', {
-        //             verticalPosition: 'top',
-        //             duration        : 2000
-        //         });
-
-        //         // Change the location with new one
-        //         this._location.go('apps/e-commerce/products/' + this.product.id + '/' + this.product.handle);
-        //     });
+        })
     }
+
+
+    getSecondCategoryList(){
+
+        var categoryId = this.productForm.controls['MainCategoryId'].value;
+        if(categoryId!=null&& categoryId!=0){
+          return this.referenceItemList.filter(p=>p.ParentId ==categoryId);
+        }
+        return [];
+    }
+ 
 }
 
 @Component({
@@ -309,7 +176,7 @@ export class EcommerceProductComponent implements OnInit, OnDestroy
     constructor(
       public dialogRef: MatDialogRef<ImageOverViewDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any,
-      private _ecommerceProductService: EcommerceProductService,
+      private _ecommerceProductService: EcommerceProductsService,
       private dialog: MatDialog) {
         this.image = data.image;
         if(this.image.status == 'save'){

@@ -6,7 +6,7 @@ export const locale = {
             'PRODUCT_DETAIL' : 'Product Detail',
             'ADD' : 'Add',
             'SAVE' : 'Save',
-            'PRODUCT_NAME': 'Product Name33',
+            'PRODUCT_NAME': 'Product Name',
             'PRODUCT_DESCRIPTION': 'Product Description',
             'MAIN_CATEGORY': 'main categoty',
             'PRODUCT_CATEGORY' : 'product category',

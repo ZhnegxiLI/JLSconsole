@@ -15,6 +15,8 @@ import { locale as chinese } from './i18n/cn';
 import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
 import { takeUntil } from 'rxjs/internal/operators';
 import { FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 
 @Component({
     selector     : 'e-commerce-products',
@@ -25,22 +27,36 @@ import { FormControl } from '@angular/forms';
 })
 export class EcommerceProductsComponent implements OnInit
 {
-    displayedColumns = ['reference', 'image', 'name', 'category', 'price', 'active'];
+    displayedColumns = ['reference', 'image', 'name', 'MainCategory','SecondCategory' , 'price', 'active'];
     imageRoot = this._ecommerceProductsService.host + "images/";
-    productsCount : number;
+ 
+    private totalCount : number = 0;
 
-    toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-
+    private productList : any[] = [];
     private mainCategoryList: any[];
     private secondCategoryList: any[];
-    private activeList: any[];
+    private referenceItemList : any[];
+    private statusList : any[] = [{
+        Value : true,
+        Label : 'Valide'
+    },{
+        Value : false,
+        Label :'Invalide'
+    }
+    ];
 
     private searchCriteria = {
-        mainCategories: [],
-        secondCategories : [],
-        active: true,
-        searchText : ''
-    }
+        MainCategoryReferenceId: 0,
+        SecondCategoryReferenceId : [],
+        Validity: true,
+        ProductLabel : '',
+        begin : 0,
+        step : 10,
+        Lang :''
+    };
+
+
+
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
@@ -54,53 +70,80 @@ export class EcommerceProductsComponent implements OnInit
 
     constructor(
         private _ecommerceProductsService: EcommerceProductsService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _translateService: TranslateService,
+        private _fuseProgressBarService: FuseProgressBarService
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
+ 
     ngOnInit(): void
     {
-    
+        this.initLoadData();
+    }
+
+    initLoadData(){
+        var criteria = {
+            Lang: this._translateService.getDefaultLang(),
+            ShortLabels:['MainCategory','SecondCategory']
+        };
+        this._ecommerceProductsService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+            if(result!=null && result.length>0){
+                this.referenceItemList = result;
+                this.mainCategoryList = result.filter(p=> p.ReferenceCategoryLabel == "MainCategory");
+            }
+        },
+        error=>{
+            // todo 
+        });
+    }
+
+    getSecondCategoryList(){
+        if(this.searchCriteria.MainCategoryReferenceId!=null&& this.searchCriteria.MainCategoryReferenceId!=0){
+          return this.referenceItemList.filter(p=>p.ParentId ==this.searchCriteria.MainCategoryReferenceId);
+        }
+        return [];
+    }
+
+    /* At least main category or search is fill to lauch search */
+    checkIfConditionIsFill(){
+        if(this.searchCriteria.ProductLabel!=''||this.searchCriteria.MainCategoryReferenceId!=0){
+            return false;
+        }
+        return true;
+    }
+
+
+    search(){
+        this._fuseProgressBarService.show();
+        this.searchCriteria.Lang =  this._translateService.currentLang;
+        this._ecommerceProductsService.AdvancedProductSearchByCriteria(this.searchCriteria).subscribe(result=>{
+            if(result!=null ){
+                this.productList = result.ProductList;
+                this.totalCount = result.TotalCount;
+                
+                console.log(this.productList);
+                this._fuseProgressBarService.hide();
+            }
+        
+        },
+        error=>{
+
+        });
     }
 
     getServerData(event){
-      
+        this.searchCriteria.begin = event.pageIndex;
+        this.searchCriteria.step = event.pageSize;
+        this.search();
     }
 
-    search(){
-        console.log(this.searchCriteria)
+    sortData(event){
+        // todo implement the logic 
+        console.log(event);
     }
 }
 
-export class FilesDataSource 
-{
-    private _filterChange = new BehaviorSubject('');
-    private _filteredDataChange = new BehaviorSubject('');
 
-    /**
-     * Constructor
-     *
-     * @param {EcommerceProductsService} _ecommerceProductsService
-     * @param {MatPaginator} _matPaginator
-     * @param {MatSort} _matSort
-     */
-    constructor(
-        private _ecommerceProductsService: EcommerceProductsService,
-        private _matPaginator: MatPaginator,
-        private _matSort: MatSort
-    )
-    {
-        
-    }
-
-  
-}

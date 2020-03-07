@@ -28,6 +28,10 @@ export abstract class appServiceBase {
         }
         return true;
     }
+   // todo change
+    checkResult(todo): boolean{
+        return true;
+    }
 
     public postUrl(url: string, body: any): Observable<any>{
         return this.httpClient.post(url, body)
@@ -36,7 +40,7 @@ export abstract class appServiceBase {
 
     public getUrl(url: string, criteria: any): Observable<any>{
         const params = new HttpParams({ fromObject: criteria });
-        return this.httpClient.post(url, {params: params})
+        return this.httpClient.get(url, {params: params})
             .pipe(catchError(this.handleError));
     }
  

@@ -76,7 +76,7 @@
                                         <mat-label>{{'PRODUCT.PRODUCT_NAME'| translate}}<span>(fr)</span></mat-label>
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="frName"
-                                            formControlName="frName"
+                                            formControlName="Labelfr"
                                             required>
                                     </mat-form-field>
 
@@ -84,14 +84,14 @@
                                         <mat-label>{{'PRODUCT.PRODUCT_NAME'| translate}}<span>(cn)</span></mat-label>
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="cnName"
-                                            formControlName="cnName">
+                                            formControlName="Labelcn">
                                     </mat-form-field>
 
                                     <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
                                         <mat-label>{{'PRODUCT.PRODUCT_NAME'| translate}}<span>(en)</span></mat-label>
                                         <input matInput placeholder="{{'PRODUCT.PRODUCT_NAME'| translate}}"
                                             name="enName"
-                                            formControlName="enName">
+                                            formControlName="Labelen">
                                     </mat-form-field>
                                 </div>
 
@@ -99,7 +99,7 @@
                                     <mat-label>{{'PRODUCT.REFERENCE_CODE'| translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.REFERENCE_CODE'| translate}}"
                                             name="reference"
-                                            formControlName="productReferenceCode"
+                                            formControlName="ReferenceCode"
                                             required>
                                 </mat-form-field>
 
@@ -107,7 +107,7 @@
                                 <mat-label>{{'PRODUCT.PRODUCT_DESCRIPTION'| translate}}</mat-label>
                                     <textarea matInput placeholder="{{'PRODUCT.PRODUCT_DESCRIPTION'| translate}}"
                                               name="description"
-                                              formControlName="description"
+                                              formControlName="Description"
                                               rows="5">
                                     </textarea>
                                 </mat-form-field>
@@ -117,24 +117,21 @@
                                     <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
                                         <mat-label>{{'PRODUCT.MAIN_CATEGORY' | translate}}</mat-label>
                                         <mat-select 
-                                        (selectionChange)="changeMainCategory($event)" 
-                                        formControlName = "mainCategory"
+                                        formControlName = "MainCategoryId"
                                         name = "mainCategory"
                                         required>
-                                            <mat-option *ngFor="let item of mainCategoryTable()" [value]="item.id">{{item.label}}</mat-option>
+                                            <mat-option *ngFor="let item of mainCategoryList" [value]="item.Id">{{item.Label}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
 
                                     <mat-form-field appearance="outline" floatLabel="always" fxFlex="30" fxFlexOffset="5vw">
                                         <mat-label>{{'PRODUCT.PRODUCT_CATEGORY' | translate}}</mat-label>
                                         <mat-select  
-                                        [disabled]="mainCategory == ''" 
-                                        formControlName = "category"
+                                        formControlName = "SecondCategoryId"
                                         name = "category" 
                                         required>
-                                        <mat-option *ngFor="let item of productCategoryTable(mainCategory)" 
-                                            [value]="item.id"
-                                            >{{item.label}}</mat-option>  
+                                        <mat-option *ngFor="let item of getSecondCategoryList()" 
+                                            [value]="item.Id">{{item.Label}}</mat-option>  
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -186,18 +183,18 @@
                                     <mat-label>{{'PRODUCT.PRICE'| translate}}</mat-label>
                                     <input matInput placeholder="Price"
                                            name="price"
-                                           formControlName="price"
+                                           formControlName="Price"
                                            type="number">
-                                    <span matPrefix>$&nbsp;</span>
+                                    <span matPrefix>€&nbsp;</span>
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.TAX_RATE'| translate}}</mat-label>
                                     <mat-select  
                                     name="taxRate"
-                                    formControlName="taxRate"
+                                    formControlName="TaxRate"
                                     required>
-                                        <mat-option *ngFor="let item of getTaxRateTable()" [value]="item">{{item}}</mat-option>
+                                        <mat-option *ngFor="let item of taxRateList" [value]="item.Value">{{item.Label}}</mat-option>
                                     </mat-select>
                                     <span matPrefix>&#37;&nbsp;</span>
                                 </mat-form-field>
@@ -213,21 +210,21 @@
                                     <mat-label>{{'PRODUCT.SIZE' | translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.SIZE' | translate}}"
                                            name="size"
-                                           formControlName="size">
+                                           formControlName="Size">
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.COLOR' | translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.COLOR' | translate}}"
                                            name="color"
-                                           formControlName="color">
+                                           formControlName="Color">
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.MATERIAL' | translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.MATERIAL' | translate}}"
                                            name="material"
-                                           formControlName="material">
+                                           formControlName="Material">
                                 </mat-form-field>
 
                             </div>
@@ -242,7 +239,7 @@
                                     <mat-label>{{'PRODUCT.QUANTITY_PER_BOX' | translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.QUANTITY_PER_BOX' | translate}}"
                                            name="quantityPerBox"
-                                           formControlName="quantityPerBox"
+                                           formControlName="QuantityPerBox"
                                            type="number">
                                     <!-- <span matSuffix>kg</span> -->
                                 </mat-form-field>
@@ -251,7 +248,7 @@
                                     <mat-label>{{'PRODUCT.MIN_QUANTITY' | translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.MIN_QUANTITY' | translate}}"
                                            name="minQuantity"
-                                           formControlName="minQuantity"
+                                           formControlName="MinQuantity"
                                            type="number">
                                     <!-- <span matPrefix>$&nbsp;</span> -->
                                 </mat-form-field>

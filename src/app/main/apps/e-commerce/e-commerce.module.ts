@@ -45,19 +45,16 @@ const routes: Routes = [
         component: EcommerceProductsComponent
     },
     {
-        path     : 'products/:id',
-        component: EcommerceProductComponent,
-        resolve  : {
-            data: EcommerceProductService
-        }
+        path     : 'product',
+        component: EcommerceProductComponent
     },
-    {
-        path     : 'products/:id/:handle',
-        component: EcommerceProductComponent,
-        resolve  : {
-            data: EcommerceProductService
-        }
-    },
+    // {
+    //     path     : 'products/:id/:handle',
+    //     component: EcommerceProductComponent,
+    //     resolve  : {
+    //         data: EcommerceProductService
+    //     }
+    // },
     {
         path     : 'orders',
         component: EcommerceOrdersComponent,
