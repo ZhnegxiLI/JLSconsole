@@ -9,13 +9,13 @@ export const locale = {
             },
             'ORDER_DETAIL':'Order Detail',
             'ORDERS' : 'Orders',
-            'PRODUCT_DETAIL' : 'Product Detail',
+            'PRODUCT_DETAIL' : 'Product detail',
             'PRODUCTS' : 'Products',
-            'PRODUCTS_MANAGEMENT' : 'Products Management',
-            'ORDERS_MANAGEMENT' : 'Orders Management',
-            'REFERENCE_MANAGEMENT' : 'Reference Management',
-            'REFERENCE_ITEMS' : 'Rererence Items',
-            'REFERENCE_CATEGORY' : 'Reference Categoty',
+            'PRODUCTS_MANAGEMENT' : 'Products management',
+            'ORDERS_MANAGEMENT' : 'Orders management',
+            'REFERENCE_MANAGEMENT' : 'Reference management',
+            'REFERENCE_ITEMS' : 'Rererence items',
+            'REFERENCE_CATEGORY' : 'Reference categoty',
 
         }
     }

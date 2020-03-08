@@ -1,16 +1,22 @@
 export const locale = {
     lang: 'en',
     data: {
-        'PRODUCTS': {
-            'PRODUCTS': 'Products',
-            'ADD_NEW_PRODUCT': 'Add New Product',
-            'REFERENCE': 'Reference',
-            'NAME': 'Name',
-            'CATEGORY': 'Category',
-            'PRICE': 'Price',
-            'QUANTITY': 'Quantity',
-            'ACTIVE': 'Active',
-            'SEARCH_FOR_A_PRODUCT' : 'Search For A Product'
+        'products': {
+            'ProductsList': 'Product List',
+            'Photos':'Photos',
+            'AddNewProducts': 'Add new products',
+            'Reference': 'Reference',
+            'Name': 'Name',
+            'Category': 'Category',
+            'Price': 'Price',
+            'Quantity': 'Quantity',
+            'Valid': 'Valid',
+            'SearchProduct' : 'Search a product',
+            'MainCategory':'Main category',
+            'SecondCategory':'Second Category',
+            'Status':'Status',
+            'Search':'Search'
+
         }
     }
 };

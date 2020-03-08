@@ -19,7 +19,7 @@
                     shopping_basket
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{'PRODUCTS.PRODUCTS' | translate}}
+                    {{'products.ProductsList' | translate}}
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -27,7 +27,7 @@
             
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>Main category</mat-label>
+                    <mat-label>{{'products.MainCategory' | translate}}</mat-label>
                     <mat-select  [(ngModel)]="searchCriteria.MainCategoryReferenceId">
                       <mat-option *ngFor="let item of mainCategoryList" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
                     </mat-select>
@@ -35,7 +35,7 @@
             </div>
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>Second category</mat-label>
+                    <mat-label>{{'products.SecondCategory' | translate}}</mat-label>
                     <mat-select multiple [(ngModel)]="searchCriteria.SecondCategoryReferenceId">
                       <mat-option *ngFor="let item of getSecondCategoryList()" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
                     </mat-select>
@@ -43,7 +43,7 @@
             </div>
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>Active</mat-label>
+                    <mat-label>{{'products.Status' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                       <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>
@@ -53,7 +53,7 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'PRODUCTS.SEARCH_FOR_A_PRODUCT' | translate}}" [(ngModel)]="searchCriteria.ProductLabel">
+                    <input #filter placeholder="{{'products.SearchProduct' | translate}}" [(ngModel)]="searchCriteria.ProductLabel">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -63,14 +63,14 @@
                     [routerLink]="['/apps/e-commerce/product/']"
                     [queryParams]="{Id:0}"
                     class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>{{'PRODUCTS.ADD_NEW_PRODUCT' | translate}}</span>
+            <span>{{'products.AddNewProducts' | translate}}</span>
             </button>
             <!-- / ADD BUTTON -->
             <button mat-raised-button
             (click) = "search()"
             [disabled] = 'checkIfConditionIsFill()'
             class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>Search</span>
+            <span>{{'products.Search' | translate}}</span>
             </button>
         </div>
         <!-- / HEADER -->
@@ -87,7 +87,7 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="reference">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'PRODUCTS.REFERENCE' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'products.Reference' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product">
                         <p class="text-truncate">{{product.Code}}</p>
                     </mat-cell>
@@ -95,7 +95,7 @@
 
                 <!-- Image Column -->
                 <ng-container matColumnDef="image">
-                    <mat-header-cell *matHeaderCellDef >Photo</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef >{{'products.Photos' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product">
                         <img class="product-image"
                              *ngIf="product.image" [alt]="product.name"
@@ -107,7 +107,7 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'PRODUCTS.NAME' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'products.Name' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product">
                         <p class="text-truncate">{{product.Label}}</p>
                     </mat-cell>
@@ -115,7 +115,7 @@
 
                 <!-- Category Column -->
                 <ng-container matColumnDef="MainCategory">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'PRODUCTS.MainCategory' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'products.MainCategory' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
                             {{product.MainCategoryLabel}}
@@ -124,7 +124,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="SecondCategory">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'PRODUCTS.SecondCategory' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'products.SecondCategory' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
                             {{product.SecondCategoryLabel}}
@@ -135,7 +135,7 @@
 
                 <!-- Price Column -->
                 <ng-container matColumnDef="price">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'PRODUCTS.PRICE' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'products.Price' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
                         <p class="price text-truncate">
                             {{product.Price | currency:'EUR':'symbol'}}
@@ -145,7 +145,7 @@
 
                 <!-- Active Column -->
                 <ng-container matColumnDef="active">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'PRODUCTS.ACTIVE' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'products.Status' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
                         <mat-icon *ngIf="product.Validity" class="active-icon green-600 s-16">check</mat-icon>
                         <mat-icon *ngIf="!product.Validity" class="active-icon red-500 s-16">close</mat-icon>

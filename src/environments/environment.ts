@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     hmr       : false,
-    url: 'http://localhost/JLSConsoleApplication/'
+    url: 'http://jlsservice.europetechs.com/'
 };
 
 /*
