@@ -22,8 +22,10 @@ import { locale as chinese } from './i18n/cn';
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
 import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
 
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Validators } from '@angular/forms';
+import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
     selector     : 'e-commerce-product',
@@ -51,6 +53,19 @@ export class EcommerceProductComponent implements OnInit
     private referenceItemList : any[] = [];
     private taxRateList : any [] = [];
     private productInfo : any = {};
+    private photoPath : any = [];
+    
+    private validityList : any[] = [{
+        Value : true,
+        Label : 'Valide'
+    },{
+        Value : false,
+        Label :'Invalide'
+    }
+    ];
+    private productName : string ="";
+    private imgURL :any;
+    private progress : any;
 
     imageRoot = this._ecommerceProductService.host + "images/";
 
@@ -72,6 +87,8 @@ export class EcommerceProductComponent implements OnInit
         private dialog: MatDialog,
         private activeRoute : ActivatedRoute,
         private formBuilder:FormBuilder, 
+        private _fuseProgressBarService: FuseProgressBarService,
+        private router : Router
     )
     {
         // Set the default
@@ -93,7 +110,8 @@ export class EcommerceProductComponent implements OnInit
             TaxRate : ['',Validators.required],
             Size: [''],
             Color : [''],
-            Material : ['']
+            Material : [''],
+            Validity : ['']
           });
 
         this._fuseTranslationLoaderService.loadTranslations(english, chinese);
@@ -111,6 +129,17 @@ export class EcommerceProductComponent implements OnInit
                     console.log(result);
                     this.productInfo = result;
                     if(result!=null){
+                        this.productName = this.getDefaultProductName();
+                        // todo change
+                        if(result.ImagesPath!=null && result.ImagesPath.length>0){
+
+                            var photoList = [];
+                            result.ImagesPath.map(p=>{
+                                photoList.push({CompletePath :this._ecommerceProductService.host + p});
+                            });
+                            this.photoPath = photoList;
+                        }
+
                         if(result.Translation!= null&& result.Translation.length>0){
                             result.Translation.map(val => {
                                 result['Label'+val.Lang] = val.Label;
@@ -126,9 +155,24 @@ export class EcommerceProductComponent implements OnInit
 
                 });
             }
+            else{
+                // new product 
+                this.productName = "New product"; // todo translate
+            }
           });
         this.initLoadData();
     }
+
+    getDefaultProductName(){
+        if(this.productInfo!=null && this.productInfo.Translation!=null && this.productInfo.Translation.length>0){
+           var productLabelObject = this.productInfo.Translation.find(p=>p.Lang == this._translateService.currentLang);
+           if(productLabelObject == null){
+            productLabelObject = this.productInfo.Translation[0];
+           }
+           return productLabelObject.Label;
+        }
+        return "";
+    } 
 
     initLoadData() : void
     {
@@ -148,9 +192,64 @@ export class EcommerceProductComponent implements OnInit
         },
         error=>{
 
-        })
+        });
     }
 
+
+    uploadImage(file) {
+        console.log(file);
+
+        if (file.length == 0) {
+            return;
+        }
+        let fileToUpload = <File>file[0];
+        const formData = new FormData();
+        formData.append('file', fileToUpload, fileToUpload.name);
+        formData.append('ProductId', this.productId.toString());
+
+
+        this._fuseProgressBarService.show();
+        this._ecommerceProductService.UploadPhoto(formData, {reportProgress: true, observe: 'events'})
+        .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress){
+            this.progress = Math.round(100 * event.loaded / event.total);
+            console.log(this.progress)
+        }
+        else if (event.type === HttpEventType.Response) {
+            this._matSnackBar.open('Upload successfully', 'OK', { // todo translate
+                duration        : 2000
+            });
+            this.getImagePath();
+            console.log("upload successfully");// todo change 
+        }
+      });
+      
+        //   const reader = new FileReader();
+        //   var imagePath = file;
+        //   reader.readAsDataURL(file[0]);
+        //   reader.onload = () => {
+        //     this.imgURL = reader.result;
+        //     console.log(this.imgURL);
+        //   };
+        
+    }
+
+    getImagePath(){
+        this._ecommerceProductService.GetProductPhotoPathById({ProductId : this.productId}).subscribe(result=>{
+            if(result!= null && result.length>0){
+                result.map(p=>{
+                    p.CompletePath = this._ecommerceProductService.host + p.Path;
+                });
+                this.photoPath = result;
+                this._fuseProgressBarService.hide();
+                console.log(this.photoPath);
+            }
+        },
+        error=>{
+            // todo change 
+        });
+    }
+    
 
     getSecondCategoryList(){
 
@@ -159,6 +258,33 @@ export class EcommerceProductComponent implements OnInit
           return this.referenceItemList.filter(p=>p.ParentId ==categoryId);
         }
         return [];
+    }
+
+    saveProduct(){
+        console.log(this.productForm.value);
+        this._fuseProgressBarService.show();
+        this._ecommerceProductService.UpdateOrCreateProduct(this.productForm.value).subscribe(result=>{
+            if(result>0){
+
+                this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+                    duration        : 2000
+                });
+
+              //  this.router.navigate(['apps/e-commerce/products']); // todo
+                
+            }
+            else{
+                // error 
+                
+                this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                    duration        : 2000
+                });
+            }
+            this._fuseProgressBarService.hide();
+        },
+        error=>{
+
+        });
     }
  
 }

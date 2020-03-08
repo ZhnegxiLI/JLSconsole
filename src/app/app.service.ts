@@ -38,6 +38,11 @@ export abstract class appServiceBase {
             .pipe(catchError(this.handleError));
     }
 
+    public postFileUrl(url: string, body: any, options : any): Observable<any>{
+        return this.httpClient.post(url, body, options)
+            .pipe(catchError(this.handleError));
+    }
+
     public getUrl(url: string, criteria: any): Observable<any>{
         const params = new HttpParams({ fromObject: criteria });
         return this.httpClient.get(url, {params: params})

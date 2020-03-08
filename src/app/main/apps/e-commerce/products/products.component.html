@@ -147,8 +147,8 @@
                 <ng-container matColumnDef="active">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'PRODUCTS.ACTIVE' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
-                        <mat-icon *ngIf="product.validity" class="active-icon green-600 s-16">check</mat-icon>
-                        <mat-icon *ngIf="!product.validity" class="active-icon red-500 s-16">close</mat-icon>
+                        <mat-icon *ngIf="product.Validity" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.Validity" class="active-icon red-500 s-16">close</mat-icon>
                     </mat-cell>
                 </ng-container>
 

@@ -21,14 +21,6 @@ export const navigation: FuseNavigation[] = [
                         type      : 'item',
                         url       : '/apps/e-commerce/products',
                         exactMatch: true
-                    },
-                    {
-                        id        : 'productDetail',
-                        title     : 'Product Detail',
-                        translate: 'NAV.PRODUCT_DETAIL',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/products/1/printed-dress',
-                        exactMatch: true
                     }
                 ]
             },{

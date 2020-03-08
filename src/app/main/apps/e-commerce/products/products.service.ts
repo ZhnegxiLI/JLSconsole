@@ -19,6 +19,13 @@ export class EcommerceProductsService extends appServiceBase
     
     private apiUrlGetProductById: string = this.host + "api/Product/GetProductById";
 
+    private apiUrlUpdateOrCreateProduct: string = this.host + "api/Product/UpdateOrCreateProduct";
+
+    private apiUrlUploadPhoto: string = this.host + "api/Product/UploadPhoto";
+
+    private apiUrlGetProductPhotoPathById: string = this.host + "api/Product/GetProductPhotoPathById";
+    
+
     /**
      * Constructor
      *
@@ -56,4 +63,19 @@ export class EcommerceProductsService extends appServiceBase
         return super.getUrl(this.apiUrlGetProductById, { Id : ProductId});
     }
 
+    UpdateOrCreateProduct(criteria : any) : Observable<any>
+    {
+        return super.postUrl(this.apiUrlUpdateOrCreateProduct,criteria);
+    }
+
+    UploadPhoto(criteria : any, options : any) : Observable<any>
+    {
+        return super.postFileUrl(this.apiUrlUploadPhoto,criteria, options);
+    }
+
+    GetProductPhotoPathById(criteria : any) : Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetProductPhotoPathById,criteria);
+    }
+    
 }
