@@ -28,7 +28,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
     // Private
     private _unsubscribeAll: Subject<any>;
-
+    private username :string;
     /**
      * Constructor
      *
@@ -42,6 +42,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
         private _translateService: TranslateService
     )
     {
+        this.username = localStorage.getItem('username');
         // Set the defaults
         this.userStatusOptions = [
             {

@@ -22,7 +22,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
-
+    private username: string;
     /**
      * Constructor
      *
@@ -38,6 +38,8 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _router: Router
     )
     {
+        // Bind username 
+        this.username = localStorage.getItem('username');
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }

@@ -11,6 +11,7 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
 
 import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
 import { takeUntil } from 'rxjs/internal/operators';
@@ -75,7 +76,7 @@ export class EcommerceProductsComponent implements OnInit
         private _fuseProgressBarService: FuseProgressBarService
     )
     {
-        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
     }
 
  

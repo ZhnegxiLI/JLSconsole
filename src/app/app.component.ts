@@ -14,6 +14,7 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 import { navigation } from 'app/navigation/navigation';
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationChinese } from 'app/navigation/i18n/cn';
+import { locale as navigationFrench } from 'app/navigation/i18n/fr';
 
 @Component({
     selector   : 'app',
@@ -61,16 +62,16 @@ export class AppComponent implements OnInit, OnDestroy
         this._fuseNavigationService.setCurrentNavigation('main');
 
         // Add languages
-        this._translateService.addLangs(['en', 'cn']);
+        this._translateService.addLangs(['en', 'cn','fr']);
 
         // Set the default language
         this._translateService.setDefaultLang('en');
 
         // Set the navigation translations
-        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationChinese);
+        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationChinese,navigationFrench);
 
         // Use a language
-        this._translateService.use('en');
+        this._translateService.use('fr');
 
         /**
          * ----------------------------------------------------------------------------------------------------
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit, OnDestroy
          setTimeout(() => {
             this._translateService.setDefaultLang('en');
             this._translateService.setDefaultLang('cn');
+            this._translateService.setDefaultLang('fr');
          });
 
 
