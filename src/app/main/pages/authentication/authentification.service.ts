@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { appServiceBase } from 'app/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
+ 
 @Injectable()
 export class AuthentificationService extends appServiceBase 
 {

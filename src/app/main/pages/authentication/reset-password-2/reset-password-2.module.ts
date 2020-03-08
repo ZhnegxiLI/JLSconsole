@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { ResetPassword2Component } from 'app/main/pages/authentication/reset-password-2/reset-password-2.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes = [
     {
@@ -27,7 +28,7 @@ const routes = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-
+        TranslateModule,
         FuseSharedModule
     ]
 })

@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { Login2Component } from 'app/main/pages/authentication/login-2/login-2.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes = [
     {
@@ -29,7 +30,7 @@ const routes = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-
+        TranslateModule,
         FuseSharedModule
     ]
 })

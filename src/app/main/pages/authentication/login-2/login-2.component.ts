@@ -7,6 +7,13 @@ import { AuthentificationService } from 'app/main/pages/authentication/authentif
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
+
 @Component({
     selector     : 'login-2',
     templateUrl  : './login-2.component.html',
@@ -29,7 +36,8 @@ export class Login2Component implements OnInit
         private _formBuilder: FormBuilder,
         private authService : AuthentificationService,
         private matSnackBar : MatSnackBar,
-        private router : Router
+        private router : Router,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Configure the layout
@@ -49,6 +57,7 @@ export class Login2Component implements OnInit
                 }
             }
         };
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
     }
 
     // -----------------------------------------------------------------------------------------------------
