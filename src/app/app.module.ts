@@ -27,6 +27,11 @@ import {MatProgressSpinnerModule} from '@angular/material';
 import {MatDialogModule} from "@angular/material";
 import { AuthGuard } from './auth.guard';
 
+import { ProductService } from 'app/Services/product.service';
+import { ReferenceService } from 'app/Services/reference.service';
+
+import { MatSnackBarModule } from '@angular/material';
+
 const appRoutes: Routes = [
     
     {
@@ -82,6 +87,7 @@ const appRoutes: Routes = [
         FuseSidebarModule,
         FuseThemeOptionsModule,
 
+        MatSnackBarModule,
         // App modules
         LayoutModule,
         SampleModule,
@@ -91,6 +97,8 @@ const appRoutes: Routes = [
         AppComponent
     ],
     providers   : [
+        ProductService,
+        ReferenceService
     ]
 })
 export class AppModule

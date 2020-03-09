@@ -8,29 +8,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceProductsService extends appServiceBase 
+export class ProductService extends appServiceBase 
 {
  
-    private productHost : string = this.host + "api/Product/";
+    private apiUrlAdvancedProductSearchByCriteria: string = this.host + "admin/Product/AdvancedProductSearchByCriteria";
     
-    private apiUrlGetReferenceItemsByCategoryLabels: string = this.host + "api/Reference/GetReferenceItemsByCategoryLabels";
+    private apiUrlGetProductById: string = this.host + "admin/Product/GetProductById";
 
-    private apiUrlAdvancedProductSearchByCriteria: string = this.host + "api/Product/AdvancedProductSearchByCriteria";
-    
-    private apiUrlGetProductById: string = this.host + "api/Product/GetProductById";
+    private apiUrlUpdateOrCreateProduct: string = this.host + "admin/Product/UpdateOrCreateProduct";
 
-    private apiUrlUpdateOrCreateProduct: string = this.host + "api/Product/UpdateOrCreateProduct";
+    private apiUrlUploadPhoto: string = this.host + "admin/Product/UploadPhoto";
 
-    private apiUrlUploadPhoto: string = this.host + "api/Product/UploadPhoto";
-
-    private apiUrlGetProductPhotoPathById: string = this.host + "api/Product/GetProductPhotoPathById";
+    private apiUrlGetProductPhotoPathById: string = this.host + "admin/Product/GetProductPhotoPathById";
     
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -39,19 +30,6 @@ export class EcommerceProductsService extends appServiceBase
     {
         super(_httpClient,_matSnackBar,_router);
     }
-
-
-    getProductList( criteria : any): Observable<any>
-    { //intervalCount : number, size : number, orderActive : string, orderDirection : string, filter : string
-
-        return super.getUrl(this.productHost + "GetAllProducts",criteria);
-    }
-
-    /* todo change to ri service */
-    getReferenceItemsByCategoryLabels(criteria : any): Observable<any>
-    {
-        return super.postUrl(this.apiUrlGetReferenceItemsByCategoryLabels,criteria);
-    } 
 
     AdvancedProductSearchByCriteria(criteria : any) : Observable<any>
     {

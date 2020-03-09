@@ -13,7 +13,9 @@ import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
 
-import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
+//import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
+import {ProductService} from 'app/Services/product.service';
+import {ReferenceService} from 'app/Services/reference.service'
 import { takeUntil } from 'rxjs/internal/operators';
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,7 +31,7 @@ import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-b
 export class EcommerceProductsComponent implements OnInit
 {
     displayedColumns = ['reference', 'image', 'name', 'MainCategory','SecondCategory' , 'price', 'active'];
-    imageRoot = this._ecommerceProductsService.host + "images/";
+    //imageRoot = this._ecommerceProductsService.host + "images/";
  
     private totalCount : number = 0;
 
@@ -67,10 +69,10 @@ export class EcommerceProductsComponent implements OnInit
     @ViewChild('filter', {static: true})
     filter: ElementRef;
 
-  
 
     constructor(
-        private _ecommerceProductsService: EcommerceProductsService,
+        private referenceService : ReferenceService,
+        private productService : ProductService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _fuseProgressBarService: FuseProgressBarService
@@ -90,7 +92,7 @@ export class EcommerceProductsComponent implements OnInit
             Lang: this._translateService.getDefaultLang(),
             ShortLabels:['MainCategory','SecondCategory']
         };
-        this._ecommerceProductsService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+        this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
             if(result!=null && result.length>0){
                 this.referenceItemList = result;
                 this.mainCategoryList = result.filter(p=> p.ReferenceCategoryLabel == "MainCategory");
@@ -120,7 +122,7 @@ export class EcommerceProductsComponent implements OnInit
     search(){
         this._fuseProgressBarService.show();
         this.searchCriteria.Lang =  this._translateService.currentLang;
-        this._ecommerceProductsService.AdvancedProductSearchByCriteria(this.searchCriteria).subscribe(result=>{
+        this.productService.AdvancedProductSearchByCriteria(this.searchCriteria).subscribe(result=>{
             if(result!=null ){
                 this.productList = result.ProductList;
                 this.totalCount = result.TotalCount;

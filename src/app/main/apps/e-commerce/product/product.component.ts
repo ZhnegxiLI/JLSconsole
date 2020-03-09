@@ -20,12 +20,15 @@ import { locale as chinese } from './i18n/cn';
 
 //import { MatFileUploadModule } from 'angular-material-fileupload';
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
-import { EcommerceProductsService } from 'app/main/apps/e-commerce/products/products.service';
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Validators } from '@angular/forms';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 import { HttpEventType } from '@angular/common/http';
+import { ProductService } from 'app/Services/product.service';
+import { ReferenceService } from 'app/Services/reference.service';
+
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector     : 'e-commerce-product',
@@ -67,18 +70,9 @@ export class EcommerceProductComponent implements OnInit
     private imgURL :any;
     private progress : any;
 
-    imageRoot = this._ecommerceProductService.host + "images/";
-
-    /**
-     * Constructor
-     *
-     * @param {EcommerceProductService} _ecommerceProductService
-     * @param {FormBuilder} _formBuilder
-     * @param {Location} _location
-     * @param {MatSnackBar} _matSnackBar
-     */
     constructor(
-        private _ecommerceProductService: EcommerceProductsService,
+        private referenceService : ReferenceService,
+        private productService : ProductService,
         private _formBuilder: FormBuilder,
         private _location: Location,
         private _matSnackBar: MatSnackBar,
@@ -125,7 +119,7 @@ export class EcommerceProductComponent implements OnInit
             if(this.productId!=null && this.productId !=0 ){
                 // todo new product 
 
-                this._ecommerceProductService.GetProductById(this.productId).subscribe(result =>{
+                this.productService.GetProductById(this.productId).subscribe(result =>{
                     console.log(result);
                     this.productInfo = result;
                     if(result!=null){
@@ -135,7 +129,7 @@ export class EcommerceProductComponent implements OnInit
 
                             var photoList = [];
                             result.ImagesPath.map(p=>{
-                                photoList.push({CompletePath :this._ecommerceProductService.host + p});
+                                photoList.push({CompletePath :environment.url + p});
                             });
                             this.photoPath = photoList;
                         }
@@ -180,7 +174,7 @@ export class EcommerceProductComponent implements OnInit
         Lang: this._translateService.getDefaultLang(),
         ShortLabels:['MainCategory','SecondCategory','TaxRate']
         };
-        this._ecommerceProductService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+        this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
             if(result!=null && result.length>0){
                 this.referenceItemList = result;
                 this.mainCategoryList = result.filter(p=> p.ReferenceCategoryLabel == "MainCategory");
@@ -209,7 +203,7 @@ export class EcommerceProductComponent implements OnInit
 
 
         this._fuseProgressBarService.show();
-        this._ecommerceProductService.UploadPhoto(formData, {reportProgress: true, observe: 'events'})
+        this.productService.UploadPhoto(formData, {reportProgress: true, observe: 'events'})
         .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress){
             this.progress = Math.round(100 * event.loaded / event.total);
@@ -235,10 +229,10 @@ export class EcommerceProductComponent implements OnInit
     }
 
     getImagePath(){
-        this._ecommerceProductService.GetProductPhotoPathById({ProductId : this.productId}).subscribe(result=>{
+        this.productService.GetProductPhotoPathById({ProductId : this.productId}).subscribe(result=>{
             if(result!= null && result.length>0){
                 result.map(p=>{
-                    p.CompletePath = this._ecommerceProductService.host + p.Path;
+                    p.CompletePath = environment.url + p.Path;
                 });
                 this.photoPath = result;
                 this._fuseProgressBarService.hide();
@@ -263,7 +257,7 @@ export class EcommerceProductComponent implements OnInit
     saveProduct(){
         console.log(this.productForm.value);
         this._fuseProgressBarService.show();
-        this._ecommerceProductService.UpdateOrCreateProduct(this.productForm.value).subscribe(result=>{
+        this.productService.UpdateOrCreateProduct(this.productForm.value).subscribe(result=>{
             if(result>0){
 
                 this._matSnackBar.open('Save successfully', 'OK', { // todo translate
@@ -295,14 +289,13 @@ export class EcommerceProductComponent implements OnInit
   })
 
   export class ImageOverViewDialog {
-    imageRoot = this._ecommerceProductService.host + "images/";
+    imageRoot = environment.url + "images/";
     image : any;
     imagePath : string;
 
     constructor(
       public dialogRef: MatDialogRef<ImageOverViewDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any,
-      private _ecommerceProductService: EcommerceProductsService,
       private dialog: MatDialog) {
         this.image = data.image;
         if(this.image.status == 'save'){

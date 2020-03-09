@@ -98,9 +98,9 @@
                     <mat-header-cell *matHeaderCellDef >{{'products.Photos' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product">
                         <img class="product-image"
-                             *ngIf="product.image" [alt]="product.name"
-                             [src]="imageRoot + product.image"/>
-                        <img *ngIf="!product.image"
+                             *ngIf="product.DefaultPhotoPath" [alt]="product.Label"
+                             [src]="environment.url + product.DefaultPhotoPath"/>
+                        <img *ngIf="!product.DefaultPhotoPath"
                              [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                     </mat-cell>
                 </ng-container>

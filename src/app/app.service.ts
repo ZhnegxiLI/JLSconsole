@@ -15,7 +15,6 @@ export abstract class appServiceBase {
         protected httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
         protected router: Router){
-
     }
 
     checkNetWork(): boolean{
