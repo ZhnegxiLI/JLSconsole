@@ -8,12 +8,16 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
-import { takeUntil } from 'rxjs/internal/operators';
+import { ReferenceService } from 'app/Services/reference.service';
+import { ProductService } from 'app/Services/product.service';
+import { OrderService } from 'app/Services/order.service';
+import { TranslateService } from '@ngx-translate/core';
+import { UserService } from 'app/Services/user.service';
 
 @Component({
     selector     : 'e-commerce-orders',
@@ -22,10 +26,15 @@ import { takeUntil } from 'rxjs/internal/operators';
     animations   : fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })
-export class EcommerceOrdersComponent implements OnInit, OnDestroy
+export class EcommerceOrdersComponent implements OnInit
 {
-    dataSource: FilesDataSource | null;
     displayedColumns = ['id', 'reference', 'name', 'entrepriseName', 'total', 'status', 'date'];
+
+    private orderList:any[] = [];
+    private totalCount : number = 0;
+    private statusList : any[] = [];
+    private userList : any[] = [];
+    private userSelectSearchText : string = '';
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -36,227 +45,57 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
-
-    /**
-     * Constructor
-     *
-     * @param {EcommerceOrdersService} _ecommerceOrdersService
-     */
     constructor(
-        private _ecommerceOrdersService: EcommerceOrdersService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        private referenceService : ReferenceService,
+        private productService : ProductService,
+        private orderService : OrderService,
+        private userService  : UserService,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _translateService: TranslateService,
     )
     {
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
-
-        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+        this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * On init
      */
     ngOnInit(): void
     {
-        this.dataSource = new FilesDataSource(this._ecommerceOrdersService, this.paginator, this.sort);
-
-        this.sort.sortChange
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => {
-                if(!this._ecommerceOrdersService.checkNetWork()){
-                    return;
-                }
-
-                this._ecommerceOrdersService.getOrders(0, this.paginator.pageSize, this.sort.active, this.sort.direction);
-                this.paginator.pageIndex = 0;
-        });
-
-        fromEvent(this.filter.nativeElement, 'keyup')
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                debounceTime(150),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                if ( !this.dataSource )
-                {
-                    return;
-                }
-                this.dataSource.filter = this.filter.nativeElement.value;
-            });
+        this.initLoadData();
     }
 
-    getServerData(event){
-        if(!this._ecommerceOrdersService.checkNetWork()){
-            return;
-        }
-
-        this._ecommerceOrdersService.getOrders(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-    }
-}
-
-export class FilesDataSource extends DataSource<any>
-{
-    // Private
-    private _filterChange = new BehaviorSubject('');
-    private _filteredDataChange = new BehaviorSubject('');
-
-    /**
-     * Constructor
-     *
-     * @param {EcommerceOrdersService} _ecommerceOrdersService
-     * @param {MatPaginator} _matPaginator
-     * @param {MatSort} _matSort
-     */
-    constructor(
-        private _ecommerceOrdersService: EcommerceOrdersService,
-        private _matPaginator: MatPaginator,
-        private _matSort: MatSort
-    )
-    {
-        super();
-
-        this.filteredData = this._ecommerceOrdersService.orders;
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    // Filtered data
-    get filteredData(): any
-    {
-        return this._filteredDataChange.value;
-    }
-
-    set filteredData(value: any)
-    {
-        this._filteredDataChange.next(value);
-    }
-
-    // Filter
-    get filter(): string
-    {
-        return this._filterChange.value;
-    }
-
-    set filter(filter: string)
-    {
-        this._filterChange.next(filter);
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Connect function called by the table to retrieve one stream containing the data to render.
-     *
-     * @returns {Observable<any[]>}
-     */
-    connect(): Observable<any[]>
-    {
-        const displayDataChanges = [
-            this._ecommerceOrdersService.onOrdersChanged,
-            this._matPaginator.page,
-            this._filterChange
-        ];
-
-        return merge(...displayDataChanges).pipe(map(() => {
-
-                let data = this._ecommerceOrdersService.orders.slice();
-
-                data = this.filterData(data);
-
-                this.filteredData = [...data];
-
-                return data;
-            })
-        );
-
-    }
-
-    /**
-     * Filter data
-     *
-     * @param data
-     * @returns {any}
-     */
-    filterData(data): any
-    {
-        if ( !this.filter )
-        {
-            return data;
-        }
-        return FuseUtils.filterArrayByString(data, this.filter);
-    }
-
-    /**
-     * Sort data
-     *
-     * @param data
-     * @returns {any[]}
-     */
-    sortData(data): any[]
-    {
-        if ( !this._matSort.active || this._matSort.direction === '' )
-        {
-            return data;
-        }
-
-        return data.sort((a, b) => {
-            let propertyA: number | string = '';
-            let propertyB: number | string = '';
-
-            switch ( this._matSort.active )
-            {
-                case 'id':
-                    [propertyA, propertyB] = [a.id, b.id];
-                    break;
-                case 'reference':
-                    [propertyA, propertyB] = [a.orderReferenceCode, b.orderReferenceCode];
-                    break;
-                case 'name':
-                    [propertyA,propertyB] = ['name1', 'name2'];
-                    break;
-                case 'total':
-                    [propertyA, propertyB] = [a.totalPrice, b.totalPrice];
-                    break;
-                case 'status':
-                    [propertyA, propertyB] = [a.statusReferenceItemLabel, b.statusReferenceItemLabel];
-                    break;
-                case 'date':
-                    [propertyA, propertyB] = [a.date, b.date];
-                    break;
+    initLoadData(){
+        this.referenceService.getReferenceItemsByCategoryLabels({
+            Lang: this._translateService.currentLang,
+            ShortLabels:['OrderStatus']
+        }).subscribe(result=>{
+            if(result!=null){
+                console.log(result);
+                this.statusList = result;
             }
+        },
+        error=>{
+            //todo 
+        });
 
-            const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-            const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-
-            return (valueA < valueB ? -1 : 1) * (this._matSort.direction === 'asc' ? 1 : -1);
+        this.userService.getUserListByRole(['Client','Admin']).subscribe(result=>{
+            if(result!=null){
+                console.log(result);
+                this.userList = result;
+            }
+        },
+        error=>{
+            //todo
         });
     }
 
-    /**
-     * Disconnect
-     */
-    disconnect(): void
-    {
+    checkUserSearchText () {
+        return this.userList.filter(p=>{
+            return p.UserName.includes(this.userSelectSearchText);
+        })
     }
+
 }
+

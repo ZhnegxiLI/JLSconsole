@@ -8,15 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceOrdersService extends appServiceBase 
+export class UserService extends appServiceBase 
 {
-    private apiUrlGetOrdersByCriteria = this.host +"admin/Order/getOrdersByCriteria";
+    private apiUrlGetUserListByRole = this.host +"admin/User/GetUserListByRole";
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -27,8 +22,8 @@ export class EcommerceOrdersService extends appServiceBase
     }
 
 
-    getOrdersByCriteria(criteria): Observable<any>
+    getUserListByRole(criteria): Observable<any>
     {
-        return  super.getUrl(this.apiUrlGetOrdersByCriteria, criteria );
+        return  super.postUrl(this.apiUrlGetUserListByRole, criteria );
     }
 }

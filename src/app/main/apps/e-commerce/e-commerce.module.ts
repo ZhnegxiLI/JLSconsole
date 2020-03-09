@@ -18,7 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {MatDialogModule, MatGridListModule} from "@angular/material";
+import {MatDialogModule, MatGridListModule, MatDatepickerModule} from "@angular/material";
 import {MatRadioModule} from "@angular/material";
 
 import { AgmCoreModule } from '@agm/core';
@@ -37,7 +37,7 @@ import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.s
 import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.component';
 import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.service';
 
-
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 const routes: Routes = [
     {
@@ -48,19 +48,9 @@ const routes: Routes = [
         path     : 'product',
         component: EcommerceProductComponent
     },
-    // {
-    //     path     : 'products/:id/:handle',
-    //     component: EcommerceProductComponent,
-    //     resolve  : {
-    //         data: EcommerceProductService
-    //     }
-    // },
     {
         path     : 'orders',
-        component: EcommerceOrdersComponent,
-        resolve  : {
-            data: EcommerceOrdersService
-        }
+        component: EcommerceOrdersComponent
     },
     {
         path     : 'orders/:id',
@@ -84,6 +74,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         MatGridListModule,
         DialogModule,
+        MatDatepickerModule,
         MatDialogModule,
         MatProgressSpinnerModule,
         MatButtonModule,
@@ -101,7 +92,8 @@ const routes: Routes = [
         MatTabsModule,
         MatRadioModule,
         MatToolbarModule,
-
+        NgxMatSelectSearchModule,
+        
         TranslateModule,
         NgxChartsModule,
         AgmCoreModule.forRoot({

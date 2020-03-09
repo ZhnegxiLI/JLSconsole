@@ -89,7 +89,7 @@ export class EcommerceProductsComponent implements OnInit
 
     initLoadData(){
         var criteria = {
-            Lang: this._translateService.getDefaultLang(),
+            Lang: this._translateService.currentLang,
             ShortLabels:['MainCategory','SecondCategory']
         };
         this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{

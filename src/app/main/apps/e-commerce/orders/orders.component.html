@@ -22,6 +22,41 @@
             </div>
             <!-- / APP TITLE -->
 
+            <div style="min-width: 10%; max-width: 10%;">
+                <mat-form-field style="display: block;">
+                    <mat-label>FromDate</mat-label>
+                    <input matInput [matDatepicker]="picker" disabled  style="color: white;">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field style="display: block;">
+                    <mat-label>ToDate</mat-label>
+                    <input matInput [matDatepicker]="picker2" disabled style="color: white;">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                  </mat-form-field>
+            </div>
+        
+            <div style="min-width: 10%; max-width: 10%;">
+                <mat-form-field style="display: block;">
+                    <mat-label>{{'orders.Username' | translate}}</mat-label>
+                    <mat-select placeholder="Bank" #singleSelect>
+                    <mat-option>
+                        <ngx-mat-select-search  placeholderLabel="username" [(ngModel)]="userSelectSearchText" noEntriesFoundLabel="No result found"></ngx-mat-select-search>
+                    </mat-option>
+                     <mat-option>None</mat-option>
+                      <mat-option *ngFor="let item of checkUserSearchText()" [value]="item.Id">{{item.UserName}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field style="display: block;">
+                    <mat-label>{{'products.Status' | translate}}</mat-label>
+                    <mat-select>
+                      <mat-option *ngFor="let item of statusList" [value]="item.Id">{{item.Label}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+
             <!-- SEARCH -->
             <div class="search-wrapper  ml-sm-32">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
@@ -29,6 +64,12 @@
                     <input #filter placeholder="{{'ORDERS.SEARCH_FOR_AN_ORDER' | translate}}">
                 </div>
             </div>
+
+              
+            <button mat-raised-button
+                    class="add-product-button fuse-white mt-24 mt-md-0">
+              <span>{{'orders.Search' | translate}}</span>
+            </button>
             <!-- / SEARCH -->
 
         </div>
@@ -118,7 +159,7 @@
             </mat-table>
 
             <mat-paginator #paginator
-                           [length]="dataSource.filteredData.length"
+                           [length]="totalCount"
                            [pageIndex]="0"
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 25, 100]"

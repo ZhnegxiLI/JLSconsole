@@ -29,6 +29,8 @@ import { AuthGuard } from './auth.guard';
 
 import { ProductService } from 'app/Services/product.service';
 import { ReferenceService } from 'app/Services/reference.service';
+import { OrderService } from 'app/Services/order.service';
+import { UserService } from 'app/Services/user.service';
 
 import { MatSnackBarModule } from '@angular/material';
 
@@ -98,7 +100,9 @@ const appRoutes: Routes = [
     ],
     providers   : [
         ProductService,
-        ReferenceService
+        ReferenceService,
+        OrderService,
+        UserService
     ]
 })
 export class AppModule

@@ -8,15 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class EcommerceOrdersService extends appServiceBase 
+export class OrderService extends appServiceBase 
 {
     private apiUrlGetOrdersByCriteria = this.host +"admin/Order/getOrdersByCriteria";
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
