@@ -4,7 +4,7 @@ export const locale = {
         'products': {
             'ProductsList': 'Product List',
             'Photos':'Photos',
-            'AddNewProducts': 'Add new products',
+            'AddNewProducts': 'Add',
             'Reference': 'Reference',
             'Name': 'Name',
             'Category': 'Category',

@@ -2,7 +2,7 @@ export const locale = {
     lang: 'fr',
     data: {
         "login":{
-            "WelcomeToTheJLSAdmisSystem":"Bienvenu à la JLS Import administrative systeme",
+            "WelcomeToTheJLSAdmisSystem":"Bienvenu à la JLS Import administrative système",
             "LoginToYourAccount":"Identifiez-vous",
             "Email":"EMAIL",
             "EmailIsRequired":"Email est obligé",
