@@ -29,7 +29,8 @@ const routes = [
         MatIconModule,
         MatInputModule,
         TranslateModule,
-        FuseSharedModule
+        FuseSharedModule,
+        TranslateModule
     ]
 })
 export class ResetPassword2Module

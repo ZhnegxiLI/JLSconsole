@@ -14,8 +14,7 @@ export const locale = {
             'TAX_EXCLUDED_PRICE': '不含税价',
             'TAX_INCLUDED_PRICE': '含税价',
             'TAX_RATE': '税率',
-            'COMPARED_PRICE': '比较价格',
-            'REFERENCE_CODE' : '引用代码',
+            'REFERENCE_CODE' : '货物编码',
             'BASIC_INFO': '基本信息',
             'PRODUCT_IMAGE' : '商品图片',
             'PROPERTY' : '属性',
@@ -27,7 +26,8 @@ export const locale = {
             'MIN_QUANTITY' : '最小数量',
             'PRICING' : '价格',
             'PRICE' : '价格',
-            'ADD_NEW_IMAGE' : "添加新图片"
+            'ADD_NEW_IMAGE' : "添加新图片",
+            'PRODUCTS_STATUS':'货物状态'
         }
     }
 };

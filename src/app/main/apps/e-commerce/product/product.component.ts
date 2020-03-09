@@ -17,6 +17,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialo
 
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
 
 //import { MatFileUploadModule } from 'angular-material-fileupload';
 import { Product } from 'app/main/apps/e-commerce/product/product.model';
@@ -108,7 +109,7 @@ export class EcommerceProductComponent implements OnInit
             Validity : ['']
           });
 
-        this._fuseTranslationLoaderService.loadTranslations(english, chinese);
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
 
     }
 
