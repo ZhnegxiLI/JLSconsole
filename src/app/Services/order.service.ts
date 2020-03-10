@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class OrderService extends appServiceBase 
 {
-    private apiUrlGetOrdersByCriteria = this.host +"admin/Order/getOrdersByCriteria";
+    private apiUrlAdvancedOrderSearchByCriteria = this.host +"admin/Order/AdvancedOrderSearchByCriteria";
 
     constructor(
         protected _httpClient: HttpClient,
@@ -22,8 +22,8 @@ export class OrderService extends appServiceBase
     }
 
 
-    getOrdersByCriteria(criteria): Observable<any>
+    advancedOrderSearchByCriteria(criteria): Observable<any>
     {
-        return  super.getUrl(this.apiUrlGetOrdersByCriteria, criteria );
+        return  super.postUrl(this.apiUrlAdvancedOrderSearchByCriteria, criteria );
     }
 }

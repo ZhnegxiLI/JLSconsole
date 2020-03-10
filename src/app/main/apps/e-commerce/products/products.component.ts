@@ -36,6 +36,7 @@ export class EcommerceProductsComponent implements OnInit
     private totalCount : number = 0;
 
     private productList : any[] = [];
+    
     private mainCategoryList: any[];
     private secondCategoryList: any[];
     private referenceItemList : any[];

@@ -18,6 +18,7 @@ import { ProductService } from 'app/Services/product.service';
 import { OrderService } from 'app/Services/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'app/Services/user.service';
+import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 
 @Component({
     selector     : 'e-commerce-orders',
@@ -28,13 +29,26 @@ import { UserService } from 'app/Services/user.service';
 })
 export class EcommerceOrdersComponent implements OnInit
 {
-    displayedColumns = ['id', 'reference', 'name', 'entrepriseName', 'total', 'status', 'date'];
+    displayedColumns = ['id',  'createdOn' , 'updatedOn', 'lastModified', 'entrepriseName', 'userName','total', 'status'];
 
     private orderList:any[] = [];
     private totalCount : number = 0;
     private statusList : any[] = [];
     private userList : any[] = [];
     private userSelectSearchText : string = '';
+
+
+    private searchCriteria = {
+        FromDate: '',
+        ToDate : '',
+        StatusId : null,
+        UserId : null,
+        OrderId :null,
+        begin : 0,
+        step : 10,
+        Lang :''
+    };
+
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -52,6 +66,7 @@ export class EcommerceOrdersComponent implements OnInit
         private userService  : UserService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
+        private _fuseProgressBarService: FuseProgressBarService
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
@@ -94,6 +109,28 @@ export class EcommerceOrdersComponent implements OnInit
     checkUserSearchText () {
         return this.userList.filter(p=>{
             return p.UserName.includes(this.userSelectSearchText);
+        })
+    }
+
+    getServerData(event){
+        this.searchCriteria.begin = event.pageIndex;
+        this.searchCriteria.step = event.pageSize;
+        this.search();
+    }
+
+    search(){
+        this.searchCriteria.Lang = this._translateService.currentLang;
+        this._fuseProgressBarService.show();
+        this.orderService.advancedOrderSearchByCriteria(this.searchCriteria).subscribe(result=>{
+            if(result!=null && result.OrderList !=null && result.TotalCount != null){
+                this.orderList = result.OrderList;
+                this.totalCount = result.TotalCount;
+                console.log(this.orderList);
+            }
+            this._fuseProgressBarService.hide();
+        },
+        error=>{
+            //todo 
         })
     }
 
