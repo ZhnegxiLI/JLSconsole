@@ -2,14 +2,21 @@ export const locale = {
     lang: 'fr',
     data: {
         'ORDERS': {
-            'ORDERS': 'Orders',
-            'SEARCH_FOR_AN_ORDER': 'Search For An Order',
-            'REFERENCE': 'Reference',
-            'USERNAME': 'UserName',
-            'ENTREPRISE_NAME': 'EntrePrise Name',
-            'TOTAL_PRICE': 'Total Price',
-            'STATUS': 'Status',
-            'DATE': 'Data',
+            'ORDERS': 'Commandes',
+            'FromDate':'DE',
+            'ToDate':'À ',
+            'USERNAME': 'Identifiant',
+            'Product_STATUS': 'Statut',
+            'SEARCH_FOR_AN_ORDER': 'Recherche',
+            'SearchYourOrderID':'Recherche le numéro de commande',
+            'ID':'Numéro de commande',
+            'OrderCreateOn':'Date de création',
+            'OrderUpdateOn':'Date de mise à jour',
+            'OrderLastModifiUser':'Dernière modification',
+            'ENTREPRISE_NAME': "Nom d'entreprise",
+            'OrderUserName':'Identifiant',
+            'TOTAL_PRICE': 'Prix total',
+            'Status':'Statut'
         }
     }
 };

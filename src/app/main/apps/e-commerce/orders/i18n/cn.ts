@@ -3,13 +3,20 @@ export const locale = {
     data: {
         'ORDERS': {
             'ORDERS': '订单列表',
-            'SEARCH_FOR_AN_ORDER': '搜索订单',
-            'REFERENCE': '编号',
+            'FromDate':'从',
+            'ToDate':'至',
             'USERNAME': '用户名',
+            'Product_STATUS': '状态',
+            'SEARCH_FOR_AN_ORDER': '搜索订单',
+            'SearchYourOrderID':'搜索订单号',
+            'ID':'订单号',
+            'OrderCreateOn':'订单创建日期',
+            'OrderUpdateOn':'订单更改日期',
+            'OrderLastModifiUser':'最后更改订单人员',
             'ENTREPRISE_NAME': '公司名称',
+            'OrderUserName':'用户名',
             'TOTAL_PRICE': '总价',
-            'STATUS': '状态',
-            'DATE': '日期',
+            'Status':'状态'
         }
     }
 };

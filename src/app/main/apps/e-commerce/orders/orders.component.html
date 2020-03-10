@@ -24,13 +24,13 @@
 
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>FromDate</mat-label>
+                    <mat-label>{{'ORDERS.FromDate' | translate}}</mat-label>
                     <input matInput [matDatepicker]="picker" disabled  style="color: white;" [(ngModel)]="searchCriteria.FromDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker disabled="false"></mat-datepicker>
                   </mat-form-field>
                   <mat-form-field style="display: block;">
-                    <mat-label>ToDate</mat-label>
+                    <mat-label>{{'ORDERS.ToDate' | translate}}</mat-label>
                     <input matInput [matDatepicker]="picker2" disabled style="color: white;" [(ngModel)]="searchCriteria.ToDate">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2 disabled="false"></mat-datepicker>
@@ -39,7 +39,7 @@
         
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'orders.Username' | translate}}</mat-label>
+                    <mat-label>{{'ORDERS.USERNAME' | translate}}</mat-label>
                     <mat-select placeholder="Bank" #singleSelect  [(ngModel)]="searchCriteria.UserId">
                     <mat-option>
                         <ngx-mat-select-search  placeholderLabel="username" [(ngModel)]="userSelectSearchText" noEntriesFoundLabel="No result found"></ngx-mat-select-search>
@@ -50,7 +50,7 @@
                   </mat-form-field>
 
                   <mat-form-field style="display: block;">
-                    <mat-label>{{'products.Status' | translate}}</mat-label>
+                    <mat-label>{{'ORDERS.Product_STATUS' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.StatusId">
                       <mat-option *ngFor="let item of statusList" [value]="item.Id">{{item.Label}}</mat-option>
                     </mat-select>
@@ -61,14 +61,14 @@
             <div class="search-wrapper  ml-sm-32">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'ORDERS.SEARCH_FOR_AN_ORDER' | translate}}">
+                    <input #filter placeholder="{{'ORDERS.SearchYourOrderID' | translate}}">
                 </div>
             </div>
 
               
             <button mat-raised-button
                     class="add-product-button fuse-white mt-24 mt-md-0" (click)="search()">
-              <span>{{'orders.Search' | translate}}</span>
+              <span>{{'ORDERS.SEARCH_FOR_AN_ORDER' | translate}}</span>
             </button>
             <!-- / SEARCH -->
 
@@ -87,7 +87,7 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.ID' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="text-truncate">{{order.Id}}</p>
                     </mat-cell>
@@ -97,7 +97,7 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="createdOn">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.CreatedOn' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.OrderCreateOn' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="text-truncate">{{order.CreatedOn}}</p>
                     </mat-cell>
@@ -105,7 +105,7 @@
 
                 <!-- Date Column -->
                 <ng-container matColumnDef="updatedOn">
-                <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>{{'ORDERS.UpdatedOn' | translate}}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>{{'ORDERS.OrderUpdateOn' | translate}}</mat-header-cell>
                 <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
                     <p class="text-truncate">
                         {{order.UpdatedOn}}
@@ -115,7 +115,7 @@
 
                 <!-- Reference Column -->
                 <ng-container matColumnDef="lastModified" >
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.LastModifiedUser' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.OrderLastModifiUser' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm >
                         <p class="text-truncate" *ngIf="order.UpdatedByUser">{{order.UpdatedByUser.UserName}}</p>
                     </mat-cell>
@@ -132,7 +132,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="userName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.userName' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.OrderUserName' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="text-truncate">
                             {{order.User.UserName}}
@@ -153,7 +153,7 @@
 
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.STATUS' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.Status' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
                         <p class="status text-truncate h6 p-4">
                             {{order.Status.Label||order.Status.Code}}
