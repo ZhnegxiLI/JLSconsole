@@ -21,11 +21,11 @@
                 <div fxLayout="column" fxLayoutAlign="start start"
                      [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2">
-                        Order {{order.orderReferenceCode}}
+                        Order {{order.reference}}
                     </div>
-                    <div *ngIf="order.user.id != 0"  class="subtitle secondary-text">
+                    <div class="subtitle secondary-text" *ngIf="order.customer">
                         <span>from</span>
-                        <span>{{order.user.name}}</span>
+                        <span>{{order.customer.firstName}} {{order.customer.lastName}}</span>
                     </div>
                 </div>
             </div>
@@ -39,326 +39,247 @@
 
             <!-- CONTENT -->
             <div class="content">
-                
+
                 <mat-tab-group fxLayout="column" fxFlex>
 
-                    <mat-tab label="{{'Order.Order_Details' | translate }}">
-                        <form name="orderForm" class = "w-100-p" [formGroup]="orderForm" fxLayout="column" fxFlex>
+                    <mat-tab label="Order Details">
+
                         <div class="order-details tab-content p-24" fusePerfectScrollbar>
 
                             <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">assignment</mat-icon>
-                                    <div class="h2 secondary-text">{{'ORDER.ORDER'|translate}}</div>
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Customer</div>
                                 </div>
 
-                                
+                                <div class="customer mb-32" *ngIf="order.customer">
                                     <table class="simple">
-                                        <thead> 
+                                        <thead>
                                             <tr>
-                                                <th>{{'ORDER.REDERENCE' | translate}}</th>
-                                                <th>{{'ORDER.PAYMENT_INFO' | translate}}</th>
-                                                <th>{{'ORDER.STATUS' | translate}}</th>
-                                                <th>{{'ORDER.DATE' | translate}}</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Company</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <span class="name text-truncate">{{order.orderReferenceCode}}
+                                                    <div fxLayout="row" fxLayoutAlign="start center">
+                                                        <img class="avatar" [src]="order.customer.avatar">
+                                                        <span class="name text-truncate">{{order.customer.firstName}}
+                                                            {{order.customer.lastName}}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="email text-truncate">{{order.customer.email}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="phone text-truncate">{{order.customer.phone}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="company text-truncate">{{order.customer.company}}
                                                     </span>
-                                                </td>
-                                                <td>
-
-                                                        <input matInput 
-                                                        class="w-80-p"
-                                                        formControlName="paymentInfo"
-                                                        (focus)="clickInput.paymentInfo = true"
-                                                        (blur)="clickInput.paymentInfo = false">
-                                                        <div class="focuInput" *ngIf="clickInput.paymentInfo" ></div>
-                                                    <!-- <span 
-                                                    *ngIf="!clickInput.paymentInfo" 
-                                                    class="payment text-truncate">
-                                                    {{orderForm.value['paymentInfo']}}</span> -->
-                                                </td>
-                                                <td>
-                                                    <mat-form-field class="w-80-p">
-                                                        <input matInput formControlName="status" name="status">
-                                                    </mat-form-field>
-                                                </td>
-                                                <td>
-                                                    <span class="date text-truncate">{{order.date}}</span>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+
+                                <mat-accordion class="addresses">
+
+                                    <mat-expansion-panel>
+
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>Shipping Address</mat-panel-title>
+                                        </mat-expansion-panel-header>
+
+                                        <div fxFlex fxLayout="column" *ngIf="order.ShippingAdress">
+                                            <div class="address h4">
+                                                <p *ngIf="order.ShippingAdress.ContactLastName || order.ShippingAdress.ContactFirstName" style="margin-top: 0px;">      
+                                                    <span *ngIf=" order.ShippingAdress.Country">{{order.ShippingAdress.ContactLastName}}</span>
+                                                    &nbsp;
+                                                    <span *ngIf=" order.ShippingAdress.City">{{order.ShippingAdress.ContactFirstName}}</span>
+                                                </p>
+                                               <p *ngIf="order.ShippingAdress.FirstLineAddress">{{order.ShippingAdress.FirstLineAddress}}</p> 
+                                               <p *ngIf="order.ShippingAdress.SecondLineAddress">{{order.ShippingAdress.SecondLineAddress}}</p>
+                                               <p *ngIf="order.ShippingAdress.ZipCode || order.ShippingAdress.City || order.ShippingAdress.Country">
+                                                    <span *ngIf=" order.ShippingAdress.Country">{{order.ShippingAdress.Country}}</span>,
+                                                    <span *ngIf=" order.ShippingAdress.City">{{order.ShippingAdress.City}}</span>,
+                                                   <span *ngIf="order.ShippingAdress.ZipCode">{{order.ShippingAdress.ZipCode}}</span> 
+                                                </p>
+                                                <p *ngIf="order.ShippingAdress.ContactTelephone">{{order.ShippingAdress.ContactTelephone}} </p>
+                                                <p *ngIf="order.ShippingAdress.ContactFax">{{order.ShippingAdress.ContactFax}} </p>
+                                            </div>
+                                        </div>
+
+                                    </mat-expansion-panel>
+
+                                    <mat-expansion-panel>
+
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>Invoice Address</mat-panel-title>
+                                        </mat-expansion-panel-header>
+
+                                        <div fxFlex fxLayout="column" *ngIf="order.customer">
+                                            <div class="address h4 py-24">{{order.customer.invoiceAddress.address}}
+                                            </div>
+                                            <agm-map class="w-100-p h-400" [zoom]="15"
+                                                     [latitude]="order.customer.invoiceAddress.lat"
+                                                     [longitude]="order.customer.invoiceAddress.lng">
+                                                <agm-marker [latitude]="order.customer.invoiceAddress.lat"
+                                                            [longitude]="order.customer.invoiceAddress.lng">
+                                                </agm-marker>
+                                            </agm-map>
+                                        </div>
+
+                                    </mat-expansion-panel>
+
+                                </mat-accordion>
 
                             </div>
 
                             <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 mr-32 secondary-text">{{'ORDER.USER'|translate}}</div>
-                                    <button mat-mini-fab
-                                        class="add-user"
-                                        aria-label="Add User"
-                                        [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
-                                        *ngIf="order.user.id == 0">
-                                        <mat-icon>add</mat-icon>
+                                    <mat-icon class="m-0 mr-16 secondary-text">access_time</mat-icon>
+                                    <div class="h2 secondary-text">Order Status</div>
+                                </div>
+
+                                <table class="simple">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Updated On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr *ngFor="let status of order.status">
+                                            <td>
+                                                <span class="status h6 p-4" [ngClass]="status.color">
+                                                    {{status.name}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    {{status.date | date}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <form class="update-status p-24"
+                                      (ngSubmit)="updateStatus()"
+                                    
+                                      fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" class="mr-16" fxFlex>
+                                        <mat-label>Status</mat-label>
+                                        <mat-select 
+                                                    required>
+                                            <mat-option *ngFor="let status of statusList"
+                                                        [value]="status.Id">
+                                                {{status.Label}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <button mat-raised-button class="mat-accent">
+                                        Update Status
                                     </button>
-                                </div>
-
-                                
-
-                                    <table class="simple" *ngIf="order.user.id != 0" >
-                                        <thead>
-                                            <tr>
-                                                <th>{{'ORDER.NAME' | translate}}</th>
-                                                <th>{{'ORDER.EMAIL' | translate}}</th>
-                                                <th>{{'ORDER.PHONE' | translate}}</th>
-                                                <th>{{'ORDER.COMPANY' | translate}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span class="name text-truncate">{{order.user.name}}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="email text-truncate">{{order.user.email}}</span>
-                                                </td>
-                                                <td>
-                                                    <span class="phone text-truncate">{{order.user.telephone}}</span>
-                                                </td>
-                                                <td>
-                                                    <span class="company text-truncate">{{order.user.entrepriseName}}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                </form>
 
                             </div>
+
                             <div class="section pb-48">
 
-                            <mat-accordion class="addresses">
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">attach_money</mat-icon>
+                                    <div class="h2 secondary-text">Payment</div>
+                                </div>
 
-                                <mat-expansion-panel>
-
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>Shipping Address</mat-panel-title>
-                                    </mat-expansion-panel-header>
-
-                                    <div class="tab-content p-24" fxLayout="column">
-                                        <div fxLayout="row" fxLayoutAlign="space-between" class = "genter">
-                                            <mat-radio-group aria-label="Select an option"
-                                            formControlName="genterShippingAdress"
-                                            name = "genterShippingAdress"
-                                            >
-                                                <mat-radio-button value="1">Man</mat-radio-button>
-                                                <mat-radio-button value="2">Woman</mat-radio-button>
-                                            </mat-radio-group>
-
-                                            <button mat-raised-button color="accent">Choose A Adresse</button>
-                                        </div>
-
-                                        <div fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>firstName</mat-label>
-                                                <input matInput name = "firstNameShippingAdresse" formControlName="firstNameShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>LastName</mat-label>
-                                                <input matInput name = "lastNameShippingAdresse" formControlName="lastNameShippingAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>phone</mat-label>
-                                                <input matInput name = "phoneShippingAdresse" formControlName="phoneShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>fax</mat-label>
-                                                <input matInput name = "faxShippingAdresse" formControlName="faxShippingAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="25">
-                                                <mat-label>Stree</mat-label>
-                                                <input matInput name = "streeShippingAdresse" formControlName="streeShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="70">
-                                                <mat-label>Adresse Detail</mat-label>
-                                                <input matInput name = "detailShippingAdresse" formControlName="detailShippingAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Post Code</mat-label>
-                                                <input matInput name = "postCodeShippingAdresse" formControlName="postCodeShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>City</mat-label>
-                                                <input matInput name = "cityShippingAdresse" formControlName="cityShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Provence</mat-label>
-                                                <input matInput name = "provenceShippingAdresse" formControlName="provenceShippingAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Country</mat-label>
-                                                <input matInput name = "countryShippingAdresse" formControlName="countryShippingAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                    </div>
-
-                                </mat-expansion-panel>
-
-                                <mat-expansion-panel>
-
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>Facturation Address</mat-panel-title>
-                                    </mat-expansion-panel-header>
-
-                                    <div class="tab-content p-24" fxLayout="column">
-                                        <div fxLayout="row" fxLayoutAlign="space-between" class = "genter">
-                                            <mat-radio-group aria-label="Select an option"
-                                            formControlName="genterFacturationAdress"
-                                            name = "genterFacturationAdress"
-                                            >
-                                                <mat-radio-button value="1">Man</mat-radio-button>
-                                                <mat-radio-button value="2">Woman</mat-radio-button>
-                                            </mat-radio-group>
-
-                                            <button mat-raised-button color="accent">Choose A Adresse</button>
-                                        </div>
-
-                                        <div fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>firstName</mat-label>
-                                                <input matInput name = "firstNameFacturationAdresse" formControlName="firstNameFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>LastName</mat-label>
-                                                <input matInput name = "lastNameFacturationAdresse" formControlName="lastNameFacturationAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>phone</mat-label>
-                                                <input matInput name = "phoneFacturationAdresse" formControlName="phoneFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="45">
-                                                <mat-label>fax</mat-label>
-                                                <input matInput name = "faxFacturationAdresse" formControlName="faxFacturationAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="25">
-                                                <mat-label>Stree</mat-label>
-                                                <input matInput name = "streeFacturationAdresse" formControlName="streeFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="70">
-                                                <mat-label>Adresse Detail</mat-label>
-                                                <input matInput name = "detailFacturationAdresse" formControlName="detailFacturationAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Post Code</mat-label>
-                                                <input matInput name = "postCodeFacturationAdresse" formControlName="postCodeFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>City</mat-label>
-                                                <input matInput name = "cityFacturationAdresse" formControlName="cityFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Provence</mat-label>
-                                                <input matInput name = "provenceFacturationAdresse" formControlName="provenceFacturationAdresse">
-                                            </mat-form-field>
-
-                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="20">
-                                                <mat-label>Country</mat-label>
-                                                <input matInput name = "countryFacturationAdresse" formControlName="countryFacturationAdresse">
-                                            </mat-form-field>
-                                        </div>
-
-                                    </div>
-
-                                </mat-expansion-panel>
-
-
-                            </mat-accordion>
-
-                        </div>
+                                <table class="simple">
+                                    <thead>
+                                        <tr>
+                                            <th>TransactionID</th>
+                                            <th>Payment Method</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="order.payment">
+                                        <tr>
+                                            <td>
+                                                <span class="text-truncate" >
+                                                    {{order.payment.transactionId}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate" *ngIf="order.payment">
+                                                    {{order.payment.method}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate">
+                                                    {{order.payment.amount}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate">
+                                                    {{order.payment.date | date}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
 
                             <div class="section pb-48">
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 secondary-text">{{'ORDER.REMARK'|translate}}</div>
+                                    <mat-icon class="m-0 mr-16 secondary-text">local_shipping</mat-icon>
+                                    <div class="h2 secondary-text">Shipping</div>
                                 </div>
 
-                                
-
-                                <div class="customer mb-32">
-                                    <table class="simple">
-                                        <thead>
-                                            <tr>
-                                                <th>{{'ORDER.TYPE' | translate}}</th>
-                                                <th>{{'ORDER.CONTENT' | translate}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span class="name text-truncate">{{'ORDER.CLIENT' | translate}}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="remark text-truncate">{{order.clienRemark}}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="name text-truncate">{{'ORDER.ADMIN' | translate}}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="remark text-truncate">{{order.adminRemark}}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                                <table class="simple">
+                                    <thead>
+                                        <tr>
+                                            <th>Tracking Code</th>
+                                            <th>Carrier</th>
+                                            <th>Weight</th>
+                                            <th>Fee</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let shipping of order.shippingDetails">
+                                            <td class="tracking-code">
+                                                {{shipping.tracking}}
+                                            </td>
+                                            <td>
+                                                {{shipping.carrier}}
+                                            </td>
+                                            <td>
+                                                {{shipping.weight}}
+                                            </td>
+                                            <td>
+                                                {{shipping.fee}}
+                                            </td>
+                                            <td>
+                                                {{shipping.date}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>
-                    </form>
                     </mat-tab>
-                
 
                     <mat-tab label="Products">
                         <div class="products tab-content p-24" fusePerfectScrollbar>
@@ -374,32 +295,23 @@
                                 </thead>
                                 <tbody>
                                     <tr class="product-row"
-                                        *ngFor="let product of order.products">
-                                        <td [routerLink]="'/apps/e-commerce/products/'+product.id">
+                                        *ngFor="let product of order.products"
+                                        [routerLink]="'/apps/e-commerce/products/'+product.id+'/'+product.handle">
+                                        <td>
                                             {{product.id}}
                                         </td>
-                                        <td [routerLink]="'/apps/e-commerce/products/'+product.id">
+                                        <td>
                                             <img class="product-image" [src]="product.image">
                                         </td>
-                                        <td [routerLink]="'/apps/e-commerce/products/'+product.id">
+                                        <td>
                                             {{product.name}}
                                         </td>
                                         <td>
                                             {{product.price}}
                                         </td>
                                         <td>
-                                            <input matInput type="number" (change)="changeProductQuantity(product)" [(ngModel)]="product.quantity">
+                                            {{product.quantity}}
                                         </td>
-                                    </tr>
-                                    <tr >
-                                        <th colspan="5" class="add-product"><button mat-fab
-                                            (click)="newProduct()"
-                                            class="add-user"
-                                            aria-label="Add User"
-                                            [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
-                                            *ngIf="order.user.id == 0">
-                                            <mat-icon>add</mat-icon>
-                                        </button></th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -425,18 +337,19 @@
                                                     <div class="invoice-number" fxLayout="row"
                                                          fxLayoutAlign="start center">
                                                         <span class="title">INVOICE</span>
-                                                        <span class="number">{{order.orderReferenceCode}}</span>
+                                                        <span class="number">{{order.reference}}</span>
                                                     </div>
 
-                                                    <div class="info">
+                                                    <div class="info" *ngIf="order.customer">
                                                         <div class="title">
-                                                            {{order.user.name}}
+                                                            {{order.customer.firstName}}
+                                                            {{order.customer.lastName}}
                                                         </div>
                                                         <div class="address">
-                                                            {{order.shippingAdresse.adressDetail}}
+                                                            {{order.customer.invoiceAddress.address}}
                                                         </div>
-                                                        <div class="phone">{{order.user.telephone}}</div>
-                                                        <div class="email">{{order.user.email}}</div>
+                                                        <div class="phone">{{order.customer.phone}}</div>
+                                                        <div class="email">{{order.customer.email}}</div>
                                                     </div>
                                                 </div>
 
@@ -482,7 +395,7 @@
                                                             {{product.quantity}}
                                                         </td>
                                                         <td class="text-right">
-                                                            {{product.price * product.quantity | currency:'USD':'symbol'}}
+                                                            {{product.total | currency:'USD':'symbol'}}
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -490,21 +403,21 @@
 
                                             <table class="simple invoice-table-footer">
                                                 <tbody>
-                                                    <!-- <tr class="subtotal">
+                                                    <tr class="subtotal">
                                                         <td>SUBTOTAL</td>
                                                         <td>{{order.subtotal | currency:'USD':'symbol'}}</td>
-                                                    </tr> -->
+                                                    </tr>
                                                     <tr class="tax">
                                                         <td>TAX</td>
-                                                        <td>{{order.taxRate | currency:'USD':'symbol'}}</td>
+                                                        <td>{{order.tax | currency:'USD':'symbol'}}</td>
                                                     </tr>
-                                                    <!-- <tr class="discount">
+                                                    <tr class="discount">
                                                         <td>DISCOUNT</td>
                                                         <td>-{{order.discount | currency:'USD':'symbol'}}</td>
-                                                    </tr> -->
+                                                    </tr>
                                                     <tr class="total">
                                                         <td>TOTAL</td>
-                                                        <td>{{order.totalPrice | currency:'USD':'symbol'}}</td>
+                                                        <td>{{order.total | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -535,8 +448,6 @@
                             </div>
                         </div>
                     </mat-tab>
-
-                    
 
                 </mat-tab-group>
 

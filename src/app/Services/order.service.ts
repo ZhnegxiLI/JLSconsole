@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class OrderService extends appServiceBase 
 {
     private apiUrlAdvancedOrderSearchByCriteria = this.host +"admin/Order/AdvancedOrderSearchByCriteria";
-
+    private apiUrlGetOrdersListByOrderId = this.host +"api/Order/GetOrdersListByOrderId";
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -25,5 +25,10 @@ export class OrderService extends appServiceBase
     advancedOrderSearchByCriteria(criteria): Observable<any>
     {
         return  super.postUrl(this.apiUrlAdvancedOrderSearchByCriteria, criteria );
+    }
+
+    getOrdersListByOrderId(criteria) : Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetOrdersListByOrderId,criteria);
     }
 }

@@ -1,5 +1,5 @@
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ProductSearchDialog } from './order/product-search/product-search.component';
+import { ProductSearchDialog } from './addorder/product-search/product-search.component';
 import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
 import { DialogModule } from './../../../dialog/dialog.module';
 import { NgModule } from '@angular/core';
@@ -35,9 +35,10 @@ import { EcommerceProductComponent, ImageOverViewDialog } from 'app/main/apps/e-
 import { EcommerceOrdersComponent } from 'app/main/apps/e-commerce/orders/orders.component';
 import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
 import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.component';
-import { EcommerceOrderService } from 'app/main/apps/e-commerce/order/order.service';
+
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { EcommerceAddOrderComponent } from 'app/main/apps/e-commerce/addOrder/addOrder.component';
 
 const routes: Routes = [
     {
@@ -53,16 +54,18 @@ const routes: Routes = [
         component: EcommerceOrdersComponent
     },
     {
-        path     : 'orders/:id',
-        component: EcommerceOrderComponent,
-        resolve  : {
-            data: EcommerceOrderService
-        }
+        path     : 'order',
+        component: EcommerceOrderComponent
+    },
+    {
+        path     : 'addOrder',
+        component: EcommerceAddOrderComponent
     }
 ];
 
 @NgModule({
     declarations: [
+        EcommerceAddOrderComponent,
         EcommerceProductsComponent,
         EcommerceProductComponent,
         EcommerceOrdersComponent,
@@ -104,8 +107,7 @@ const routes: Routes = [
         FuseWidgetModule
     ],
     providers   : [
-        EcommerceOrdersService,
-        EcommerceOrderService
+        EcommerceOrdersService
     ],
     entryComponents: [
         ImageOverViewDialog,

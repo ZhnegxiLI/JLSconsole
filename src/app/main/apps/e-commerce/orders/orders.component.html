@@ -52,6 +52,7 @@
                   <mat-form-field style="display: block;">
                     <mat-label>{{'products.Status' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.StatusId">
+                        <mat-option></mat-option>
                       <mat-option *ngFor="let item of statusList" [value]="item.Id">{{item.Label}}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -168,8 +169,10 @@
                 <mat-row *matRowDef="let order; columns: displayedColumns;"
                          class="order"
                          matRipple
-                         [routerLink]="'/apps/e-commerce/orders/'+order.id">
+                         [routerLink]="['/apps/e-commerce/order/']"
+                         [queryParams]="{Id:order.Id}">
                 </mat-row>
+
             </mat-table>
 
             <mat-paginator #paginator

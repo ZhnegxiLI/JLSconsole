@@ -39,11 +39,11 @@ export const navigation: FuseNavigation[] = [
                         exactMatch: true
                     },
                     {
-                        id        : 'orderDetail',
-                        title     : 'Order Detail',
-                        translate: 'NAV.ORDER_DETAIL',
+                        id        : 'addOrder',
+                        title     : 'Add Order',
+                        translate: 'NAV.ORDER_ADD',
                         type      : 'item',
-                        url       : '/apps/e-commerce/orders/1',
+                        url       : '/apps/e-commerce/addOrder',
                         exactMatch: true
                     }
                 ]
