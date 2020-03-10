@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AuthentificationService extends appServiceBase 
 {
 
-    authHost : string =  "http://localhost/JLSMobileApplication/api/Token/"; // todo change
+    authHost : string =  "http://jlsmobile.europetechs.com/api/Token/"; // todo change
 
     /**
      * Constructor
