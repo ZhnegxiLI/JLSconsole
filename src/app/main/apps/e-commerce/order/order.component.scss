@@ -8,7 +8,10 @@
             margin: 6px 0 0 0;
         }
     }
-
+    #adressZoom .fuse-card{
+        max-width: 100%;
+        min-width: auto;
+    }
     .content {
 
         .mat-tab-group,
