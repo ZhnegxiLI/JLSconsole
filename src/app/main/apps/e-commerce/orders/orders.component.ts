@@ -31,6 +31,8 @@ export class EcommerceOrdersComponent implements OnInit
 {
     displayedColumns = ['id',  'createdOn' , 'updatedOn', 'lastModified', 'entrepriseName', 'userName','total', 'status'];
 
+    public view: string = "orders";
+
     private orderList:any[] = [];
     private totalCount : number = 0;
     private statusList : any[] = [];

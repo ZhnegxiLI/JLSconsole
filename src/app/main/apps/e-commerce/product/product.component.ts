@@ -50,7 +50,9 @@ export class EcommerceProductComponent implements OnInit
     langLabels : Array<{"lang" : string, "label" : string}>;
     taxRateTable : Array<any> = [];
     loading : boolean = false;
-    
+
+    private previousView:string = "";
+    public view: string = "product";
     private productId : number = 0;
     private mainCategoryList : any[] = [];
     private secondCategoryList : any[] = [];
@@ -117,6 +119,9 @@ export class EcommerceProductComponent implements OnInit
     {
         this.activeRoute.queryParams.subscribe((params: Params) => {
             this.productId = params['Id'];
+            this.previousView = params['View'];
+     
+            console.log("previous view:" + this.previousView);
             if(this.productId!=null && this.productId !=0 ){
                 // todo new product 
 

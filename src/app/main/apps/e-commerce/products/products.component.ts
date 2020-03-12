@@ -20,6 +20,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector     : 'e-commerce-products',
@@ -33,6 +35,9 @@ export class EcommerceProductsComponent implements OnInit
     displayedColumns = ['reference', 'image', 'name', 'MainCategory','SecondCategory' , 'price', 'active'];
     //imageRoot = this._ecommerceProductsService.host + "images/";
  
+    private environment = environment;
+    public view: string = "products";
+
     private totalCount : number = 0;
 
     private productList : any[] = [];
@@ -76,7 +81,8 @@ export class EcommerceProductsComponent implements OnInit
         private productService : ProductService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _fuseProgressBarService: FuseProgressBarService
+        private _fuseProgressBarService: FuseProgressBarService,
+        private activeRoute : ActivatedRoute,
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);

@@ -1,5 +1,6 @@
 export const environment = {
-    production: true,
+    func      : false,
     hmr       : false,
-    url : 'http://localhost/JLSConsoleApplication/'// todo change
+    production: true,
+    url : 'http://jlsmobile.europetechs.com/'// todo change
 };

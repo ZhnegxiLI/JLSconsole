@@ -61,6 +61,14 @@
                             "sourceMap": true,
                             "extractCss": true
                         },
+                        "func": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.func.ts"
+                                }
+                            ]
+                        },
                         "hmr": {
                             "fileReplacements": [
                                 {
@@ -79,6 +87,10 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "fuse:build:production"
+                        },
+                        "func": {
+                            "hmr": true,
+                            "browserTarget": "fuse:build:func"
                         },
                         "hmr": {
                             "hmr": true,

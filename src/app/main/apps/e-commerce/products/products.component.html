@@ -61,7 +61,7 @@
             <!-- ADD BUTTON -->
             <button mat-raised-button
                     [routerLink]="['/apps/e-commerce/product/']"
-                    [queryParams]="{Id:0}"
+                    [queryParams]="{Id:0 , View :view}"
                     class="add-product-button fuse-white mt-24 mt-md-0">
             <span>{{'products.AddNewProducts' | translate}}</span>
             </button>
@@ -158,7 +158,7 @@
                          class="product"
                          matRipple
                          [routerLink]="['/apps/e-commerce/product/']"
-                         [queryParams]="{Id:product.ProductId}"
+                         [queryParams]="{Id:product.ProductId, View :view }"
                          >
                 </mat-row>
 

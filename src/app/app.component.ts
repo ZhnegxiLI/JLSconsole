@@ -17,12 +17,11 @@ import { locale as navigationChinese } from 'app/navigation/i18n/cn';
 import { locale as navigationFrench } from 'app/navigation/i18n/fr';
 
 @Component({
-    selector   : 'app',
+    selector: 'app',
     templateUrl: './app.component.html',
-    styleUrls  : ['./app.component.scss']
+    styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy
-{
+export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
 
@@ -50,8 +49,7 @@ export class AppComponent implements OnInit, OnDestroy
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform
-    )
-    {
+    ) {
         // Get default navigation
         this.navigation = navigation;
 
@@ -62,16 +60,22 @@ export class AppComponent implements OnInit, OnDestroy
         this._fuseNavigationService.setCurrentNavigation('main');
 
         // Add languages
-        this._translateService.addLangs(['en', 'cn','fr']);
+        this._translateService.addLangs(['en', 'cn', 'fr']);
 
         // Set the default language
-        this._translateService.setDefaultLang('en');
+        this._translateService.setDefaultLang('fr');
 
         // Set the navigation translations
-        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationChinese,navigationFrench);
+        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationChinese, navigationFrench);
 
-        // Use a language
-        this._translateService.use('fr');
+        if(localStorage.getItem('Lang')!=null){
+            this._translateService.use(localStorage.getItem('Lang'));
+        }
+        else{
+            // Use a language
+            this._translateService.use('fr');
+        }
+       
 
         /**
          * ----------------------------------------------------------------------------------------------------
@@ -94,11 +98,11 @@ export class AppComponent implements OnInit, OnDestroy
         // been selected and there is no way to force it, so we overcome the issue by switching
         // the default language back and forth.
 
-         setTimeout(() => {
+        setTimeout(() => {
             this._translateService.setDefaultLang('en');
             this._translateService.setDefaultLang('cn');
             this._translateService.setDefaultLang('fr');
-         });
+        });
 
 
         /**
@@ -108,8 +112,7 @@ export class AppComponent implements OnInit, OnDestroy
          */
 
         // Add is-mobile class to the body if the platform is mobile
-        if ( this._platform.ANDROID || this._platform.IOS )
-        {
+        if (this._platform.ANDROID || this._platform.IOS) {
             this.document.body.classList.add('is-mobile');
         }
 
@@ -124,8 +127,7 @@ export class AppComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to config changes
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
@@ -134,22 +136,18 @@ export class AppComponent implements OnInit, OnDestroy
                 this.fuseConfig = config;
 
                 // Boxed
-                if ( this.fuseConfig.layout.width === 'boxed' )
-                {
+                if (this.fuseConfig.layout.width === 'boxed') {
                     this.document.body.classList.add('boxed');
                 }
-                else
-                {
+                else {
                     this.document.body.classList.remove('boxed');
                 }
 
                 // Color theme - Use normal for loop for IE11 compatibility
-                for ( let i = 0; i < this.document.body.classList.length; i++ )
-                {
+                for (let i = 0; i < this.document.body.classList.length; i++) {
                     const className = this.document.body.classList[i];
 
-                    if ( className.startsWith('theme-') )
-                    {
+                    if (className.startsWith('theme-')) {
                         this.document.body.classList.remove(className);
                     }
                 }
@@ -161,8 +159,7 @@ export class AppComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -177,8 +174,7 @@ export class AppComponent implements OnInit, OnDestroy
      *
      * @param key
      */
-    toggleSidebarOpen(key): void
-    {
+    toggleSidebarOpen(key): void {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
     }
 }

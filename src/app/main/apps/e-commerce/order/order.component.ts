@@ -23,6 +23,8 @@ export class EcommerceOrderComponent implements OnInit
     private orderId : number = 0;
     private statusList : any[] = [];
 
+    public view: string = "order";
+
     orderStatuses: any;
     statusForm: FormGroup;
     
