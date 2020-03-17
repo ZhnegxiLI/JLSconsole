@@ -6,7 +6,7 @@ import { Register2Module } from 'app/main/pages/authentication/register-2/regist
 import { ForgotPassword2Module } from 'app/main/pages/authentication/forgot-password-2/forgot-password-2.module';
 import { ResetPassword2Module } from 'app/main/pages/authentication/reset-password-2/reset-password-2.module';
 import { RouterModule } from '@angular/router';
-import { AuthentificationService } from 'app/main/pages/authentication/authentification.service';
+import { AuthentificationService } from 'app/Services/authentification.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Login2Component } from './authentication/login-2/login-2.component';
 

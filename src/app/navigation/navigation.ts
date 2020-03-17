@@ -72,7 +72,23 @@ export const navigation: FuseNavigation[] = [
                     }
                 ]
             },
-
+            {
+                id : 'user-management',
+                title : 'User management',
+                translate : 'NAV.USER_MANAGEMENT',
+                type : 'collapsable',
+                icon : 'supervised_user_circle',
+                children: [
+                    {
+                        id        : 'User-list',
+                        title     : 'User list',
+                        translate: 'NAV.USER',
+                        type      : 'item',
+                        url       : '/apps/user/users',
+                        exactMatch: true
+                    }
+                ]
+            },
             {
                 id       : 'sample',
                 title    : 'Sample',

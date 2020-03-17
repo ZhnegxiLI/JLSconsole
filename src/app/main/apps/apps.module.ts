@@ -15,6 +15,10 @@ const routes = [
         loadChildren : './reference/reference.module#ReferenceModule'
     },
     {
+        path : 'user',
+        loadChildren : './user/user.module#UserModule'
+    },
+    {
         path : 'errors',
         loadChildren : './errors/errors.module#ErrorsModule'
     }

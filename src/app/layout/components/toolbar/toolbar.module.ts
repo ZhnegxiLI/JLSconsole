@@ -20,13 +20,13 @@ import { ToolbarComponent } from 'app/layout/components/toolbar/toolbar.componen
         MatIconModule,
         MatMenuModule,
         MatToolbarModule,
-
+  
         FuseSharedModule,
         FuseSearchBarModule,
-        FuseShortcutsModule
+        FuseShortcutsModule,
     ],
     exports     : [
-        ToolbarComponent
+        ToolbarComponent,
     ]
 })
 export class ToolbarModule

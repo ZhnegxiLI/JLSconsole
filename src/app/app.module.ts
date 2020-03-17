@@ -2,7 +2,7 @@ import { DialogModule } from './dialog/dialog.module';
 import { appServiceBase } from 'app/app.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -31,8 +31,11 @@ import { ProductService } from 'app/Services/product.service';
 import { ReferenceService } from 'app/Services/reference.service';
 import { OrderService } from 'app/Services/order.service';
 import { UserService } from 'app/Services/user.service';
+import { AuthentificationService } from 'app/Services/authentification.service';
 
 import { MatSnackBarModule } from '@angular/material';
+
+import { AppInterceptor } from './app.interceptor';
 
 const appRoutes: Routes = [
     
@@ -99,6 +102,10 @@ const appRoutes: Routes = [
         AppComponent
     ],
     providers   : [
+        AuthentificationService,
+
+        {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true},
+    
         ProductService,
         ReferenceService,
         OrderService,

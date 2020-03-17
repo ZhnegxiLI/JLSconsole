@@ -7,8 +7,12 @@ import * as _ from 'lodash';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
+import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
+
 import { navigation } from 'app/navigation/navigation';
 
+import {AuthentificationService} from 'app/Services/authentification.service';
+import { MatDialog } from '@angular/material';
 @Component({
     selector     : 'toolbar',
     templateUrl  : './toolbar.component.html',
@@ -39,7 +43,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _authService : AuthentificationService,
+        private dialog: MatDialog
     )
     {
         this.username = localStorage.getItem('username');
@@ -166,5 +172,20 @@ export class ToolbarComponent implements OnInit, OnDestroy
         localStorage.setItem('Lang',lang.id);
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    logout(){
+
+        const dialogRef = this.dialog.open(ConfimDialog, {
+            data: {title : "Logout?",
+                    message : "Are you sure to logout"} // todo translate
+          });
+      
+          dialogRef.afterClosed().subscribe(result => {
+            if(result.action == 'yes'){
+                this._authService.logout();
+            }
+          });
+     
     }
 }
