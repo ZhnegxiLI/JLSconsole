@@ -19,7 +19,7 @@
                     shopping_basket
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{'products.ProductsList' | translate}}
+                    {{'users.UserList' | translate}}
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -27,23 +27,17 @@
             
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.MainCategory' | translate}}</mat-label>
-                    <mat-select  [(ngModel)]="searchCriteria.MainCategoryReferenceId">
-                      <mat-option *ngFor="let item of mainCategoryList" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
+                    <mat-label>{{'users.UserType' | translate}}</mat-label>
+                    <mat-select  [(ngModel)]="searchCriteria.UserType">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let item of userRoleList" [value]="item.Id">{{item.Name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
             </div>
+
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.SecondCategory' | translate}}</mat-label>
-                    <mat-select multiple [(ngModel)]="searchCriteria.SecondCategoryReferenceId">
-                      <mat-option *ngFor="let item of getSecondCategoryList()" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </div>
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'products.Status' | translate}}</mat-label>
+                    <mat-label>{{'users.userStatus' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                       <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>
@@ -53,24 +47,22 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'products.SearchProduct' | translate}}" [(ngModel)]="searchCriteria.ProductLabel">
+                    <input #filter placeholder="{{'users.SearchUser' | translate}}" [(ngModel)]="searchCriteria.Username">
                 </div>
             </div>
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
             <button mat-raised-button
-                    [routerLink]="['/apps/e-commerce/product/']"
-                    [queryParams]="{Id:0 , View :view}"
+                    (click) = "insertOrUpdateUser(0)"
                     class="add-product-button fuse-white mt-24 mt-md-0">
             <span>{{'products.AddNewProducts' | translate}}</span>
             </button>
             <!-- / ADD BUTTON -->
             <button mat-raised-button
             (click) = "search()"
-            [disabled] = 'checkIfConditionIsFill()'
             class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>{{'products.Search' | translate}}</span>
+            <span>{{'users.Search' | translate}}</span>
             </button>
         </div>
         <!-- / HEADER -->
@@ -79,86 +71,62 @@
         <div class="content-card">
 
             <mat-table class="products-table"
-                       #table [dataSource]="productList"
+                       #table [dataSource]="userList"
                        matSort
                        (matSortChange)="sortData($event)"
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
 
                 <!-- ID Column -->
-                <ng-container matColumnDef="reference">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'products.Reference' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product">
-                        <p class="text-truncate">{{product.Code}}</p>
-                    </mat-cell>
-                </ng-container>
-
-                <!-- Image Column -->
-                <ng-container matColumnDef="image">
-                    <mat-header-cell *matHeaderCellDef >{{'products.Photos' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product">
-                        <img class="product-image"
-                             *ngIf="product.DefaultPhotoPath" [alt]="product.Label"
-                             [src]="environment.url + product.DefaultPhotoPath"/>
-                        <img *ngIf="!product.DefaultPhotoPath"
-                             [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                <ng-container matColumnDef="username">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.Username' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user">
+                        <p class="text-truncate">{{user.Username}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'products.Name' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product">
-                        <p class="text-truncate">{{product.Label}}</p>
+                <ng-container matColumnDef="entrepriseName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.entrepriseName' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user">
+                        <p class="text-truncate">{{user.EntrepriseName}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Category Column -->
-                <ng-container matColumnDef="MainCategory">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'products.MainCategory' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-md>
+                <ng-container matColumnDef="userType">
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.userType' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
-                            {{product.MainCategoryLabel}}
+                            {{user.UserRoleName}}
                         </p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="SecondCategory">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'products.SecondCategory' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-md>
+                <ng-container matColumnDef="telephone">
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.telephone' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
-                            {{product.SecondCategoryLabel}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
-
-
-                <!-- Price Column -->
-                <ng-container matColumnDef="price">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'products.Price' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
-                        <p class="price text-truncate">
-                            {{product.Price | currency:'EUR':'symbol'}}
+                            {{user.Telephone}}
                         </p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Active Column -->
                 <ng-container matColumnDef="active">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'products.Status' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
-                        <mat-icon *ngIf="product.Validity" class="active-icon green-600 s-16">check</mat-icon>
-                        <mat-icon *ngIf="!product.Validity" class="active-icon red-500 s-16">close</mat-icon>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'users.Status' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="user.Validity" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!user.Validity" class="active-icon red-500 s-16">close</mat-icon>
                     </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
 
-                <mat-row *matRowDef="let product; columns: displayedColumns;"
+                <mat-row *matRowDef="let user; columns: displayedColumns;"
                          class="product"
                          matRipple
-                         [routerLink]="['/apps/e-commerce/product/']"
-                         [queryParams]="{Id:product.ProductId, View :view }"
+                         (click) = "insertOrUpdateUser(user.Id)"
                          >
                 </mat-row>
 

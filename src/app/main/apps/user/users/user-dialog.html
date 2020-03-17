@@ -1,0 +1,57 @@
+<div mat-dialog>
+    <div mat-dialog-title>Add/Modify</div>
+    <div mat-dialog-content>
+
+        <form class="example-form" [formGroup]="userForm">
+            <mat-form-field class="example-full-width">
+                <mat-label >Email</mat-label>
+                <input matInput required  formControlName="Email" type="email">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label >Password</mat-label>
+                <input matInput required formControlName="Password" type="password">
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['Password'].hasError('minlength') && userForm.controls['Password'].dirty">
+                Password must have at least 8 caracters
+            </mat-error >
+            <mat-form-field class="example-full-width">
+                <mat-label >Confirm Password</mat-label>
+                <input matInput required formControlName="ConfirmPassword" type="password">
+        
+            </mat-form-field>
+        
+            <mat-error  *ngIf="userForm.errors!=null && userForm.errors.notTheSame==true">
+                Passwords do not match
+            </mat-error>  
+
+            <table class="example-full-width" cellspacing="0">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>UserType</mat-label>
+                            <mat-select required formControlName="RoleId">
+                                <mat-option *ngFor="let item of data.userRoleList" [value]="item.Id">{{item.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="display: block;">
+                            <mat-label >{{'users.userStatus' | translate}}</mat-label>
+                            <mat-select required formControlName="Validity">
+                                <mat-option *ngFor="let item of data.statusList" [value]="item.Value">{{item.Label}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+
+    <div class="pt-24" mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cacel</button>
+        <button mat-button [disabled]="checkSaveButton()" (click)="save()" >Save</button>
+    </div>
+</div>

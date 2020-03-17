@@ -11,6 +11,10 @@ import { Router } from '@angular/router';
 export class UserService extends appServiceBase 
 {
     private apiUrlGetUserListByRole = this.host +"admin/User/GetUserListByRole";
+    private apiUrlAdvancedUserSearch = this.host +"admin/User/AdvancedUserSearch";
+    private apiUrlGetUserRoleList = this.host +"admin/User/GetUserRoleList";
+    private apiUrlGetUserById = this.host + "admin/User/GetUserById";
+    private apiUrlCreateOrUpdateUser = this.host + "admin/User/CreateOrUpdateUser";
 
     constructor(
         protected _httpClient: HttpClient,
@@ -25,5 +29,25 @@ export class UserService extends appServiceBase
     getUserListByRole(criteria): Observable<any>
     {
         return  super.postUrl(this.apiUrlGetUserListByRole, criteria );
+    }
+
+    advancedUserSearch(criteria) : Observable<any>
+    {
+        return  super.postUrl(this.apiUrlAdvancedUserSearch, criteria );
+    }
+
+    getUserRoleList() : Observable<any>
+    {
+        return  super.getUrl(this.apiUrlGetUserRoleList ,null);
+    }
+
+    GetUserById(criteria) : Observable<any>
+    {
+        return  super.getUrl(this.apiUrlGetUserById, criteria );
+    }
+    
+    CreateOrUpdateUser(criteria) : Observable<any>
+    {
+        return  super.postUrl(this.apiUrlCreateOrUpdateUser, criteria);
     }
 }
