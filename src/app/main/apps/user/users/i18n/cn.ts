@@ -19,7 +19,9 @@ export const locale = {
             'ConfirmPassword':'确认密码',
             'PasswordsDoNotMatch':'密码不相符',
             'Cancel':'取消',
-            'Save':'保存'
+            'Save':'保存',
+            'ModifyPassword':'修改密码'
+        
 
         }
     }

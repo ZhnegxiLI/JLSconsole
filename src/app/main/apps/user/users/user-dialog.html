@@ -31,7 +31,7 @@
                 </tr>
             </table>
         </form>
-        <mat-checkbox [(ngModel)]="modifyPassword" [disabled]="modifyPasswordDisabled">Modify password</mat-checkbox>
+        <mat-checkbox [(ngModel)]="modifyPassword" [disabled]="modifyPasswordDisabled">{{'users.ModifyPassword' | translate}}</mat-checkbox>
         <div *ngIf="modifyPassword">
             <mat-form-field class="example-full-width">
                 <mat-label>{{'users.Password' | translate}}</mat-label>

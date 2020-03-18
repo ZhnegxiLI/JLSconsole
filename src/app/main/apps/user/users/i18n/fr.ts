@@ -9,7 +9,7 @@ export const locale = {
             'Telephone': 'Numéro de téléphone',
             'Status': 'Statut',
             'UserStatus': "Statut d'utilisateur",
-            'SearchUserName': "Recherche nom d'utilisateur",
+            'SearchUserName': "Nom d'utilisateur",
             'AddNewUser': 'Ajouter',
             'Search' : 'Rechercher',
             'Add/Modify':'Ajouter/Modifier',
@@ -17,9 +17,10 @@ export const locale = {
             'Password':'Mot de passe',
             'PasswordMustHaveAtLeast8Caracters':'Mot de passe au moins 8 letters',
             'ConfirmPassword':'Confirmation mot de passe',
-            'PasswordsDoNotMatch':"Mots de passes n'est pas corrects",
+            'PasswordsDoNotMatch':"Mot de passe n'est pas correct",
             'Cancel':'Annuler',
-            'Save':'Enregistrer'
+            'Save':'Enregistrer',
+            'ModifyPassword':'Modifier mot de passe'
 
 
         }

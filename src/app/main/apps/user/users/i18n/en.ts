@@ -9,7 +9,7 @@ export const locale = {
             'Telephone': 'Telephone number',
             'Status': 'Status',
             'UserStatus': 'User status',
-            'SearchUserName': "Search user's name",
+            'SearchUserName': "User's name",
             'AddNewUser': 'Add new user',
             'Search' : 'Search',
             'Add/Modify':'Add/Modify',
@@ -19,7 +19,8 @@ export const locale = {
             'ConfirmPassword':'Confirm password',
             'PasswordsDoNotMatch':'Passwords not match',
             'Cancel':'Cancel',
-            'Save':'Save'
+            'Save':'Save',
+            'ModifyPassword':'Modify password'
 
 
         }

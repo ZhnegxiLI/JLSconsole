@@ -13,6 +13,11 @@ import { navigation } from 'app/navigation/navigation';
 
 import {AuthentificationService} from 'app/Services/authentification.service';
 import { MatDialog } from '@angular/material';
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
 @Component({
     selector     : 'toolbar',
     templateUrl  : './toolbar.component.html',
@@ -45,9 +50,12 @@ export class ToolbarComponent implements OnInit, OnDestroy
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
         private _authService : AuthentificationService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
     )
     {
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
+        
         this.username = localStorage.getItem('username');
         // Set the defaults
         this.userStatusOptions = [
