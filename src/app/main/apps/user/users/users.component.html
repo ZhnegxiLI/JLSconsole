@@ -87,16 +87,16 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="entrepriseName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.EnterpriseName' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.EnterpriseName' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
                         <p class="text-truncate">{{user.EntrepriseName}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Category Column -->
                 <ng-container matColumnDef="userType">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.UserType' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >{{'users.UserType' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let user" >
                         <p class="category text-truncate">
                             {{user.UserRoleName}}
                         </p>

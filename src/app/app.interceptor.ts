@@ -37,10 +37,15 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
                 {
                         case 401:
                             console.log("Token expired. Attempting refresh ...");
+                            if(request.body.GrantType=='password'){
+                               return throwError(err) ;
+                            }
+
                             return this.handleHttpResponseError(request, next);
+                        
                         case 400:
                             return <any>this.acct.logout();
-                    }
+                }
                 } else 
                 {
                     return throwError(this.handleError);

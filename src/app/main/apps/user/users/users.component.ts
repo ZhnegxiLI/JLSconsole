@@ -210,7 +210,16 @@ export class UserDialog {
     this._fuseProgressBarService.show();
     criteria.Password = this.password==null? '':this.password;
     this.userService.CreateOrUpdateUser(criteria).subscribe(result =>{
-        if(result>0){
+        if(result.Succeeded!=null && result.Succeeded==false){
+            result.Errors.forEach(p => {
+              if(p.Code == "DuplicateUserName" || p.Code == "DuplicateUserName"){
+                this._matSnackBar.open('Email is taken', 'OK', { // todo translate
+                  duration        : 2000
+              });
+              }
+            });
+        }
+        else if(result>0){
           this._matSnackBar.open('Save successfully', 'OK', { // todo translate
             duration        : 2000
         });
@@ -220,6 +229,7 @@ export class UserDialog {
      this._fuseProgressBarService.hide();
     },
     error=>{
+      console.log(error)
       //todo
     });
   }
