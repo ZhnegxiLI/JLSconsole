@@ -16,6 +16,8 @@ export const locale = {
             'REFERENCE_MANAGEMENT' : '引用管理',
             'REFERENCE_ITEMS' : '引用项',
             'REFERENCE_CATEGORY' : '引用类型',
+            'USER_MANAGEMENT':'用户管理',
+            'USER':'用户'
         }
     }
 };

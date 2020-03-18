@@ -14,7 +14,9 @@ export const locale = {
             'ORDERS_MANAGEMENT' : 'Gestion des commandes',
             'REFERENCE_MANAGEMENT' : 'Gestion des référence',
             'REFERENCE_ITEMS' : 'Référence',
-            'REFERENCE_CATEGORY' : 'Référence catégories'
+            'REFERENCE_CATEGORY' : 'Référence catégories',
+            'USER_MANAGEMENT':"Gestion d'utilisateur",
+            'USER':'Utilisateur'
 
         }
     }

@@ -1,21 +1,25 @@
 export const locale = {
     lang: 'cn',
     data: {
-        'products': {
-            'ProductsList': '商品列表',
-            'Photos':'照片',
-            'AddNewProducts': '添加新商品',
-            'Reference': '编号',
-            'Name': '名字',
-            'Category': '类别',
-            'Price': '价格',
-            'Quantity': '数量',
-            'Valid': '上架',
-            'SearchProduct' : '搜索商品',
-            'MainCategory':'主分类',
-            'SecondCategory':'二级分类',
-            'Status':'状态',
-            'Search':'搜索'
+        'users': {
+            'UsersList': '用户列表',
+            'EnterpriseName':'公司名称',
+            'UserName':'用户名称',
+            'UserType': '用户类别',
+            'Telephone': '联系电话',
+            'Status': '状态',
+            'UserStatus': '用户状态',
+            'SearchUserName': '搜索用户名称',
+            'AddNewUser': '添加新用户',
+            'Search' : '搜索',
+            'Add/Modify':'添加/更改',
+            'Email':'邮箱',
+            'Password':'密码',
+            'PasswordMustHaveAtLeast8Caracters':'密码最少8位',
+            'ConfirmPassword':'确认密码',
+            'PasswordsDoNotMatch':'密码不相符',
+            'Cancel':'取消',
+            'Save':'保存'
 
         }
     }

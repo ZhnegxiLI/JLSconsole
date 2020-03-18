@@ -16,6 +16,8 @@ export const locale = {
             'REFERENCE_MANAGEMENT' : 'Reference management',
             'REFERENCE_ITEMS' : 'Rererence items',
             'REFERENCE_CATEGORY' : 'Reference categoty',
+            'USER_MANAGEMENT':'User management',
+            'USER':'User'
 
         }
     }

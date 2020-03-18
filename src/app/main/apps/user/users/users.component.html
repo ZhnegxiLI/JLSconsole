@@ -19,7 +19,7 @@
                     shopping_basket
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{'users.UserList' | translate}}
+                    {{'users.UsersList' | translate}}
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -37,7 +37,7 @@
 
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'users.userStatus' | translate}}</mat-label>
+                    <mat-label>{{'users.UserStatus' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                       <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>
@@ -47,7 +47,7 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'users.SearchUser' | translate}}" [(ngModel)]="searchCriteria.Username">
+                    <input #filter placeholder="{{'users.SearchUserName' | translate}}" [(ngModel)]="searchCriteria.Username">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -56,7 +56,7 @@
             <button mat-raised-button
                     (click) = "insertOrUpdateUser(0)"
                     class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>{{'products.AddNewProducts' | translate}}</span>
+            <span>{{'users.AddNewUser' | translate}}</span>
             </button>
             <!-- / ADD BUTTON -->
             <button mat-raised-button
@@ -79,7 +79,7 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="username">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.Username' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.UserName' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let user">
                         <p class="text-truncate">{{user.Username}}</p>
                     </mat-cell>
@@ -87,7 +87,7 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="entrepriseName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.entrepriseName' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'users.EnterpriseName' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let user">
                         <p class="text-truncate">{{user.EntrepriseName}}</p>
                     </mat-cell>
@@ -95,7 +95,7 @@
 
                 <!-- Category Column -->
                 <ng-container matColumnDef="userType">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.userType' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.UserType' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
                             {{user.UserRoleName}}
@@ -104,7 +104,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="telephone">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.telephone' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-md>{{'users.Telephone' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let user" fxHide fxShow.gt-md>
                         <p class="category text-truncate">
                             {{user.Telephone}}
