@@ -11,7 +11,7 @@ export const locale = {
             'UserStatus': "Statut d'utilisateur",
             'SearchUserName': "Recherche nom d'utilisateur",
             'AddNewUser': 'Ajouter',
-            'Search' : 'Recherche',
+            'Search' : 'Rechercher',
             'Add/Modify':'Ajouter/Modifier',
             'Email':'Email',
             'Password':'Mot de passe',

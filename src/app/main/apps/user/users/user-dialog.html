@@ -4,25 +4,9 @@
 
         <form class="example-form" [formGroup]="userForm">
             <mat-form-field class="example-full-width">
-                <mat-label >{{'users.Email' | translate}}</mat-label>
-                <input matInput required  formControlName="Email" type="email">
+                <mat-label>{{'users.Email' | translate}}</mat-label>
+                <input matInput required formControlName="Email" type="email">
             </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <mat-label >{{'users.Password' | translate}}</mat-label>
-                <input matInput required formControlName="Password" type="password">
-            </mat-form-field>
-            <mat-error *ngIf="userForm.controls['Password'].hasError('minlength') && userForm.controls['Password'].dirty">
-               {{'users.PasswordMustHaveAtLeast8Caracters' | translate}}
-            </mat-error >
-            <mat-form-field class="example-full-width">
-                <mat-label >{{'users.ConfirmPassword' | translate}}</mat-label>
-                <input matInput required formControlName="ConfirmPassword" type="password">
-        
-            </mat-form-field>
-        
-            <mat-error  *ngIf="userForm.errors!=null && userForm.errors.notTheSame==true">
-               {{'users.PasswordsDoNotMatch' | translate}}
-            </mat-error>  
 
             <table class="example-full-width" cellspacing="0">
                 <tr>
@@ -37,7 +21,7 @@
                     </td>
                     <td>
                         <mat-form-field style="display: block;">
-                            <mat-label >{{'users.UserStatus' | translate}}</mat-label>
+                            <mat-label>{{'users.UserStatus' | translate}}</mat-label>
                             <mat-select required formControlName="Validity">
                                 <mat-option *ngFor="let item of data.statusList" [value]="item.Value">{{item.Label}}
                                 </mat-option>
@@ -47,11 +31,31 @@
                 </tr>
             </table>
         </form>
+        <mat-checkbox [(ngModel)]="modifyPassword" [disabled]="modifyPasswordDisabled">Modify password</mat-checkbox>
+        <div *ngIf="modifyPassword">
+            <mat-form-field class="example-full-width">
+                <mat-label>{{'users.Password' | translate}}</mat-label>
+                <input matInput required type="password" [(ngModel)]="password">
+            </mat-form-field>
+            <mat-error *ngIf="checkPasswordLength()">
+                {{'users.PasswordMustHaveAtLeast8Caracters' | translate}}
+            </mat-error>
+            <mat-form-field class="example-full-width">
+                <mat-label>{{'users.ConfirmPassword' | translate}}</mat-label>
+                <input matInput required type="password" [(ngModel)]="confirmPassword">
+
+            </mat-form-field>
+
+            <mat-error *ngIf="checkPasswordSame()">
+                {{'users.PasswordsDoNotMatch' | translate}}
+            </mat-error>
+        </div>
+
 
     </div>
 
     <div class="pt-24" mat-dialog-actions>
         <button mat-button (click)="onNoClick()">{{'users.Cancel' | translate}}</button>
-        <button mat-button [disabled]="checkSaveButton()" (click)="save()" >{{'users.Save' | translate}}</button>
+        <button mat-button [disabled]="checkSaveButton()" (click)="save()">{{'users.Save' | translate}}</button>
     </div>
 </div>

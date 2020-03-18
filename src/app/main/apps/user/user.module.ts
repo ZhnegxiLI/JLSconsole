@@ -23,7 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {MatDialogModule, MatGridListModule, MatDatepickerModule} from "@angular/material";
+import {MatDialogModule, MatGridListModule, MatDatepickerModule, MatCheckboxModule} from "@angular/material";
 import {MatRadioModule} from "@angular/material";
 
 import { AgmCoreModule } from '@agm/core';
@@ -52,6 +52,7 @@ const routes: Routes = [
   entryComponents: [
       UserDialog],
   imports: [
+    MatCheckboxModule,
     RouterModule.forChild(routes),
     CommonModule,
     MatGridListModule,

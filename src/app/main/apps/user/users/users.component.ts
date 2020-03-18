@@ -120,8 +120,10 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.search();
+      console.log(result);
+      if(result!=null && result.IsSaved!=null&& result.IsSaved == true){
+        this.search();
+      }
     });
 
   }
@@ -134,6 +136,10 @@ export class UsersComponent implements OnInit {
 })
 export class UserDialog {
   private userForm: FormGroup;
+  private modifyPassword : boolean = false;
+  private password : string;
+  private confirmPassword: string;
+  private modifyPasswordDisabled : boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UserDialog>,
@@ -145,17 +151,14 @@ export class UserDialog {
     ) {
       this.userForm = this.formBuilder.group({
         Email : ['',Validators.compose([Validators.required,Validators.email])],
-        Password : ['',Validators.compose([Validators.required,Validators.minLength(8)])],
-        ConfirmPassword : ['',Validators.required],
         RoleId : ['',Validators.required],
         Validity : ['']
-      }, {validators: this.checkPasswords });
+      });
 
   }
 
   ngOnInit() {
     if(this.data.userId !=0){
-      this._fuseProgressBarService.show();
       this.userService.GetUserById({UserId : this.data.userId}).subscribe(result=>{
         console.log(result);
         if(result!=null){
@@ -164,24 +167,27 @@ export class UserDialog {
           this.userForm.controls['RoleId'].setValue(result.RoleId);
           this.userForm.controls['Validity'].setValue(result.Validity);
         }
-        this._fuseProgressBarService.hide();
       });
+    }
+    else{
+      this.modifyPassword = true;
+      this.modifyPasswordDisabled = true;
     }
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({IsSaved: false});
   }
 
   checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-  let pass = group.get('Password').value;
-  let confirmPass = group.get('ConfirmPassword').value;
+  // let pass = group.get('Password').value;
+  // let confirmPass = group.get('ConfirmPassword').value;
 
-  return pass === confirmPass ? null : {notTheSame : true};     
+  // return pass === confirmPass ? null : {notTheSame : true};     
   }
 
   checkSaveButton(){
-    if(this.userForm.status=="VALID"){
+    if(this.userForm.status=="VALID" && (this.modifyPassword==false || (this.modifyPassword==true && !this.checkPasswordLength() && !this.checkPasswordSame()))){
       return false;
     }
     else{
@@ -189,17 +195,27 @@ export class UserDialog {
     }
   }
 
+  checkPasswordLength(){
+    return  this.password==null || this.password.length<8;
+  }
+
+  
+  checkPasswordSame(){
+    return this.password==null  || this.confirmPassword==null  || !(this.confirmPassword === this.password);
+  }
+
   save(){
     var criteria = this.userForm.getRawValue();
     criteria.UserId = this.data.userId;
     this._fuseProgressBarService.show();
+    criteria.Password = this.password==null? '':this.password;
     this.userService.CreateOrUpdateUser(criteria).subscribe(result =>{
         if(result>0){
           this._matSnackBar.open('Save successfully', 'OK', { // todo translate
             duration        : 2000
         });
 
-        this.dialogRef.close();
+        this.dialogRef.close({IsSaved: true});
      }
      this._fuseProgressBarService.hide();
     },
