@@ -95,11 +95,18 @@ export class Login2Component implements OnInit {
         },
             error => {
                 console.log(error);
-
+                if(error.Body!=null && error.Body.LoginError!=null){
+                    this.matSnackBar.open(error.Body.LoginError, 'OK', { // todo translate
+                        duration: 2000
+                    });
+                }
+                else{
+                    this.matSnackBar.open("Some error is occur, please try again", 'OK', { // todo translate
+                        duration: 2000
+                    });
+                }
                 this._fuseProgressBarService.hide();
-                this.matSnackBar.open('Password or username is wrong', 'OK', { // todo translate
-                    duration: 2000
-                });
+              
             });
     }
 }

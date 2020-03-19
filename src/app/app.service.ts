@@ -52,11 +52,11 @@ export abstract class appServiceBase {
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
           // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error.message);
+          console.log('An error occurred:', error.error.message);
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
-          console.error(
+          console.log(
             `Backend returned code ${error.status}, ` +
             `body was: ${error.error}`);
 
@@ -69,7 +69,9 @@ export abstract class appServiceBase {
             }
             else if (error.status == 401 || error.status == 403 ){
                 localStorage.clear();
-                this.router.navigate(['login']);
+                if(this.router!=null){
+                    this.router.navigate(['login']);
+                }
             }
         }
         // return an observable with a user-facing error message
