@@ -1,0 +1,80 @@
+<div mat-dialog>
+    <div mat-dialog-title>{{'users.Add/Modify' | translate}}</div>
+    <div mat-dialog-content>
+
+        <form class="example-form" [formGroup]="adreeForm">
+            <mat-form-field class="example-full-width" style="width: 100%;">
+                <input required matInput placeholder="Entreprise" formControlName="EntrepriseName">
+            
+            </mat-form-field>
+            <table class="example-full-width" cellspacing="0" style="width: 100%;">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width" style="width: 100%;">
+                            <input required matInput placeholder="Nom" formControlName="ContactFirstName">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width" style="width: 100%;">
+                            <input required matInput placeholder="Prénom" formControlName="ContactLastName">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+                <mat-form-field class="example-full-width" style="width: 100%;">
+                    <textarea required matInput placeholder="Address" formControlName="FirstLineAddress"></textarea>
+             
+                </mat-form-field>
+                <mat-form-field class="example-full-width" style="width: 100%;">
+                    <textarea matInput placeholder="Address 2" formControlName="SecondLineAddress"></textarea>
+                </mat-form-field>
+                <table class="example-full-width" cellspacing="0" style="width: 100%;">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width" style="width: 100%;">
+                            <input required matInput placeholder="City" formControlName="City">
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select required placeholder="Paye" formControlName="Country">
+                                <mat-option value=1>
+                                    France
+                                </mat-option>
+                                <mat-option value=2>
+                                    Belgique
+                                </mat-option>
+                                <mat-option value=3>
+                                    Espagnol
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <input required matInput #postalCode maxlength="5" placeholder="Postal Code"
+                                formControlName="ZipCode">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                </table>
+                <mat-form-field class="example-full-width" style="width: 100%;">
+                    <span matPrefix>+33 &nbsp;</span>
+                    <input required type="tel" matInput placeholder="Téléphone" formControlName="ContactTelephone">
+                  
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" style="width: 100%;">
+                    <span matPrefix>+33 &nbsp;</span>
+                    <input type="tel" matInput placeholder="Fax" formControlName="ContactFax">
+                </mat-form-field>
+        </form>
+    </div>
+
+    <div class="pt-24" mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">{{'users.Cancel' | translate}}</button>
+        <button mat-button [disabled]="checkSaveButton()" (click)="save()">{{'users.Save' | translate}}</button>
+    </div>
+</div>

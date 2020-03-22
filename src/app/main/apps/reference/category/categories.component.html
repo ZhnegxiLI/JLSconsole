@@ -26,20 +26,13 @@
             </div>
             <!-- / APP TITLE -->
 
-            <!-- SEARCH -->
-            <div class="search-wrapper mx-32 mx-md-0">
-                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'CATEGORIES.SEARCH_FOR_A_CATEGORY' | translate}}">
-                </div>
-            </div>
-            <!-- / SEARCH -->
-
             <!-- ADD BUTTON -->
-            <button mat-raised-button (click)="newCategory()" 
+            <button *ngIf="modifyOrAddCategoryPermission" mat-raised-button (click)="ShowCategoryDialog(crateNewCategory())" 
                     class="add-item-button fuse-white mt-24 mt-md-0">
             <span>{{'CATEGORIES.ADD_NEW_CATEGORY' | translate}}</span>
             </button>
+
+  
             <!-- / ADD BUTTON -->
 
         </div>
@@ -49,7 +42,7 @@
         <div class="content-card">
 
             <mat-table class="items-table"
-                       #table [dataSource]="dataSource"
+                       #table [dataSource]="referenceCategroyList"
                        matSort
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
@@ -58,7 +51,7 @@
                 <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                     <mat-cell *matCellDef="let category">
-                        <p class="text-truncate">{{category.id}}</p>
+                        <p class="text-truncate">{{category.Id}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -67,42 +60,23 @@
                 <ng-container matColumnDef="shortLabel">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.SHORTLABEL' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let category">
-                        <p class="text-truncate">{{category.shortLabel}}</p>
+                        <p class="text-truncate">{{category.ShortLabel}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <!-- LongLabel Column -->
-                <ng-container matColumnDef="longLabel">
-                    <mat-header-cell *matHeaderCellDef fxHide mat-sort-header fxShow.gt-xs>{{'CATEGORIES.LONGLABEL' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let category" fxHide fxShow.gt-xs>
-                        <p class="category text-truncate">
-                            {{category.longLabel}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
-
-
-                <!-- Active Column -->
-                <ng-container matColumnDef="active">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>{{'CATEGORIES.ACTIVE' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let category" fxHide fxShow.gt-xs>
-                        <mat-icon *ngIf="category.validity" class="active-icon green-600 s-16">check</mat-icon>
-                        <mat-icon *ngIf="!category.validity" class="active-icon red-500 s-16">close</mat-icon>
-                    </mat-cell>
-                </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
 
                 <mat-row *matRowDef="let category; columns: displayedColumns;"
                          class="categories"
-                         (click)="editCategory(category)" 
+                         (click)="ShowCategoryDialog(category)" 
                          matRipple>
                 </mat-row>
 
             </mat-table>
 
             <mat-paginator #paginator
-                           [length]="dataSource.filteredData.length"
+                           [length]="totalCount"
                            [pageIndex]="0"
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 25, 100]">

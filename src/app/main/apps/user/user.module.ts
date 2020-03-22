@@ -6,8 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
 import { DialogModule } from './../../../dialog/dialog.module';
+
+import { AddressDialog } from './../../../dialog/address-dialog/address-dialog.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -35,6 +36,7 @@ import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
+
 const routes: Routes = [
   {
       path     : 'users',
@@ -50,6 +52,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [UserComponent, UsersComponent,UserDialog],
   entryComponents: [
+    AddressDialog,
       UserDialog],
   imports: [
     MatCheckboxModule,

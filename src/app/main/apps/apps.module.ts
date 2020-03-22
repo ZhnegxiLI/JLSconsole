@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { ErrorsModule } from 'app/main/apps/errors/errors.module'
+import { ErrorsModule } from 'app/main/apps/errors/errors.module';
 
 const routes = [
     {
@@ -29,6 +29,6 @@ const routes = [
         FuseSharedModule,
         ErrorsModule
     ]
-})
+    })
 export class AppsModule {
 }

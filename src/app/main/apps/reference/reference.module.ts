@@ -28,31 +28,18 @@ import {MatProgressSpinnerModule} from '@angular/material'
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
-import { ReferenceItemsService } from './items/items.service';
 import { ReferenceItemsComponent } from './items/items.component';
 
-import { ReferenceCategoryService } from './category/categories.service';
 import { ReferenceCategoryComponent } from './category/categories.component';
-
-import {ItemsItemFormDialogComponent} from './items/items-form/item-form.component'
-import { CategoriesCategoryFormDialogComponent } from './category/category-form/category-form.component';
-
-
 
 const routes: Routes = [
     {
         path     : 'items',
-        component: ReferenceItemsComponent,
-        resolve  : {
-            data: ReferenceItemsService
-        }
+        component: ReferenceItemsComponent
     },
     {
         path     : 'category',
-        component: ReferenceCategoryComponent,
-        resolve  : {
-            data: ReferenceCategoryService
-        }
+        component: ReferenceCategoryComponent
     }
 
 ];
@@ -60,9 +47,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ReferenceItemsComponent,
-        ReferenceCategoryComponent,
-        ItemsItemFormDialogComponent,
-        CategoriesCategoryFormDialogComponent
+        ReferenceCategoryComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -96,12 +81,8 @@ const routes: Routes = [
         FuseWidgetModule
     ],
     providers   : [
-        ReferenceItemsService,
-        ReferenceCategoryService
     ],
     entryComponents: [
-        ItemsItemFormDialogComponent,
-        CategoriesCategoryFormDialogComponent,
         ConfimDialog],
 })
 export class ReferenceModule

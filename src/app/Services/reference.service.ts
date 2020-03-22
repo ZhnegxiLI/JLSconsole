@@ -12,6 +12,10 @@ export class ReferenceService extends appServiceBase
 {
 
     private apiUrlGetReferenceItemsByCategoryLabels: string = this.host + "admin/Reference/GetReferenceItemsByCategoryLabels";
+    private apiUrlGetAllCategoryList: string = this.host + "admin/Reference/GetAllCategoryList";
+    private apiUrlAdvancedSearchReferenceItem: string = this.host + "admin/Reference/AdvancedSearchReferenceItem";
+    private apiUrlGetAllReferenceItemWithChildren: string = this.host + "admin/Reference/GetAllReferenceItemWithChildren";
+
     
     constructor(
         protected _httpClient: HttpClient,
@@ -28,6 +32,19 @@ export class ReferenceService extends appServiceBase
         return super.postUrl(this.apiUrlGetReferenceItemsByCategoryLabels,criteria);
     } 
 
-   
+    getAllCategoryList(criteria : any): Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetAllCategoryList,criteria);
+    } 
+
+    advancedSearchReferenceItem(criteria : any): Observable<any>
+    {
+        return super.postUrl(this.apiUrlAdvancedSearchReferenceItem,criteria);
+    } 
+
+    getAllReferenceItemWithChildren(criteria : any): Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetAllReferenceItemWithChildren,criteria);
+    } 
     
 }

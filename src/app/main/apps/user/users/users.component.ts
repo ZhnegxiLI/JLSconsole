@@ -10,6 +10,7 @@ import { UserService } from 'app/Services/user.service';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { AddressDialog } from './../../../../dialog/address-dialog/address-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -143,6 +144,7 @@ export class UserDialog {
 
   constructor(
     public dialogRef: MatDialogRef<UserDialog>,
+    public dialog: MatDialog,
     private formBuilder:FormBuilder,
     private userService : UserService,
     private _matSnackBar: MatSnackBar,
@@ -231,6 +233,18 @@ export class UserDialog {
     error=>{
       console.log(error)
       //todo
+    });
+  }
+
+  addAddress(){
+    const dialogRef = this.dialog.open(AddressDialog, {
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.action == 'yes'){
+          this.dialogRef.close({});
+      }
     });
   }
 
