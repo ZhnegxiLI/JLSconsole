@@ -16,7 +16,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {MatDialogModule} from "@angular/material";
+import {MatDialogModule, MatCheckboxModule} from "@angular/material";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -28,7 +28,7 @@ import {MatProgressSpinnerModule} from '@angular/material'
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
-import { ReferenceItemsComponent } from './items/items.component';
+import { ReferenceItemsComponent, ItemDialog } from './items/items.component';
 
 import { ReferenceCategoryComponent } from './category/categories.component';
 
@@ -47,12 +47,14 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ReferenceItemsComponent,
-        ReferenceCategoryComponent
+        ReferenceCategoryComponent,
+        ItemDialog
     ],
     imports     : [
         RouterModule.forChild(routes),
 
         DialogModule,
+        MatCheckboxModule,
         MatDialogModule,
         MatProgressSpinnerModule,
         MatButtonModule,
@@ -83,7 +85,9 @@ const routes: Routes = [
     providers   : [
     ],
     entryComponents: [
-        ConfimDialog],
+        ConfimDialog,
+        ItemDialog
+    ],
 })
 export class ReferenceModule
 {

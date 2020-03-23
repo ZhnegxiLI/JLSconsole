@@ -16,6 +16,7 @@ export class ReferenceService extends appServiceBase
     private apiUrlAdvancedSearchReferenceItem: string = this.host + "admin/Reference/AdvancedSearchReferenceItem";
     private apiUrlGetAllReferenceItemWithChildren: string = this.host + "admin/Reference/GetAllReferenceItemWithChildren";
 
+    private apiUrlSaveReferenceItem: string = this.host + "admin/Reference/SaveReferenceItem";
     
     constructor(
         protected _httpClient: HttpClient,
@@ -46,5 +47,9 @@ export class ReferenceService extends appServiceBase
     {
         return super.getUrl(this.apiUrlGetAllReferenceItemWithChildren,criteria);
     } 
+
+    saveReferenceItem(criteria: any){
+        return super.postUrl(this.apiUrlSaveReferenceItem,criteria);
+    }
     
 }

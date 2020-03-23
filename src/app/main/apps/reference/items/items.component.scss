@@ -1,5 +1,9 @@
 @import "src/@fuse/scss/fuse";
-
+item-dialog{
+    .example-full-width{
+        width: 100%;
+    }
+}
 reference-items {
 
     #items {
@@ -35,7 +39,6 @@ reference-items {
             > .header {
 
                 .search-wrapper {
-                    width: 100%;
                     max-width: 480px;
                     border-radius: 28px;
                     overflow: hidden;

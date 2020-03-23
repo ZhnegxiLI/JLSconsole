@@ -1,12 +1,12 @@
 
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { ConfimDialog } from './../../../../dialog/confim-dialog/confim-dialog.component';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -21,6 +21,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReferenceService } from 'app/Services/reference.service';
 import { TranslateService } from '@ngx-translate/core';
+import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 
 @Component({
     selector     : 'reference-items',
@@ -60,7 +61,8 @@ export class ReferenceItemsComponent implements OnInit
         Validity : null,
         ReferenceCategoryId : null,
         SearchText : '',
-        IgnoreProduct: true
+        IgnoreProduct: true,
+        ParentCategoryId:0
     }
 
     @ViewChild(MatPaginator, {static: true})
@@ -78,6 +80,7 @@ export class ReferenceItemsComponent implements OnInit
         public _matDialog: MatDialog,
         private _matSnackBar: MatSnackBar,
         private _translateService: TranslateService,
+        public dialog: MatDialog,
     ){
         this._fuseTranslationLoaderService.loadTranslations(english, chinese ,french);
     }
@@ -130,10 +133,124 @@ export class ReferenceItemsComponent implements OnInit
         error=>{
 
         });
- 
     }
 
-    updateOrCreateReferenceItem(){
 
+    getTargetReferenceItemByCategory(){
+        return this.parentReferenceItemList.filter(p=> p.CategoryId == this.searchCriteria.ParentCategoryId);
+    }
+
+    updateOrCreateReferenceItem(item){
+        console.log(item);
+
+        const dialogRef = this.dialog.open(ItemDialog, {
+            width: '600px',
+            data: {referenceItem : item,referenceCategoryList: this.categoryList, statusList: this.statusList, parentReferenceItemList : this.parentReferenceItemList}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result);
+          if(result!=null && result.IsSaved!=null&& result.IsSaved == true){
+            this.search();
+          }
+        });
+
+    }
+
+    getEmptyReferenceItem(){
+        return {
+            Id : 0,
+            Label : null,
+            Validity : true,
+            CategoryId : 0,
+            Category : {},
+            Labels : [],
+            ParentId : null,
+            ParentCategoryId : null,
+            ParentReferenceItem : null
+        }
     }
 }
+
+@Component({
+    selector: 'item-dialog',
+    templateUrl: 'item-dialog.html',
+    styleUrls    : ['./items.component.scss'],
+  })
+  export class ItemDialog {
+    @ViewChild('contactForm',null) contactForm: NgForm;
+    
+    private itemInfo = {
+        Id : 0,
+        Code : '',
+        CategoryId : 0,
+        Validity :true,
+        Value : '',
+        ParentCategoryId:0,
+        ParentId :0,
+        LabelFR : null,
+        LebelEN: null,
+        LabelCN : null
+    };
+
+
+    constructor(
+      public dialogRef: MatDialogRef<ItemDialog>,
+      public dialog: MatDialog,
+      private _matSnackBar: MatSnackBar,
+      private _fuseProgressBarService: FuseProgressBarService,
+      private referenceService : ReferenceService,
+      @Inject(MAT_DIALOG_DATA) public data: any
+      ) { 
+      }
+  
+    ngOnInit() {
+        console.log(this.data.referenceItem);
+        this.itemInfo = this.data.referenceItem;
+        this.getFormatedTranslation();
+        this.getParentCateogryId();
+    }
+  
+    onNoClick(): void {
+      this.dialogRef.close({IsSaved: false});
+    }
+  
+    onSubmit(form){
+
+        //saveReferenceItem
+        this.referenceService.saveReferenceItem(this.itemInfo).subscribe(result=>{
+            if(result>0){
+                this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+                    duration        : 2000
+                });
+            }
+        },
+        error=>{
+            this._matSnackBar.open('Save fail', 'Fail', { // todo translate
+                duration        : 2000
+            });
+        })
+    }
+
+    getParentCateogryId(){
+        if(this.data.referenceItem!=null && this.data.referenceItem.ParentReferenceItem!=null 
+            && this.data.referenceItem.ParentReferenceItem.CategoryId!=null){
+            this.itemInfo.ParentCategoryId = this.data.referenceItem.ParentReferenceItem.CategoryId;
+        }
+    }
+
+    getTargetReferenceItemByCategory(){
+        return this.data.parentReferenceItemList.filter(p=> p.CategoryId == this.itemInfo.ParentCategoryId);
+    }
+
+    getFormatedTranslation(){
+        if(this.data.referenceItem!=null && this.data.referenceItem.Labels!=null){
+            this.data.referenceItem.Labels.forEach(p=>{
+                this.itemInfo['Label'+p.Lang.toUpperCase()] = p.Label;
+            });
+        }
+    
+    }
+  
+  }
+  

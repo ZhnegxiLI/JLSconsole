@@ -28,10 +28,18 @@
             </div>
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
+                    <mat-label>{{'products.ParentCategory' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="searchCriteria.ParentCategoryId">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of categoryList" [value]="item.Id">
+                            {{item.ShortLabel}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field style="display: block;">
                     <mat-label>{{'products.ParentId' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ParentId">
                         <mat-option>None</mat-option>
-                        <mat-option *ngFor="let item of parentReferenceItemList" [value]="item.Id">
+                        <mat-option *ngFor="let item of getTargetReferenceItemByCategory()" [value]="item.Id">
                             {{item.Label||item.Code}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -55,7 +63,7 @@
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <button mat-raised-button (click)="updateOrCreateReferenceItem()"
+            <button mat-raised-button (click)="updateOrCreateReferenceItem(getEmptyReferenceItem())"
                 class="add-item-button fuse-white mt-24 mt-md-0">
                 <span>{{'ITEMS.ADD_NEW_ITEM' | translate}}</span>
             </button>
