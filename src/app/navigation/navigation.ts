@@ -21,6 +21,14 @@ export const navigation: FuseNavigation[] = [
                         type      : 'item',
                         url       : '/apps/e-commerce/products',
                         exactMatch: true
+                    },
+                    {
+                        id        : 'cart',
+                        title     : 'Cart',
+                        translate: 'NAV.Cart',
+                        type      : 'item',
+                        url       : '/apps/e-commerce/cart',
+                        exactMatch: true
                     }
                 ]
             },{

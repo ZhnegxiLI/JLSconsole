@@ -85,6 +85,14 @@
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
 
+                       
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef >{{'products.Action' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                    <button  mat-button color="primary" (click)="AddProductIntoCart(product, $event)"><mat-icon>add_shopping_cart</mat-icon></button>
+                    </mat-cell>
+                </ng-container>
+
                 <!-- ID Column -->
                 <ng-container matColumnDef="reference">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{'products.Reference' | translate}}</mat-header-cell>

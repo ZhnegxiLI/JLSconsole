@@ -223,6 +223,8 @@ export class ReferenceItemsComponent implements OnInit
                 this._matSnackBar.open('Save successfully', 'OK', { // todo translate
                     duration        : 2000
                 });
+
+                this.dialogRef.close({IsSaved: true});
             }
         },
         error=>{

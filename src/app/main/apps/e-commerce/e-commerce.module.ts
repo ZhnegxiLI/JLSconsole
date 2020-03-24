@@ -39,6 +39,7 @@ import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.co
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { EcommerceAddOrderComponent } from 'app/main/apps/e-commerce/addOrder/addOrder.component';
+import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
     {
@@ -58,6 +59,10 @@ const routes: Routes = [
         component: EcommerceOrderComponent
     },
     {
+        path     : 'cart',
+        component: CartComponent
+    },
+    {
         path     : 'addOrder',
         component: EcommerceAddOrderComponent
     }
@@ -71,7 +76,8 @@ const routes: Routes = [
         EcommerceOrdersComponent,
         EcommerceOrderComponent,
         ImageOverViewDialog,
-        ProductSearchDialog
+        ProductSearchDialog,
+        CartComponent
     ],
     imports     : [
         RouterModule.forChild(routes),

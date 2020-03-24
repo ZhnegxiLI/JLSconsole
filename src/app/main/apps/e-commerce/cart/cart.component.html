@@ -1,0 +1,116 @@
+<div id="categories" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <div class="overlay" *ngIf="loading"><div class="spinner-center"><mat-spinner></mat-spinner></div></div>
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    shopping_basket
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    {{'CATEGORIES.CATEGORIES' | translate}}
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- ADD BUTTON -->
+            <button  mat-raised-button (click)="ValideOrder()" 
+                    class="add-item-button fuse-white mt-24 mt-md-0">
+            <span>{{'CATEGORIES.ValideOrder' | translate}}</span>
+            </button>
+
+  
+            <!-- / ADD BUTTON -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table class="items-table"
+                       #table [dataSource]="cartProductList"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar>
+
+                <ng-container matColumnDef="image">
+                    <mat-header-cell *matHeaderCellDef >{{'products.Photos' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <!-- <img class="product-image"
+                                *ngIf="product.DefaultPhotoPath" [alt]="product.Label"
+                                [src]="environment.url + product.DefaultPhotoPath"/> -->
+                        <img *ngIf="!product.DefaultPhotoPath"
+                                [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                    </mat-cell>
+                </ng-container>
+
+                <!-- ShortLabel Column -->
+                <ng-container matColumnDef="product">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.Product' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <p class="text-truncate">{{product.Label}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.Price' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <p class="text-truncate">{{product.Price}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.Quantity' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <div>
+                            <button mat-button color="primary" style="padding-left:0px; min-width: 32px;"  ><mat-icon>indeterminate_check_box</mat-icon></button>
+                            <input type="text" style="width: 60px; padding: 0px; text-align: center;" [value]="product.Quantity">
+                            <button mat-button color="primary"><mat-icon>add_box</mat-icon></button>
+                        </div>
+                     
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.Total' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <p class="text-truncate">{{product.Price * product.Quantity}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef>{{'CATEGORIES.Acion' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let product">
+                        <button  mat-button color="primary" (click)="DeleteFromCart(product, $event)"><mat-icon>delete_forever</mat-icon></button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-row *matRowDef="let product; columns: displayedColumns;"
+                class="categories">
+                </mat-row>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+
+            </mat-table>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

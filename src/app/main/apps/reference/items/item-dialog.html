@@ -88,7 +88,7 @@
         </div>
 
         <div class="pt-24" mat-dialog-actions>
-            <button mat-button (click)="onNoClick()">{{'users.Cancel' | translate}}</button>
+            <button mat-button (click)="onNoClick()" type="button">{{'users.Cancel' | translate}}</button>
             <button mat-button type="submit" [disabled]="!contactForm.valid">{{'users.Save' | translate}}</button>
         </div>
     </form>
