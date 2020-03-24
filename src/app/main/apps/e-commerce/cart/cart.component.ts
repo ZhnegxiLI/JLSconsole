@@ -38,6 +38,15 @@ export class CartComponent implements OnInit {
   ValideOrder(){
 
   }
+
+  addOrMinusProduct(product,action){
+    if(action == 'add'){
+      product.Quantity = product.Quantity + 1;
+    }
+    else if(action == 'minus'){
+      product.Quantity = product.Quantity - 1;
+    }
+  }
   DeleteFromCart(product,event){
     console.log(product);
 

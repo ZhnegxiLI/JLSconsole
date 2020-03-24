@@ -78,9 +78,9 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.Quantity' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let product">
                         <div>
-                            <button mat-button color="primary" style="padding-left:0px; min-width: 32px;"  ><mat-icon>indeterminate_check_box</mat-icon></button>
+                            <button mat-button color="primary" style="padding-left:0px; min-width: 32px;" (click)="addOrMinusProduct(product,'minus')" [disabled]="product.Quantity<=1" ><mat-icon>indeterminate_check_box</mat-icon></button>
                             <input type="text" style="width: 60px; padding: 0px; text-align: center;" [value]="product.Quantity">
-                            <button mat-button color="primary"><mat-icon>add_box</mat-icon></button>
+                            <button mat-button color="primary" (click)="addOrMinusProduct(product,'add')"><mat-icon>add_box</mat-icon></button>
                         </div>
                      
                     </mat-cell>
