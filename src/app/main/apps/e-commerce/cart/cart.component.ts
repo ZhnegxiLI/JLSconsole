@@ -39,6 +39,12 @@ export class CartComponent implements OnInit {
 
   }
 
+  quantityChange(product){
+      if(product.Quantity!=null && product.Quantity !="" ){
+        localStorage.setItem('cart',JSON.stringify(this.cartProductList));
+      }
+  }
+
   addOrMinusProduct(product,action){
     if(action == 'add'){
       product.Quantity = product.Quantity + 1;
@@ -46,6 +52,7 @@ export class CartComponent implements OnInit {
     else if(action == 'minus'){
       product.Quantity = product.Quantity - 1;
     }
+    this.quantityChange(product);
   }
   DeleteFromCart(product,event){
     console.log(product);
