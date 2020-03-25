@@ -3,6 +3,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { environment } from '../../../../../environments/environment';
 import { ConfimDialog } from 'app/dialog/confim-dialog/confim-dialog.component';
 import { MatDialog } from '@angular/material';
+import { ProductService } from 'app/Services/product.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -18,6 +20,8 @@ export class CartComponent implements OnInit {
   private environment = environment;
   private cartProductList : any[] = [];
   constructor(
+    private _translateService: TranslateService,
+    private productService : ProductService,
     private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -30,6 +34,22 @@ export class CartComponent implements OnInit {
       var cartObject = JSON.parse(cartStringfy);
      
       this.cartProductList = cartObject;
+
+
+     
+      this.productService.GetProductInfoByReferenceIds({
+        ReferenceIds : this.getProductReferenceIdList(cartObject),
+        Lang : this._translateService.currentLang
+      }).subscribe(result=>{
+        console.log(  this.cartProductList);
+        console.log(result);
+
+        this.mapQuantityForNewInfomation(result);
+      },
+      error=>{
+
+      })
+
     }
 
     console.log(this.cartProductList);
@@ -37,6 +57,27 @@ export class CartComponent implements OnInit {
 
   ValideOrder(){
 
+  }
+
+  mapQuantityForNewInfomation(newResult){
+    if(newResult!=null){
+      newResult.forEach(p => {
+        var temp = this.cartProductList.find(r=>r.ReferenceId == p.ReferenceId);
+        if(temp!=null){
+          p.Quantity = temp.Quantity;
+        }
+      });
+      this.cartProductList = newResult;
+      localStorage.setItem('cart',JSON.stringify(this.cartProductList));
+    }
+  }
+
+  getProductReferenceIdList (productList){
+    var result = [];
+    productList.forEach(p => {
+      result.push(p.ReferenceId);    
+    });
+    return result;
   }
 
   quantityChange(product){

@@ -29,10 +29,17 @@ export class AddressDialog implements OnInit {
       });
     }
   ngOnInit() {
+
+    console.log(this.data.Type);
+    console.log(this.data.Address);
   }
 
   checkSaveButton(){
 
+  }
+
+  onNoClick(): void{
+    this.dialogRef.close();
   }
 
 }

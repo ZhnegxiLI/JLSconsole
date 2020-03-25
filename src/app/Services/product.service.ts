@@ -21,6 +21,7 @@ export class ProductService extends appServiceBase
 
     private apiUrlGetProductPhotoPathById: string = this.host + "admin/Product/GetProductPhotoPathById";
     
+    private apiUrlGetProductInfoByReferenceIds: string = this.host + "admin/Product/GetProductInfoByReferenceIds"
 
     constructor(
         protected _httpClient: HttpClient,
@@ -54,6 +55,11 @@ export class ProductService extends appServiceBase
     GetProductPhotoPathById(criteria : any) : Observable<any>
     {
         return super.getUrl(this.apiUrlGetProductPhotoPathById,criteria);
+    }
+
+    GetProductInfoByReferenceIds(criteria : any) : Observable<any>
+    {
+        return super.postUrl(this.apiUrlGetProductInfoByReferenceIds,criteria);
     }
     
 }

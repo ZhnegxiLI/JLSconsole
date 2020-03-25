@@ -8,8 +8,7 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent"
-             fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
 
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -19,7 +18,7 @@
                 </button>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
-                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="order.OrderInfo">
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="order.OrderInfo">
                     <div class="h2">
                         OrderId: {{order.OrderInfo.Id}}
                     </div>
@@ -29,7 +28,10 @@
                 </div>
             </div>
             <!-- / APP TITLE -->
-            <div><h2 *ngIf="order.OrderInfo">Total price: <b>{{order.OrderInfo.TotalPrice| currency:'EUR':'symbol' }}</b> </h2>  </div>
+            <div>
+                <h2 *ngIf="order.OrderInfo">Total price: <b>{{order.OrderInfo.TotalPrice| currency:'EUR':'symbol' }}</b>
+                </h2>
+            </div>
         </div>
         <!-- / HEADER -->
 
@@ -70,11 +72,13 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <span class="phone text-truncate">{{order.OrderInfo.User.PhoneNumber}}</span>
+                                                    <span
+                                                        class="phone text-truncate">{{order.OrderInfo.User.PhoneNumber}}</span>
                                                 </td>
-                                               
+
                                                 <td>
-                                                    <span class="company text-truncate">{{order.OrderInfo.User.EntrepriseName}}
+                                                    <span
+                                                        class="company text-truncate">{{order.OrderInfo.User.EntrepriseName}}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -87,35 +91,41 @@
                                 <div style="display:flex" id="adressZoom">
 
                                     <div class="fuse-card  my-12 mr-8" style="width: 100%;">
-                                
+
                                         <div class="p-16">
-                                            <div class="h1">Shipping Address</div>
+                                            <div class="h1">Shipping Address <button mat-button color="primary" style="float: right;" (click)="modifyAddress('ShippingAddress')">Modify</button> </div>
                                         </div>
-                                    
+
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.ShippingAdress">
-                                            <h3 class="mt-0">{{order.ShippingAdress.ContactFirstName}}  &nbsp;{{order.ShippingAdress.ContactLastName}} </h3>
-                                            <p>FirstLineAddress: {{order.ShippingAdress.FirstLineAddress}}  </p>
-                                            <p>SecondLineAddress: {{order.ShippingAdress.SecondLineAddress}}  </p>
-                                            <p>City: {{order.ShippingAdress.City}} &nbsp; ZipCode: {{order.ShippingAdress.ZipCode}} </p>
-                                            <p>Telephone: {{order.ShippingAdress.ContactTelephone}} &nbsp; Fax: {{order.ShippingAdress.ContactFax}} </p>
+                                            <h3 class="mt-0">{{order.ShippingAdress.ContactFirstName}}
+                                                &nbsp;{{order.ShippingAdress.ContactLastName}} </h3>
+                                            <p>FirstLineAddress: {{order.ShippingAdress.FirstLineAddress}} </p>
+                                            <p>SecondLineAddress: {{order.ShippingAdress.SecondLineAddress}} </p>
+                                            <p>City: {{order.ShippingAdress.City}} &nbsp; ZipCode:
+                                                {{order.ShippingAdress.ZipCode}} </p>
+                                            <p>Telephone: {{order.ShippingAdress.ContactTelephone}} &nbsp; Fax:
+                                                {{order.ShippingAdress.ContactFax}} </p>
                                         </div>
-                                    
+
                                     </div>
                                     <div class="fuse-card my-12 ml-8" style="width: 100%;">
-                                
+
                                         <div class="p-16">
-                                            <div class="h1">Invoice Address</div>
+                                            <div class="h1">Invoice Address <button mat-button color="primary" style="float: right;" (click)="modifyAddress('InvoiceAddress')">Modify</button></div>
                                         </div>
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.FacturationAdress">
-                                            <h3 class="mt-0">{{order.FacturationAdress.ContactFirstName}}  &nbsp;{{order.FacturationAdress.ContactLastName}} </h3>
-                                            <p>FirstLineAddress: {{order.FacturationAdress.FirstLineAddress}}  </p>
-                                            <p>SecondLineAddress: {{order.FacturationAdress.SecondLineAddress}}  </p>
-                                            <p>City: {{order.FacturationAdress.City}} &nbsp; ZipCode: {{order.FacturationAdress.ZipCode}} </p>
-                                            <p>Telephone: {{order.FacturationAdress.ContactTelephone}} &nbsp; Fax: {{order.FacturationAdress.ContactFax}} </p>
+                                            <h3 class="mt-0">{{order.FacturationAdress.ContactFirstName}}
+                                                &nbsp;{{order.FacturationAdress.ContactLastName}} </h3>
+                                            <p>FirstLineAddress: {{order.FacturationAdress.FirstLineAddress}} </p>
+                                            <p>SecondLineAddress: {{order.FacturationAdress.SecondLineAddress}} </p>
+                                            <p>City: {{order.FacturationAdress.City}} &nbsp; ZipCode:
+                                                {{order.FacturationAdress.ZipCode}} </p>
+                                            <p>Telephone: {{order.FacturationAdress.ContactTelephone}} &nbsp; Fax:
+                                                {{order.FacturationAdress.ContactFax}} </p>
                                         </div>
-                                    
+
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -150,17 +160,13 @@
                                     </tbody>
                                 </table>
 
-                                <form class="update-status p-24"
-                                      (ngSubmit)="updateStatus()"
-                                    
-                                      fxLayout="row" fxLayoutAlign="start center">
+                                <form class="update-status p-24" (ngSubmit)="updateStatus()" fxLayout="row"
+                                    fxLayoutAlign="start center">
 
                                     <mat-form-field appearance="outline" class="mr-16" fxFlex>
                                         <mat-label>Status</mat-label>
-                                        <mat-select 
-                                                    required>
-                                            <mat-option *ngFor="let status of statusList"
-                                                        [value]="status.Id">
+                                        <mat-select required>
+                                            <mat-option *ngFor="let status of statusList" [value]="status.Id">
                                                 {{status.Label}}
                                             </mat-option>
                                         </mat-select>
@@ -192,7 +198,7 @@
                                     <tbody *ngIf="order.payment">
                                         <tr>
                                             <td>
-                                                <span class="text-truncate" >
+                                                <span class="text-truncate">
                                                     {{order.payment.transactionId}}
                                                 </span>
                                             </td>
@@ -269,27 +275,35 @@
                                         <th>Name</th>
                                         <th class="w-120">Price</th>
                                         <th class="w-80">Quantity</th>
+                                        <th class="w-120">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="product-row"
-                                        *ngFor="let product of order.ProductList"
-                                        [routerLink]="['/apps/e-commerce/product/']"
-                                        [queryParams]="{Id:product.Id}">
+                                    <tr class="product-row" *ngFor="let product of order.ProductList">
+                                        <!-- [routerLink]="['/apps/e-commerce/product/']"
+                                        [queryParams]="{Id:product.ProductId}"--> 
                                         <td>
-                                            {{product.id}}
+                                            {{product.ProductId}}
                                         </td>
                                         <td>
-                                            <img class="product-image" [src]="product.image">
+                                            <img class="product-image" *ngIf="product.DefaultPhotoPath"
+                                                [alt]="product.Label"
+                                                [src]="environment.url + product.DefaultPhotoPath" />
+                                            <img *ngIf="!product.DefaultPhotoPath"
+                                                [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                                         </td>
                                         <td>
-                                            {{product.Reference.Label}}
+                                            {{product.Label}}
                                         </td>
                                         <td>
                                             {{product.Price | currency:'EUR':'symbol'}}
                                         </td>
                                         <td>
                                             {{product.Quantity}}
+                                        </td>
+
+                                        <td>
+                                            {{(product.Price * product.Quantity)| currency:'EUR':'symbol' }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -314,7 +328,7 @@
                                             <div fxLayout="row" fxLayoutAlign="space-between stretch">
                                                 <div class="client">
                                                     <div class="invoice-number" fxLayout="row"
-                                                         fxLayoutAlign="start center">
+                                                        fxLayoutAlign="start center">
                                                         <span class="title">INVOICE</span>
                                                         <span class="number">{{order.reference}}</span>
                                                     </div>

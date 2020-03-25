@@ -7,8 +7,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ReferenceService } from 'app/Services/reference.service';
 import { OrderService } from 'app/Services/order.service';
 
+import { environment } from '../../../../../environments/environment';
 
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material';
+import { AddressDialog } from 'app/dialog/address-dialog/address-dialog.component';
 
 @Component({
     selector     : 'e-commerce-order',
@@ -19,6 +22,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EcommerceOrderComponent implements OnInit
 {
+
+    private environment = environment;
     private order: any = {};
     private orderId : number = 0;
     private statusList : any[] = [];
@@ -41,7 +46,8 @@ export class EcommerceOrderComponent implements OnInit
         private activeRoute : ActivatedRoute,
         private referenceService : ReferenceService,
         private orderService : OrderService,
-        private translationService : TranslateService
+        private translationService : TranslateService,
+        private dialog: MatDialog
     )
     {
  
@@ -51,9 +57,20 @@ export class EcommerceOrderComponent implements OnInit
     ngOnInit(): void
     {
         this.activeRoute.queryParams.subscribe((params: Params) => {
-            this.orderId = params['Id'];
+            this.orderId = params['Id']!=null&& params['Id']!=0 ? params['Id'] : 0 ;
             console.log(this.orderId);
-            this.initLoadData();
+            if(this.orderId!=0){
+                this.initLoadData();
+            }
+            else{
+                if (localStorage.getItem('cart')!=null){
+                    this.order.ProductList = JSON.parse(localStorage.getItem('cart'));
+                }
+
+                this.order.ShippingAdress = this.getEmptyAddressInfo();
+
+                this.order.FacturationAdress = this.getEmptyAddressInfo();
+            }
         });
     }
 
@@ -86,6 +103,43 @@ export class EcommerceOrderComponent implements OnInit
         error=>{
             //todo 
         });
+    }
+
+    modifyAddress(addressType){
+        console.log(addressType);
+        var addressData = null;
+        if(addressType == 'InvoiceAddress'){
+            addressData = this.order.ShippingAdress;
+        }
+        else if(addressType == 'ShippingAddress'){
+            addressData = this.order.FacturationAdress;
+        }
+        const dialogRef = this.dialog.open(AddressDialog, {
+            data: {
+                Type : addressType,
+                Address: addressData
+            } // todo translate
+          });
+      
+          dialogRef.afterClosed().subscribe(result => {
+        
+          });
+    }
+
+    getEmptyAddressInfo(){
+        return {
+            Id : 0,
+            ContactFax : null,
+            ContactLastName : null,
+            ContactFirstName : null,
+            ZipCode : null,
+            FirstLineAddress : null,
+            SecondLineAddress : null,
+            City: null,
+            Provence : null,
+            Country : null,
+            EntrepriseName : null
+        }
     }
 
     /**
