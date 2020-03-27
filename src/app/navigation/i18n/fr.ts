@@ -10,6 +10,7 @@ export const locale = {
             'ORDER_DETAIL':'Détails de la commande',
             'ORDERS' : 'Commandes',
             'PRODUCTS' : 'List des produits',
+            'CART':'Panier',
             'PRODUCTS_MANAGEMENT' : 'Gestion des marchandises',
             'ORDERS_MANAGEMENT' : 'Gestion des commandes',
             'REFERENCE_MANAGEMENT' : 'Gestion des référence',

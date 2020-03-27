@@ -6,6 +6,11 @@ import { MatDialog } from '@angular/material';
 import { ProductService } from 'app/Services/product.service';
 import { TranslateService } from '@ngx-translate/core';
 
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
 
 @Component({
   selector: 'app-cart',
@@ -22,7 +27,11 @@ export class CartComponent implements OnInit {
   constructor(
     private _translateService: TranslateService,
     private productService : ProductService,
-    private dialog: MatDialog) { }
+    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    private dialog: MatDialog) {
+
+      this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
+     }
 
   ngOnInit() {
     this.getCartData();

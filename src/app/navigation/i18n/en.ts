@@ -11,6 +11,7 @@ export const locale = {
             'ORDERS' : 'Orders',
             'PRODUCT_DETAIL' : 'Product detail',
             'PRODUCTS' : 'Products',
+            'CART':'Cart',
             'PRODUCTS_MANAGEMENT' : 'Products management',
             'ORDERS_MANAGEMENT' : 'Orders management',
             'REFERENCE_MANAGEMENT' : 'Reference management',

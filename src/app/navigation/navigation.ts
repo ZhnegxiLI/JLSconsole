@@ -25,7 +25,7 @@ export const navigation: FuseNavigation[] = [
                     {
                         id        : 'cart',
                         title     : 'Cart',
-                        translate: 'NAV.Cart',
+                        translate: 'NAV.CART',
                         type      : 'item',
                         url       : '/apps/e-commerce/cart',
                         exactMatch: true

@@ -21,7 +21,7 @@
                     shopping_basket
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{'CATEGORIES.CATEGORIES' | translate}}
+                    {{'CATEGORIES.Category' | translate}}
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -49,7 +49,7 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.ID' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let category">
                         <p class="text-truncate">{{category.Id}}</p>
                     </mat-cell>
@@ -58,7 +58,7 @@
 
                 <!-- ShortLabel Column -->
                 <ng-container matColumnDef="shortLabel">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.SHORTLABEL' | translate}}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'CATEGORIES.SHORT_LABEL' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let category">
                         <p class="text-truncate">{{category.ShortLabel}}</p>
                     </mat-cell>

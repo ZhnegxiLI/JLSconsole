@@ -19,7 +19,7 @@
 
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.Category' | translate}}</mat-label>
+                    <mat-label>{{'ITEMS.CATEGORY' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ReferenceCategoryId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of categoryList" [value]="item.Id">{{item.ShortLabel}}</mat-option>
@@ -28,7 +28,7 @@
             </div>
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.ParentCategory' | translate}}</mat-label>
+                    <mat-label>{{'ITEMS.PARENT_CATEGORY' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ParentCategoryId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of categoryList" [value]="item.Id">
@@ -36,7 +36,7 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.ParentId' | translate}}</mat-label>
+                    <mat-label>{{'ITEMS.PARENT' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ParentId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of getTargetReferenceItemByCategory()" [value]="item.Id">
@@ -46,7 +46,7 @@
             </div>
             <div style="min-width: 10%; max-width: 10%;">
                 <mat-form-field style="display: block;">
-                    <mat-label>{{'products.Status' | translate}}</mat-label>
+                    <mat-label>{{'ITEMS.Status' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                         <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>
@@ -56,7 +56,7 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'products.SearchProduct' | translate}}"
+                    <input #filter placeholder="{{'ITEMS.SEARCH_FOR_A_ITEM' | translate}}"
                         [(ngModel)]="searchCriteria.SearchText">
                 </div>
             </div>
@@ -82,7 +82,7 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ITEMS.ID' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         <p class="text-truncate">{{item.Id}}</p>
                     </mat-cell>
@@ -146,7 +146,7 @@
                 <!-- Active Column -->
                 <ng-container matColumnDef="active">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>
-                        {{'ITEMS.ACTIVE' | translate}}</mat-header-cell>
+                        {{'ITEMS.STATUS' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let item" fxHide fxShow.gt-xs>
                         <mat-icon *ngIf="item.Validity" class="active-icon green-600 s-16">check</mat-icon>
                         <mat-icon *ngIf="!item.Validity" class="active-icon red-500 s-16">close</mat-icon>

@@ -43,7 +43,7 @@
 
                 <mat-tab-group fxLayout="column" fxFlex>
 
-                    <mat-tab label="Order Details">
+                    <mat-tab label="{{'order.OrderDetails' | translate}}">
 
                         <div class="order-details tab-content p-24" fusePerfectScrollbar>
 
@@ -51,17 +51,17 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 secondary-text">Customer</div>
+                                    <div class="h2 secondary-text">{{'order.Customer' | translate}}</div>
                                 </div>
 
                                 <div class="customer mb-32" *ngIf="order.OrderInfo && order.OrderInfo.User">
                                     <table class="simple">
                                         <thead>
                                             <tr>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Company</th>
-                                                <th>Siret</th>
+                                                <th>{{'order.Email' | translate}}</th>
+                                                <th>{{'order.Phone' | translate}}</th>
+                                                <th>{{'order.Company' | translate}}</th>
+                                                <th>{{'order.Siret' | translate}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -93,17 +93,17 @@
                                     <div class="fuse-card  my-12 mr-8" style="width: 100%;">
 
                                         <div class="p-16">
-                                            <div class="h1">Shipping Address <button mat-button color="primary" style="float: right;" (click)="modifyAddress('ShippingAddress')">Modify</button> </div>
+                                            <div class="h1">{{'order.ShippingAddress' | translate}} <button mat-button color="primary" style="float: right;" (click)="modifyAddress('ShippingAddress')">{{'order.Modify' | translate}}</button> </div>
                                         </div>
 
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.ShippingAdress">
                                             <h3 class="mt-0">{{order.ShippingAdress.ContactFirstName}}
                                                 &nbsp;{{order.ShippingAdress.ContactLastName}} </h3>
-                                            <p>FirstLineAddress: {{order.ShippingAdress.FirstLineAddress}} </p>
-                                            <p>SecondLineAddress: {{order.ShippingAdress.SecondLineAddress}} </p>
-                                            <p>City: {{order.ShippingAdress.City}} &nbsp; ZipCode:
+                                            <p>{{'order.FirstLineAddress' | translate}}: {{order.ShippingAdress.FirstLineAddress}} </p>
+                                            <p>{{'order.SecondLineAddress' | translate}}: {{order.ShippingAdress.SecondLineAddress}} </p>
+                                            <p>{{'order.City' | translate}}: {{order.ShippingAdress.City}} &nbsp; {{'order.ZipCode' | translate}}:
                                                 {{order.ShippingAdress.ZipCode}} </p>
-                                            <p>Telephone: {{order.ShippingAdress.ContactTelephone}} &nbsp; Fax:
+                                            <p>{{'order.Telephone' | translate}}: {{order.ShippingAdress.ContactTelephone}} &nbsp;  {{'order.Fax' | translate}}:
                                                 {{order.ShippingAdress.ContactFax}} </p>
                                         </div>
 
@@ -111,16 +111,16 @@
                                     <div class="fuse-card my-12 ml-8" style="width: 100%;">
 
                                         <div class="p-16">
-                                            <div class="h1">Invoice Address <button mat-button color="primary" style="float: right;" (click)="modifyAddress('InvoiceAddress')">Modify</button></div>
+                                            <div class="h1">{{'order.InvoiceAddress' | translate}}<button mat-button color="primary" style="float: right;" (click)="modifyAddress('InvoiceAddress')">{{'order.Modify' | translate}}</button></div>
                                         </div>
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.FacturationAdress">
                                             <h3 class="mt-0">{{order.FacturationAdress.ContactFirstName}}
                                                 &nbsp;{{order.FacturationAdress.ContactLastName}} </h3>
-                                            <p>FirstLineAddress: {{order.FacturationAdress.FirstLineAddress}} </p>
-                                            <p>SecondLineAddress: {{order.FacturationAdress.SecondLineAddress}} </p>
-                                            <p>City: {{order.FacturationAdress.City}} &nbsp; ZipCode:
+                                            <p>{{'order.FirstLineAddress' | translate}}: {{order.FacturationAdress.FirstLineAddress}} </p>
+                                            <p>{{'order.SecondLineAddress' | translate}}: {{order.FacturationAdress.SecondLineAddress}} </p>
+                                            <p>{{'order.City' | translate}}: {{order.FacturationAdress.City}} &nbsp; {{'order.ZipCode' | translate}}:
                                                 {{order.FacturationAdress.ZipCode}} </p>
-                                            <p>Telephone: {{order.FacturationAdress.ContactTelephone}} &nbsp; Fax:
+                                            <p>{{'order.Telephone' | translate}}: {{order.FacturationAdress.ContactTelephone}} &nbsp;   {{'order.Fax' | translate}}:
                                                 {{order.FacturationAdress.ContactFax}} </p>
                                         </div>
 
@@ -134,14 +134,14 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">access_time</mat-icon>
-                                    <div class="h2 secondary-text">Order Status</div>
+                                    <div class="h2 secondary-text">{{'order.OrderStatus' | translate}}</div>
                                 </div>
 
                                 <table class="simple">
                                     <thead>
                                         <tr>
-                                            <th>Status</th>
-                                            <th>Updated On</th>
+                                            <th>{{'order.Status' | translate}}</th>
+                                            <th>{{'order.UpdatedOn' | translate}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -164,7 +164,7 @@
                                     fxLayoutAlign="start center">
 
                                     <mat-form-field appearance="outline" class="mr-16" fxFlex>
-                                        <mat-label>Status</mat-label>
+                                        <mat-label>{{'order.Status' | translate}}</mat-label>
                                         <mat-select required>
                                             <mat-option *ngFor="let status of statusList" [value]="status.Id">
                                                 {{status.Label}}
@@ -173,7 +173,7 @@
                                     </mat-form-field>
 
                                     <button mat-raised-button class="mat-accent">
-                                        Update Status
+                                        {{'order.UpdateStatus' | translate}}
                                     </button>
                                 </form>
 
@@ -183,16 +183,16 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">attach_money</mat-icon>
-                                    <div class="h2 secondary-text">Payment</div>
+                                    <div class="h2 secondary-text">{{'order.Payment' | translate}}</div>
                                 </div>
 
                                 <table class="simple">
                                     <thead>
                                         <tr>
-                                            <th>TransactionID</th>
-                                            <th>Payment Method</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
+                                            <th>{{'order.TransactionID' | translate}}</th>
+                                            <th>{{'order.PaymentMethod' | translate}}</th>
+                                            <th>{{'order.Amount' | translate}}</th>
+                                            <th>{{'order.Date' | translate}}</th>
                                         </tr>
                                     </thead>
                                     <tbody *ngIf="order.payment">
@@ -227,17 +227,17 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">local_shipping</mat-icon>
-                                    <div class="h2 secondary-text">Shipping</div>
+                                    <div class="h2 secondary-text">{{'order.Shipping' | translate}}</div>
                                 </div>
 
                                 <table class="simple">
                                     <thead>
                                         <tr>
-                                            <th>Tracking Code</th>
-                                            <th>Carrier</th>
-                                            <th>Weight</th>
-                                            <th>Fee</th>
-                                            <th>Date</th>
+                                            <th>{{'order.TrackingCode' | translate}}</th>
+                                            <th>{{'order.Carrier' | translate}}</th>
+                                            <th>{{'order.Weight' | translate}}</th>
+                                            <th>{{'order.Fee' | translate}}</th>
+                                            <th>{{'order.Date' | translate}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -265,17 +265,17 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab label="Products">
+                    <mat-tab label="{{'order.Products' | translate}}">
                         <div class="products tab-content p-24" fusePerfectScrollbar>
                             <table class="simple">
                                 <thead>
                                     <tr>
-                                        <th class="w-80">ID</th>
-                                        <th class="w-120">Image</th>
-                                        <th>Name</th>
-                                        <th class="w-120">Price</th>
-                                        <th class="w-80">Quantity</th>
-                                        <th class="w-120">Total</th>
+                                        <th class="w-80">{{'order.ID' | translate}}</th>
+                                        <th class="w-120">{{'order.Image' | translate}}</th>
+                                        <th>{{'order.Name' | translate}}</th>
+                                        <th class="w-120">{{'order.Price' | translate}}</th>
+                                        <th class="w-80">{{'order.Quantity' | translate}}</th>
+                                        <th class="w-120">{{'order.Total' | translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -311,7 +311,7 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab label="Invoice">
+                    <mat-tab label="{{'order.INVOICE' | translate}}">
 
                         <div class="invoice tab-content p-24" fusePerfectScrollbar>
 
@@ -329,7 +329,7 @@
                                                 <div class="client">
                                                     <div class="invoice-number" fxLayout="row"
                                                         fxLayoutAlign="start center">
-                                                        <span class="title">INVOICE</span>
+                                                        <span class="title">{{'order.INVOICE' | translate}}</span>
                                                         <span class="number">{{order.reference}}</span>
                                                     </div>
 
@@ -368,10 +368,10 @@
                                             <table class="simple invoice-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>PRODUCT</th>
-                                                        <th class="text-right">PRICE</th>
-                                                        <th class="text-right">QUANTITY</th>
-                                                        <th class="text-right">TOTAL</th>
+                                                        <th>{{'order.PRODUCT' | translate}}</th>
+                                                        <th class="text-right">{{'order.Price' | translate}}</th>
+                                                        <th class="text-right">{{'order.Quantity' | translate}}</th>
+                                                        <th class="text-right">{{'order.Total' | translate}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -397,19 +397,19 @@
                                             <table class="simple invoice-table-footer">
                                                 <tbody>
                                                     <tr class="subtotal">
-                                                        <td>SUBTOTAL</td>
+                                                        <td>{{'order.SUBTOTAL' | translate}}</td>
                                                         <td>{{order.subtotal | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                     <tr class="tax">
-                                                        <td>TAX</td>
+                                                        <td>{{'order.TAX' | translate}}</td>
                                                         <td>{{order.tax | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                     <tr class="discount">
-                                                        <td>DISCOUNT</td>
+                                                        <td>{{'order.DISCOUNT' | translate}}</td>
                                                         <td>-{{order.discount | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                     <tr class="total">
-                                                        <td>TOTAL</td>
+                                                        <td>{{'order.Total' | translate}}</td>
                                                         <td>{{order.total | currency:'USD':'symbol'}}</td>
                                                     </tr>
                                                 </tbody>
@@ -417,20 +417,14 @@
                                         </div>
 
                                         <div class="footer">
-                                            <div class="note">Please pay within 15 days. Thank you for your business.
+                                            <div class="note">{{'order.PleasePayWithin15Days_ThankYouForYourBusiness' | translate}}
                                             </div>
                                             <div fxLayout="row" fxLayoutAlign="start start">
                                                 <div class="logo">
                                                     <img src="assets/images/logos/fuse.svg">
                                                 </div>
                                                 <div class="small-note">
-                                                    In condimentum malesuada efficitur. Mauris volutpat placerat auctor.
-                                                    Ut ac congue dolor. Quisque scelerisque lacus sed feugiat fermentum.
-                                                    Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo
-                                                    commodo, a suscipit tellus dapibus. Etiam at felis volutpat est
-                                                    mollis lacinia. Mauris placerat sem sit amet velit mollis, in
-                                                    porttitor ex finibus. Proin eu nibh id libero tincidunt lacinia et
-                                                    eget eros.
+                                                  {{'order.small-note' | translate}}
                                                 </div>
                                             </div>
                                         </div>

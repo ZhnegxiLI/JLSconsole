@@ -11,6 +11,7 @@ export const locale = {
             'ORDERS' : '订单列表',
             'PRODUCT_DETAIL' : '商品详情',
             'PRODUCTS' : '商品列表',
+            'CART':'购物车',
             'PRODUCTS_MANAGEMENT' : '商品管理',
             'ORDERS_MANAGEMENT' : '订单管理',
             'REFERENCE_MANAGEMENT' : '引用管理',

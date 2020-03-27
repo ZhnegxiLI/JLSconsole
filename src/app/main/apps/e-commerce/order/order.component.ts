@@ -12,6 +12,10 @@ import { environment } from '../../../../../environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material';
 import { AddressDialog } from 'app/dialog/address-dialog/address-dialog.component';
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 
 @Component({
     selector     : 'e-commerce-order',
@@ -47,10 +51,11 @@ export class EcommerceOrderComponent implements OnInit
         private referenceService : ReferenceService,
         private orderService : OrderService,
         private translationService : TranslateService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
- 
+        this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
     }
 
  

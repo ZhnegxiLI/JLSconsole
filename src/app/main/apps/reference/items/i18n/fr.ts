@@ -2,17 +2,24 @@ export const locale = {
     lang: 'fr',
     data: {
         'ITEMS' : {
-            'ITEMS' : '项',
-            'SEARCH_FOR_A_ITEM' : '查找一个项',
-            'ADD_NEW_ITEM' : '添加一个项',
-            'CODE' : '编码',
-            'PARENT' : '父项',
-            'VALUE' : '值',
-            'ORDER' : '排序',
-            'CATEGORY' : '类别',
-            'ACTIVE' : '激活',
-            'LABEL' : '描述',
-            'PARENT_CATEGORY' : '父项类别',
+            'ITEMS' : 'Référence items',
+            'SEARCH_FOR_A_ITEM' : 'Référence items',
+            'ADD_NEW_ITEM' : 'Ajouter',
+            'CODE' : 'Référence',
+            'PARENT' : 'Parent',
+            'VALUE' : 'Valeur',
+            'ORDER' : 'Commande',
+            'CATEGORY' : 'Catégorie',
+            'STATUS' : 'Statut',
+            'LABEL' : 'Label',
+            'PARENT_CATEGORY' : 'Parent_Catégorie',
+            'ID':'ID',
+            'Status':'Statut',
+            'Search':'Recherche',
+            'Add/Modify':'Ajouter/Modifier',
+            'UserStatus':"Statut d'usager",
+            'Cancel':'Annuler',
+            'Save':'Enregistrer'
         }
     }
 };
