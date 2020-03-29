@@ -86,6 +86,7 @@ export class Login2Component implements OnInit {
             localStorage.setItem('login  Status', '1');
             localStorage.setItem('jwt', data.authToken.token);
             localStorage.setItem('username', data.authToken.username);
+            localStorage.setItem('userId',data.authToken.userId);
             localStorage.setItem('expiration', data.authToken.expiration);
             localStorage.setItem('userRole', data.authToken.roles);
             localStorage.setItem('refreshToken', data.authToken.refresh_token);
