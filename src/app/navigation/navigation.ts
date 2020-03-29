@@ -45,14 +45,6 @@ export const navigation: FuseNavigation[] = [
                         type      : 'item',
                         url       : '/apps/e-commerce/orders',
                         exactMatch: true
-                    },
-                    {
-                        id        : 'addOrder',
-                        title     : 'Add Order',
-                        translate: 'NAV.ORDER_ADD',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/addOrder',
-                        exactMatch: true
                     }
                 ]
             },{

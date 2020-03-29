@@ -21,7 +21,7 @@ export const locale = {
             'InvoiceAddress':'Adresse de facture',
             'OrderStatus':'Statut de la commande',
             'Status':'Statut',
-            'UpdatedOn':'Mis à jour le',
+            'UpdatedOn':'Mise à jour le',
             'UpdateStatus':'État de mise à jour',
             'Payment':'Payment',
             'TransactionID':'Transaction ID',

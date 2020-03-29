@@ -90,6 +90,15 @@ export class EcommerceProductsComponent implements OnInit {
 
 
     ngOnInit(): void {
+
+        var criteriaStringfy = localStorage.getItem('ProductCriteria');
+        if(criteriaStringfy!=null){
+            this.searchCriteria = JSON.parse(criteriaStringfy);
+
+            localStorage.removeItem('ProductCriteria');
+            this.search();
+        }
+
         this.initLoadData();
     }
 
@@ -189,6 +198,10 @@ export class EcommerceProductsComponent implements OnInit {
     sortData(event) {
         // todo implement the logic 
         console.log(event);
+    }
+
+    saveCriteria(){
+        localStorage.setItem('ProductCriteria', JSON.stringify(this.searchCriteria));
     }
 }
 

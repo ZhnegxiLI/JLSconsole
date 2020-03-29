@@ -156,10 +156,9 @@
 
                                     <div *ngFor="let item of photoPath"
                                         class="product-image" fxlayout="row" fxLayoutAlign="center center">
-                                    
                                        <img class="media" 
                                        [src]="item.CompletePath"
-                                       (click)="openImageViewDialog(image)">
+                                       (click)="openImageViewDialog(item)">
                                    </div>
                                    
 

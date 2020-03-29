@@ -75,6 +75,6 @@
 
     <div class="pt-24" mat-dialog-actions>
         <button mat-button (click)="onNoClick()">{{'users.Cancel' | translate}}</button>
-        <button mat-button [disabled]="checkSaveButton()" (click)="save()">{{'users.Save' | translate}}</button>
+        <button mat-button [disabled]="adreeForm.invalid" (click)="save()">{{'users.Save' | translate}}</button>
     </div>
 </div>

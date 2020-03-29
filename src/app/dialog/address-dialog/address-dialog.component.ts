@@ -15,8 +15,8 @@ export class AddressDialog implements OnInit {
     private formBuilder:FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.adreeForm = this.formBuilder.group({
-        Id:['0'],
-        EntrepriseName: ['Google', Validators.required],
+        Id:[''],
+        EntrepriseName: ['', Validators.required],
         ContactFirstName: ['',Validators.required],
         ContactLastName: ['',Validators.required],
         FirstLineAddress:['',Validators.required],
@@ -25,21 +25,29 @@ export class AddressDialog implements OnInit {
         Country:['',Validators.required],
         ZipCode: ['',Validators.required],
         ContactTelephone:['',Validators.required],
-        ContactFax:['']
+        ContactFax:[''],
+        Provence:[''],
+        IsDefaultAdress:[''],
+        CreatedOn: [''],
+        CreatedBy: [''],
+        UpdatedOn: [''],
+        UpdatedBy: ['']
       });
-    }
-  ngOnInit() {
-
-    console.log(this.data.Type);
-    console.log(this.data.Address);
   }
 
-  checkSaveButton(){
-
+  ngOnInit() {
+    console.log(this.data.Type);
+    console.log(this.data.Address);
+    this.adreeForm.setValue(this.data.Address);
   }
 
   onNoClick(): void{
     this.dialogRef.close();
+  }
+
+  save(){
+    console.log(this.adreeForm.value);
+    this.dialogRef.close({Address: this.adreeForm.value, Type: this.data.Type});
   }
 
 }

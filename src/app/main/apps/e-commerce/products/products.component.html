@@ -87,8 +87,8 @@
 
                        
                 <ng-container matColumnDef="action">
-                    <mat-header-cell *matHeaderCellDef >{{'products.Action' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let product">
+                    <mat-header-cell *matHeaderCellDef style="max-width: 10%;"></mat-header-cell>
+                    <mat-cell *matCellDef="let product" style="max-width: 10%;">
                     <button  mat-button color="primary" (click)="AddProductIntoCart(product, $event)"><mat-icon>add_shopping_cart</mat-icon></button>
                     </mat-cell>
                 </ng-container>
@@ -165,6 +165,7 @@
                 <mat-row *matRowDef="let product; columns: displayedColumns;"
                          class="product"
                          matRipple
+                         (click) = "saveCriteria()"
                          [routerLink]="['/apps/e-commerce/product/']"
                          [queryParams]="{Id:product.ProductId, View :view }"
                          >

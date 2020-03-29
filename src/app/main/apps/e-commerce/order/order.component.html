@@ -13,15 +13,15 @@
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <button mat-icon-button class="mr-16" [routerLink]="'/apps/e-commerce/orders'">
+                <button mat-icon-button class="mr-16" [routerLink]="urlReturnView">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
-
+                <div class="h2">
+                    {{title}}
+                </div>
                 <div fxLayout="column" fxLayoutAlign="start start"
                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="order.OrderInfo">
-                    <div class="h2">
-                        OrderId: {{order.OrderInfo.Id}}
-                    </div>
+
                     <div class="subtitle secondary-text" *ngIf="order.OrderInfo.User">
                         <p><span>fromEntreprise</span>: {{order.OrderInfo.User.EntrepriseName}}</p>
                     </div>
@@ -32,6 +32,11 @@
                 <h2 *ngIf="order.OrderInfo">Total price: <b>{{order.OrderInfo.TotalPrice| currency:'EUR':'symbol' }}</b>
                 </h2>
             </div>
+
+            <button mat-raised-button (click)="saveOrder()" class="add-product-button fuse-white mt-24 mt-md-0" [disabled] = 'checkSaveButtonAvailable()'>
+                <span>{{'order.SaveOrder' | translate}}</span>
+            </button>
+
         </div>
         <!-- / HEADER -->
 
@@ -93,17 +98,27 @@
                                     <div class="fuse-card  my-12 mr-8" style="width: 100%;">
 
                                         <div class="p-16">
-                                            <div class="h1">{{'order.ShippingAddress' | translate}} <button mat-button color="primary" style="float: right;" (click)="modifyAddress('ShippingAddress')">{{'order.Modify' | translate}}</button> </div>
+                                            <div class="h1">{{'order.ShippingAddress' | translate}} <button mat-button
+                                                    color="primary" style="float: right;"
+                                                    (click)="modifyAddress('ShippingAddress')">{{'order.Modify' | translate}}</button>
+                                            </div>
                                         </div>
 
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.ShippingAdress">
-                                            <h3 class="mt-0">{{order.ShippingAdress.ContactFirstName}}
+                                            <h3 class="mt-0">Entreprise name: {{order.ShippingAdress.EntrepriseName}}
+                                            </h3>
+                                            <h3 class="mt-0">Name: {{order.ShippingAdress.ContactFirstName}}
                                                 &nbsp;{{order.ShippingAdress.ContactLastName}} </h3>
-                                            <p>{{'order.FirstLineAddress' | translate}}: {{order.ShippingAdress.FirstLineAddress}} </p>
-                                            <p>{{'order.SecondLineAddress' | translate}}: {{order.ShippingAdress.SecondLineAddress}} </p>
-                                            <p>{{'order.City' | translate}}: {{order.ShippingAdress.City}} &nbsp; {{'order.ZipCode' | translate}}:
+                                            <p>{{'order.FirstLineAddress' | translate}}:
+                                                {{order.ShippingAdress.FirstLineAddress}} </p>
+                                            <p>{{'order.SecondLineAddress' | translate}}:
+                                                {{order.ShippingAdress.SecondLineAddress}} </p>
+                                            <p>{{'order.City' | translate}}: {{order.ShippingAdress.City}} &nbsp;
+                                                {{'order.ZipCode' | translate}}:
                                                 {{order.ShippingAdress.ZipCode}} </p>
-                                            <p>{{'order.Telephone' | translate}}: {{order.ShippingAdress.ContactTelephone}} &nbsp;  {{'order.Fax' | translate}}:
+                                            <p>{{'order.Telephone' | translate}}:
+                                                {{order.ShippingAdress.ContactTelephone}} &nbsp;
+                                                {{'order.Fax' | translate}}:
                                                 {{order.ShippingAdress.ContactFax}} </p>
                                         </div>
 
@@ -111,16 +126,26 @@
                                     <div class="fuse-card my-12 ml-8" style="width: 100%;">
 
                                         <div class="p-16">
-                                            <div class="h1">{{'order.InvoiceAddress' | translate}}<button mat-button color="primary" style="float: right;" (click)="modifyAddress('InvoiceAddress')">{{'order.Modify' | translate}}</button></div>
+                                            <div class="h1">{{'order.InvoiceAddress' | translate}}<button mat-button
+                                                    color="primary" style="float: right;"
+                                                    (click)="modifyAddress('InvoiceAddress')">{{'order.Modify' | translate}}</button>
+                                            </div>
                                         </div>
                                         <div class="p-16 pt-0 line-height-1.75" *ngIf="order.FacturationAdress">
-                                            <h3 class="mt-0">{{order.FacturationAdress.ContactFirstName}}
+                                            <h3 class="mt-0">Entreprise name: {{order.FacturationAdress.EntrepriseName}}
+                                            </h3>
+                                            <h3 class="mt-0">Name: {{order.FacturationAdress.ContactFirstName}}
                                                 &nbsp;{{order.FacturationAdress.ContactLastName}} </h3>
-                                            <p>{{'order.FirstLineAddress' | translate}}: {{order.FacturationAdress.FirstLineAddress}} </p>
-                                            <p>{{'order.SecondLineAddress' | translate}}: {{order.FacturationAdress.SecondLineAddress}} </p>
-                                            <p>{{'order.City' | translate}}: {{order.FacturationAdress.City}} &nbsp; {{'order.ZipCode' | translate}}:
+                                            <p>{{'order.FirstLineAddress' | translate}}:
+                                                {{order.FacturationAdress.FirstLineAddress}} </p>
+                                            <p>{{'order.SecondLineAddress' | translate}}:
+                                                {{order.FacturationAdress.SecondLineAddress}} </p>
+                                            <p>{{'order.City' | translate}}: {{order.FacturationAdress.City}} &nbsp;
+                                                {{'order.ZipCode' | translate}}:
                                                 {{order.FacturationAdress.ZipCode}} </p>
-                                            <p>{{'order.Telephone' | translate}}: {{order.FacturationAdress.ContactTelephone}} &nbsp;   {{'order.Fax' | translate}}:
+                                            <p>{{'order.Telephone' | translate}}:
+                                                {{order.FacturationAdress.ContactTelephone}} &nbsp;
+                                                {{'order.Fax' | translate}}:
                                                 {{order.FacturationAdress.ContactFax}} </p>
                                         </div>
 
@@ -140,42 +165,55 @@
                                 <table class="simple">
                                     <thead>
                                         <tr>
+                                            <th>{{'order.OldStatus' | translate}}</th>
                                             <th>{{'order.Status' | translate}}</th>
+                                            <th>{{'order.Operator' | translate}}</th>
                                             <th>{{'order.UpdatedOn' | translate}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let status of order.status">
+                                        <tr *ngFor="let status of order.StatusInfo">
+
                                             <td>
-                                                <span class="status h6 p-4" [ngClass]="status.color">
-                                                    {{status.name}}
+                                                <span class="status h6 p-4" *ngIf="status.OldStatus" [ngClass]="matchStatusClass(status.OldStatus.Code)" style="color: white!important;">
+                                                    <!-- [ngClass]="status.color" -->
+                                                    {{status.OldStatus.Label}}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <span class="status h6 p-4" *ngIf="status.NewStatus" [ngClass]="matchStatusClass(status.NewStatus.Code)" style="color: white!important;" >
+                                                    <!-- [ngClass]="status.color" -->
+                                                    {{status.NewStatus.Label}}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <span>
+                                                    {{status.UserName}}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
-                                                    {{status.date | date}}
+                                                    {{status.ActionTime | date:'medium'}}
                                                 </span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <form class="update-status p-24" (ngSubmit)="updateStatus()" fxLayout="row"
-                                    fxLayoutAlign="start center">
+                                <div class="update-status p-24" fxLayout="row" fxLayoutAlign="start center">
 
                                     <mat-form-field appearance="outline" class="mr-16" fxFlex>
                                         <mat-label>{{'order.Status' | translate}}</mat-label>
-                                        <mat-select required>
+                                        <mat-select required [(ngModel)]="statusId">
                                             <mat-option *ngFor="let status of statusList" [value]="status.Id">
                                                 {{status.Label}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
 
-                                    <button mat-raised-button class="mat-accent">
-                                        {{'order.UpdateStatus' | translate}}
-                                    </button>
-                                </form>
+                                </div>
 
                             </div>
 
@@ -281,7 +319,7 @@
                                 <tbody>
                                     <tr class="product-row" *ngFor="let product of order.ProductList">
                                         <!-- [routerLink]="['/apps/e-commerce/product/']"
-                                        [queryParams]="{Id:product.ProductId}"--> 
+                                        [queryParams]="{Id:product.ProductId}"-->
                                         <td>
                                             {{product.ProductId}}
                                         </td>
@@ -417,14 +455,15 @@
                                         </div>
 
                                         <div class="footer">
-                                            <div class="note">{{'order.PleasePayWithin15Days_ThankYouForYourBusiness' | translate}}
+                                            <div class="note">
+                                                {{'order.PleasePayWithin15Days_ThankYouForYourBusiness' | translate}}
                                             </div>
                                             <div fxLayout="row" fxLayoutAlign="start start">
                                                 <div class="logo">
                                                     <img src="assets/images/logos/fuse.svg">
                                                 </div>
                                                 <div class="small-note">
-                                                  {{'order.small-note' | translate}}
+                                                    {{'order.small-note' | translate}}
                                                 </div>
                                             </div>
                                         </div>

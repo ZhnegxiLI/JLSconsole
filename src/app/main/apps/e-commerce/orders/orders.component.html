@@ -100,7 +100,7 @@
                 <ng-container matColumnDef="createdOn">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.OrderCreateOn' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
-                        <p class="text-truncate">{{order.CreatedOn}}</p>
+                        <p class="text-truncate">{{order.CreatedOn | date}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -109,7 +109,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>{{'ORDERS.OrderUpdateOn' | translate}}</mat-header-cell>
                 <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
                     <p class="text-truncate">
-                        {{order.UpdatedOn}}
+                        {{order.UpdatedOn |date }}
                     </p>
                 </mat-cell>
                 </ng-container>
@@ -169,6 +169,7 @@
                 <mat-row *matRowDef="let order; columns: displayedColumns;"
                          class="order"
                          matRipple
+                         (click) = 'saveSearchCriteria()'
                          [routerLink]="['/apps/e-commerce/order/']"
                          [queryParams]="{Id:order.Id, View :view}">
                 </mat-row>
@@ -177,8 +178,8 @@
 
             <mat-paginator #paginator
                            [length]="totalCount"
-                           [pageIndex]="0"
-                           [pageSize]="10"
+                           [pageIndex]="searchCriteria.begin"
+                           [pageSize]="searchCriteria.step"
                            [pageSizeOptions]="[5, 10, 25, 100]"
                            (page) = "pageEvent = getServerData($event)">
             </mat-paginator>

@@ -80,6 +80,13 @@ export class EcommerceOrdersComponent implements OnInit
      */
     ngOnInit(): void
     {
+        var criteriaStringfy = localStorage.getItem('OrderCriteria');
+        if(criteriaStringfy!=null){
+            this.searchCriteria = JSON.parse(criteriaStringfy);
+
+            localStorage.removeItem('OrderCriteria');
+            this.search();
+        }
         this.initLoadData();
     }
 
@@ -134,6 +141,10 @@ export class EcommerceOrdersComponent implements OnInit
         error=>{
             //todo 
         })
+    }
+
+    saveSearchCriteria(){
+        localStorage.setItem('OrderCriteria', JSON.stringify(this.searchCriteria));
     }
 
 }

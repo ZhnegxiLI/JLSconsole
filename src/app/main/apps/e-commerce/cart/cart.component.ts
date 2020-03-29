@@ -22,6 +22,8 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 export class CartComponent implements OnInit {
   displayedColumns = ['image', 'product', 'price','quantity','total','action'];
 
+  private view: string = "cart";
+
   private environment = environment;
   private cartProductList : any[] = [];
   constructor(

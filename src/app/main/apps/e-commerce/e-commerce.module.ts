@@ -1,5 +1,4 @@
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ProductSearchDialog } from './addorder/product-search/product-search.component';
 import { ConfimDialog } from './../../../dialog/confim-dialog/confim-dialog.component';
 import { DialogModule } from './../../../dialog/dialog.module';
 import { NgModule } from '@angular/core';
@@ -38,7 +37,6 @@ import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.co
 
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { EcommerceAddOrderComponent } from 'app/main/apps/e-commerce/addOrder/addOrder.component';
 import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
@@ -61,22 +59,16 @@ const routes: Routes = [
     {
         path     : 'cart',
         component: CartComponent
-    },
-    {
-        path     : 'addOrder',
-        component: EcommerceAddOrderComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        EcommerceAddOrderComponent,
         EcommerceProductsComponent,
         EcommerceProductComponent,
         EcommerceOrdersComponent,
         EcommerceOrderComponent,
         ImageOverViewDialog,
-        ProductSearchDialog,
         CartComponent
     ],
     imports     : [
@@ -117,7 +109,6 @@ const routes: Routes = [
     ],
     entryComponents: [
         ImageOverViewDialog,
-        ProductSearchDialog,
         ConfimDialog],
 })
 export class EcommerceModule

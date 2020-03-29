@@ -18,17 +18,21 @@
             <div class="logo mb-24 mb-md-0"
                  fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    shopping_basket
+                    shopping_cart
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{'CART.CATEGORIES' | translate}}
+                    {{'CART.Title' | translate}}
                 </span>
             </div>
             <!-- / APP TITLE -->
 
             <!-- ADD BUTTON -->
-            <button  mat-raised-button  [routerLink]="['/apps/e-commerce/order/']"
-                    class="add-item-button fuse-white mt-24 mt-md-0">
+            <button  mat-raised-button  
+                    [routerLink]="['/apps/e-commerce/order/']"
+                    [queryParams]="{View :view}"
+                    class="add-item-button fuse-white mt-24 mt-md-0"
+                    [disabled] ='cartProductList==null || cartProductList.length<=0 '
+                    >
             <span>{{'CART.CreateOrder' | translate}}</span>
             </button>
 
@@ -79,7 +83,7 @@
                     <mat-cell *matCellDef="let product">
                         <div>
                             <button mat-button color="primary" style="padding-left:0px; min-width: 32px;" (click)="addOrMinusProduct(product,'minus')" [disabled]="product.Quantity<=1" ><mat-icon>indeterminate_check_box</mat-icon></button>
-                            <input type="text" style="width: 60px; padding: 0px; text-align: center;" [(ngModel)]="product.Quantity" (ngModelChange)="quantityChange(product)">
+                            <input type="text" style="width: 30px; padding: 0px; text-align: center;" [(ngModel)]="product.Quantity" (ngModelChange)="quantityChange(product)">
                             <button mat-button color="primary" (click)="addOrMinusProduct(product,'add')"><mat-icon>add_box</mat-icon></button>
                         </div>
                      

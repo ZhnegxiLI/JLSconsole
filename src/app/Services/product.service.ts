@@ -23,6 +23,8 @@ export class ProductService extends appServiceBase
     
     private apiUrlGetProductInfoByReferenceIds: string = this.host + "admin/Product/GetProductInfoByReferenceIds"
 
+    private apiUrlRemoveImageById: string = this.host + "admin/Product/RemoveImageById"
+
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -61,5 +63,11 @@ export class ProductService extends appServiceBase
     {
         return super.postUrl(this.apiUrlGetProductInfoByReferenceIds,criteria);
     }
+
+    RemoveImageById(criteria :any ): Observable<any>
+    {
+        return super.postUrl(this.apiUrlRemoveImageById,criteria);
+    }
+
     
 }

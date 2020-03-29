@@ -124,36 +124,7 @@ export class EcommerceProductComponent implements OnInit
             console.log("previous view:" + this.previousView);
             if(this.productId!=null && this.productId !=0 ){
                 // todo new product 
-
-                this.productService.GetProductById(this.productId).subscribe(result =>{
-                    console.log(result);
-                    this.productInfo = result;
-                    if(result!=null){
-                        this.productName = this.getDefaultProductName();
-                        // todo change
-                        if(result.ImagesPath!=null && result.ImagesPath.length>0){
-
-                            var photoList = [];
-                            result.ImagesPath.map(p=>{
-                                photoList.push({CompletePath :environment.url + p});
-                            });
-                            this.photoPath = photoList;
-                        }
-
-                        if(result.Translation!= null&& result.Translation.length>0){
-                            result.Translation.map(val => {
-                                result['Label'+val.Lang] = val.Label;
-                            });
-                        }
-                        delete result.Translation;     
-                        delete result.ImagesPath;
-                        this.productForm.setValue(result);
-                    }
-                    console.log(this.productForm.value);
-                },
-                error=>{
-
-                });
+                this.getProdudctData();
             }
             else{
                 // new product 
@@ -161,6 +132,39 @@ export class EcommerceProductComponent implements OnInit
             }
           });
         this.initLoadData();
+    }
+
+    getProdudctData(){
+
+        this.productService.GetProductById(this.productId).subscribe(result =>{
+            console.log(result);
+            this.productInfo = result;
+            if(result!=null){
+                this.productName = this.getDefaultProductName();
+                // todo change
+                if(result.ImagesPath!=null && result.ImagesPath.length>0){
+
+                    var photoList = [];
+                    result.ImagesPath.map(p=>{
+                        photoList.push({CompletePath :environment.url + p.Path, ProductPhotoId: p.Id});
+                    });
+                    this.photoPath = photoList;
+                }
+
+                if(result.Translation!= null&& result.Translation.length>0){
+                    result.Translation.map(val => {
+                        result['Label'+val.Lang] = val.Label;
+                    });
+                }
+                delete result.Translation;     
+                delete result.ImagesPath;
+                this.productForm.setValue(result);
+            }
+            console.log(this.productForm.value);
+        },
+        error=>{
+
+        });
     }
 
     getDefaultProductName(){
@@ -234,6 +238,21 @@ export class EcommerceProductComponent implements OnInit
         
     }
 
+    openImageViewDialog(image){
+        console.log(image);
+
+        const dialogRef = this.dialog.open(ImageOverViewDialog, {
+         
+            data: {image : image}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if( result!=null && result.action!= null && result.action == "remove"){
+                this.getProdudctData();
+            }
+        });
+    }
+
     getImagePath(){
         this.productService.GetProductPhotoPathById({ProductId : this.productId}).subscribe(result=>{
             if(result!= null && result.length>0){
@@ -301,30 +320,43 @@ export class EcommerceProductComponent implements OnInit
 
     constructor(
       public dialogRef: MatDialogRef<ImageOverViewDialog>,
+      private productService : ProductService,
+      private _matSnackBar: MatSnackBar,
       @Inject(MAT_DIALOG_DATA) public data: any,
-      private dialog: MatDialog) {
-        this.image = data.image;
-        if(this.image.status == 'save'){
-            this.imagePath = this.imageRoot + this.image.path;
-        }else{
-            this.imagePath = this.image.path;
-        }
-      }
+      private dialog: MatDialog) {}
 
       ngOnInit(): void{
-        
+        this.image = this.data.image;
       }
       
 
     remove(): void {
         const dialogRef = this.dialog.open(ConfimDialog, {
-            data: {title : "confim remove",
+            data: {title : "confim remove", // todo translate
                     message : "sure remove the image"}
           });
       
           dialogRef.afterClosed().subscribe(result => {
             if(result.action == 'yes'){
-                this.dialogRef.close({action : 'remove', image : this.image.id});
+                this.productService.RemoveImageById( this.image.ProductPhotoId).subscribe(result=>{
+                    if(result>0){
+                        this._matSnackBar.open('Deleted image successfully', 'Ok', { // todo translate
+                            duration        : 2000
+                        });
+                    }
+                    else{
+                        this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                            duration        : 2000
+                        });
+                    }
+                },
+                error=>{
+                    this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                        duration        : 2000
+                    });
+                });
+                //
+                this.dialogRef.close({action : 'remove', image : this.image.ProductPhotoId});
             }
           });
         
