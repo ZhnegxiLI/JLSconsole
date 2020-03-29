@@ -119,7 +119,7 @@ export class EcommerceProductsComponent implements OnInit {
     }
 
     getSecondCategoryList() {
-        if (this.searchCriteria.MainCategoryReferenceId != null && this.searchCriteria.MainCategoryReferenceId != 0) {
+        if (this.searchCriteria.MainCategoryReferenceId != null && this.searchCriteria.MainCategoryReferenceId != 0 && this.referenceItemList!=null ) {
             return this.referenceItemList.filter(p => p.ParentId == this.searchCriteria.MainCategoryReferenceId);
         }
         return [];

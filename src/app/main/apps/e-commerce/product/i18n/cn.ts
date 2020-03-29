@@ -21,7 +21,7 @@ export const locale = {
             'SIZE' : '规格',
             'COLOR' : '颜色',
             'MATERIAL' : '材料',
-            'PACKING' : '装箱',
+            'PACKING' : '数量',
             'QUANTITY_PER_BOX' : '每箱数量',
             'MIN_QUANTITY' : '最小数量',
             'PRICING' : '价格',

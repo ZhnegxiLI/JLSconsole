@@ -12,7 +12,7 @@ export const locale = {
             'CATEGORY' : 'Catégorie',
             'STATUS' : 'Statut',
             'LABEL' : 'Label',
-            'PARENT_CATEGORY' : 'Parent_Catégorie',
+            'PARENT_CATEGORY' : 'Parent Catégorie',
             'ID':'ID',
             'Status':'Statut',
             'Search':'Recherche',

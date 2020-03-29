@@ -21,7 +21,7 @@ export const locale = {
             'SIZE' : 'Size',
             'COLOR' : 'Color',
             'MATERIAL' : 'Material',
-            'PACKING' : 'Paking',
+            'PACKING' : 'Quantity',
             'QUANTITY_PER_BOX' : 'Quantity per box',
             'MIN_QUANTITY' : 'Minimum quantity',
             'PRICING' : 'Price',

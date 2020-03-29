@@ -21,7 +21,7 @@ export const locale = {
             'SIZE' : 'Taille',
             'COLOR' : 'Colour',
             'MATERIAL' : 'Matériel',
-            'PACKING' : 'Colis',
+            'PACKING' : 'Quantité',
             'QUANTITY_PER_BOX' : 'Quantités par colis',
             'MIN_QUANTITY' : 'Quantité minimum',
             'PRICING' : 'Prix',

@@ -104,7 +104,7 @@ export class EcommerceProductComponent implements OnInit
             QuantityPerBox : [''],
             MinQuantity : [''],
             Price : ['' , Validators.required],
-            TaxRate : ['',Validators.required],
+            TaxRateId : ['',Validators.required],
             Size: [''],
             Color : [''],
             Material : [''],
@@ -157,7 +157,8 @@ export class EcommerceProductComponent implements OnInit
                     });
                 }
                 delete result.Translation;     
-                delete result.ImagesPath;
+                delete result.ImagesPath;  
+                delete result.TaxRate;
                 this.productForm.setValue(result);
             }
             console.log(this.productForm.value);
@@ -228,14 +229,6 @@ export class EcommerceProductComponent implements OnInit
         }
       });
       
-        //   const reader = new FileReader();
-        //   var imagePath = file;
-        //   reader.readAsDataURL(file[0]);
-        //   reader.onload = () => {
-        //     this.imgURL = reader.result;
-        //     console.log(this.imgURL);
-        //   };
-        
     }
 
     openImageViewDialog(image){
@@ -258,6 +251,7 @@ export class EcommerceProductComponent implements OnInit
             if(result!= null && result.length>0){
                 result.map(p=>{
                     p.CompletePath = environment.url + p.Path;
+                    p.ProductPhotoId = p.Id
                 });
                 this.photoPath = result;
                 this._fuseProgressBarService.hide();
@@ -337,7 +331,7 @@ export class EcommerceProductComponent implements OnInit
           });
       
           dialogRef.afterClosed().subscribe(result => {
-            if(result.action == 'yes'){
+            if(result!=null && result.action!=null &&result.action == 'yes' && this.image.ProductPhotoId!=null){
                 this.productService.RemoveImageById( this.image.ProductPhotoId).subscribe(result=>{
                     if(result>0){
                         this._matSnackBar.open('Deleted image successfully', 'Ok', { // todo translate

@@ -16,108 +16,120 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
-  animations   : fuseAnimations,
+  animations: fuseAnimations,
   encapsulation: ViewEncapsulation.None
 })
 export class CartComponent implements OnInit {
-  displayedColumns = ['image', 'product', 'price','quantity','total','action'];
+  displayedColumns = ['image', 'product', 'price', 'quantity', 'total', 'action'];
 
   private view: string = "cart";
 
   private environment = environment;
-  private cartProductList : any[] = [];
+  private cartProductList: any[] = [];
   constructor(
     private _translateService: TranslateService,
-    private productService : ProductService,
+    private productService: ProductService,
     private _fuseTranslationLoaderService: FuseTranslationLoaderService,
     private dialog: MatDialog) {
 
-      this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
-     }
+    this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
+  }
 
   ngOnInit() {
     this.getCartData();
   }
 
-  getCartData(){
+  getCartData() {
     var cartStringfy = localStorage.getItem('cart');
-    if(cartStringfy!= null){
+    if (cartStringfy != null) {
       var cartObject = JSON.parse(cartStringfy);
-     
+
       this.cartProductList = cartObject;
 
-
-     
       this.productService.GetProductInfoByReferenceIds({
-        ReferenceIds : this.getProductReferenceIdList(cartObject),
-        Lang : this._translateService.currentLang
-      }).subscribe(result=>{
-        console.log(  this.cartProductList);
+        ReferenceIds: this.getProductReferenceIdList(cartObject),
+        Lang: this._translateService.currentLang
+      }).subscribe(result => {
+        console.log(this.cartProductList);
         console.log(result);
 
         this.mapQuantityForNewInfomation(result);
       },
-      error=>{
+        error => {
 
-      })
+        });
 
     }
 
     console.log(this.cartProductList);
   }
 
-  ValideOrder(){
+  ValideOrder() {
 
   }
 
-  mapQuantityForNewInfomation(newResult){
-    if(newResult!=null){
+  checkInput(event){
+    console.log(event)
+  }
+
+  mapQuantityForNewInfomation(newResult) {
+    if (newResult != null) {
       newResult.forEach(p => {
-        var temp = this.cartProductList.find(r=>r.ReferenceId == p.ReferenceId);
-        if(temp!=null){
+        var temp = this.cartProductList.find(r => r.ReferenceId == p.ReferenceId);
+        if (temp != null) {
           p.Quantity = temp.Quantity;
+
+          if (p.Quantity < p.MinQuantity) {
+            p.Quantity = p.MinQuantity;
+          }
         }
       });
       this.cartProductList = newResult;
-      localStorage.setItem('cart',JSON.stringify(this.cartProductList));
+      localStorage.setItem('cart', JSON.stringify(this.cartProductList));
     }
   }
 
-  getProductReferenceIdList (productList){
+  getProductReferenceIdList(productList) {
     var result = [];
     productList.forEach(p => {
-      result.push(p.ReferenceId);    
+      result.push(p.ReferenceId);
     });
     return result;
   }
 
-  quantityChange(product){
-      if(product.Quantity!=null && product.Quantity !="" ){
-        localStorage.setItem('cart',JSON.stringify(this.cartProductList));
-      }
+  quantityChange(product) {
+    if(product.Quantity < product.MinQuantity){
+      product.Quantity = product.MinQuantity;
+    }
+
+    if (product.Quantity != null && product.Quantity != "" && product.Quantity >= product.MinQuantity) {
+      localStorage.setItem('cart', JSON.stringify(this.cartProductList));
+    }
   }
 
-  addOrMinusProduct(product,action){
-    if(action == 'add'){
+  addOrMinusProduct(product, action) {
+    if (action == 'add') {
       product.Quantity = product.Quantity + 1;
     }
-    else if(action == 'minus'){
+    else if (action == 'minus') {
       product.Quantity = product.Quantity - 1;
     }
     this.quantityChange(product);
   }
-  DeleteFromCart(product,event){
+  DeleteFromCart(product, event) {
     console.log(product);
 
     const dialogRef = this.dialog.open(ConfimDialog, {
-      data: {title : "Remove?",
-              message : "Are you sure to remove the product?"} // todo translate
+      data: {
+        title: "Remove?",
+        message: "Are you sure to remove the product?"
+      } // todo translate
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.action == 'yes'){
-        this.cartProductList = this.cartProductList.filter(p=>p.ReferenceId != product.ReferenceId);
-        localStorage.setItem('cart',JSON.stringify(this.cartProductList));
+      if (result.action == 'yes') {
+        this.cartProductList = this.cartProductList.filter(p => p.ReferenceId != product.ReferenceId);
+        localStorage.setItem('cart', JSON.stringify(this.cartProductList));
       }
     });
   }
