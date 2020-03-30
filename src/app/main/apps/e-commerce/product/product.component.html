@@ -172,7 +172,7 @@
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.PRICE'| translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.PRICE'| translate}}" name="price"
-                                        formControlName="Price" type="number">
+                                        formControlName="Price" type="number" required>
                                     <span matPrefix>€&nbsp;</span>
                                 </mat-form-field>
 
@@ -220,14 +220,14 @@
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.QUANTITY_PER_BOX' | translate}}</mat-label>
-                                    <input matInput placeholder="{{'PRODUCT.QUANTITY_PER_BOX' | translate}}"
+                                    <input  matInput placeholder="{{'PRODUCT.QUANTITY_PER_BOX' | translate}}"
                                         name="quantityPerBox" formControlName="QuantityPerBox" type="number">
                                     <!-- <span matSuffix>kg</span> -->
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.MIN_QUANTITY' | translate}}</mat-label>
-                                    <input matInput placeholder="{{'PRODUCT.MIN_QUANTITY' | translate}}"
+                                    <input required matInput placeholder="{{'PRODUCT.MIN_QUANTITY' | translate}}"
                                         name="minQuantity" formControlName="MinQuantity" type="number">
                                     <!-- <span matPrefix>$&nbsp;</span> -->
                                 </mat-form-field>
