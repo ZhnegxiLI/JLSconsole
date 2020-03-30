@@ -32,6 +32,8 @@ import { ReferenceItemsComponent, ItemDialog } from './items/items.component';
 
 import { ReferenceCategoryComponent } from './category/categories.component';
 
+
+import { NgxLoadingModule } from 'ngx-loading';
 const routes: Routes = [
     {
         path     : 'items',
@@ -52,7 +54,7 @@ const routes: Routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-
+        NgxLoadingModule.forRoot({}),
         DialogModule,
         MatCheckboxModule,
         MatDialogModule,

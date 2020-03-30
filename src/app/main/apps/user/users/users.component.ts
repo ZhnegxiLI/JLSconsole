@@ -88,10 +88,17 @@ export class UsersComponent implements OnInit {
     console.log(this.searchCriteria);
     this._fuseProgressBarService.show();
     this.userService.advancedUserSearch(this.searchCriteria).subscribe(result=>{
-      if(result!=null   ){
-        this.userList = result.UserList;
-        this.totalCount = result.TotalCount;
-        console.log(this.userList)
+      // Only the super admin can view the account of super admin
+      if(result!=null){
+        if(localStorage.getItem('userRole')!=null && localStorage.getItem('userRole')=='SuperAdmin'){
+          this.userList = result.UserList;
+          this.totalCount = result.TotalCount;
+          console.log(this.userList)
+        }
+        else{
+          this.userList = result.UserList.filter(p=>p.UserRoleName!='SuperAdmin');
+          this.totalCount = result.TotalCount;
+        }  
     }
     this._fuseProgressBarService.hide();
     },
@@ -142,6 +149,8 @@ export class UserDialog {
   private confirmPassword: string;
   private modifyPasswordDisabled : boolean = false;
 
+  private loading: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<UserDialog>,
     public dialog: MatDialog,
@@ -156,7 +165,6 @@ export class UserDialog {
         RoleId : ['',Validators.required],
         Validity : ['']
       });
-
   }
 
   ngOnInit() {
@@ -211,6 +219,7 @@ export class UserDialog {
     criteria.UserId = this.data.userId;
     this._fuseProgressBarService.show();
     criteria.Password = this.password==null? '':this.password;
+    this.loading = true;
     this.userService.CreateOrUpdateUser(criteria).subscribe(result =>{
         if(result.Succeeded!=null && result.Succeeded==false){
             result.Errors.forEach(p => {
@@ -229,9 +238,11 @@ export class UserDialog {
         this.dialogRef.close({IsSaved: true});
      }
      this._fuseProgressBarService.hide();
+     this.loading = false
     },
     error=>{
-      console.log(error)
+      console.log(error);
+      this.loading = false;
       //todo
     });
   }

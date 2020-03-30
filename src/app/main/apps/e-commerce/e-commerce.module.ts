@@ -39,6 +39,8 @@ import { EcommerceOrderComponent } from 'app/main/apps/e-commerce/order/order.co
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { CartComponent } from './cart/cart.component';
 
+import { NgxLoadingModule } from 'ngx-loading';
+
 const routes: Routes = [
     {
         path     : 'products',
@@ -73,6 +75,8 @@ const routes: Routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
+
+        NgxLoadingModule.forRoot({}),
         MatGridListModule,
         DialogModule,
         MatDatepickerModule,

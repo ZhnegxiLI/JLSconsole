@@ -1,5 +1,6 @@
 <div mat-dialog>
     <div mat-dialog-content>
+        <ngx-loading [show]="removeImageLoading"></ngx-loading>
         <div>
             <img [src]="image.CompletePath" alt="image at full size" >
         </div>

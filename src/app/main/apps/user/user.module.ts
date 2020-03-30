@@ -34,7 +34,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-
+import { NgxLoadingModule } from 'ngx-loading';
 
 const routes: Routes = [
   {
@@ -49,6 +49,7 @@ const routes: Routes = [
     AddressDialog,
       UserDialog],
   imports: [
+    NgxLoadingModule.forRoot({}),
     MatCheckboxModule,
     RouterModule.forChild(routes),
     CommonModule,

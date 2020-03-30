@@ -60,6 +60,8 @@ export class EcommerceProductComponent implements OnInit
     private taxRateList : any [] = [];
     private productInfo : any = {};
     private photoPath : any = [];
+
+    private uploadLoading:boolean = false;
     
     private validityList : any[] = [{
         Value : true,
@@ -162,7 +164,7 @@ export class EcommerceProductComponent implements OnInit
                 this.productForm.setValue(result);
             }
             console.log(this.productForm.value);
-        },
+        },      
         error=>{
 
         });
@@ -212,8 +214,9 @@ export class EcommerceProductComponent implements OnInit
         formData.append('file', fileToUpload, fileToUpload.name);
         formData.append('ProductId', this.productId.toString());
 
-
+    
         this._fuseProgressBarService.show();
+        this.uploadLoading = true;
         this.productService.UploadPhoto(formData, {reportProgress: true, observe: 'events'})
         .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress){
@@ -227,6 +230,10 @@ export class EcommerceProductComponent implements OnInit
             this.getImagePath();
             console.log("upload successfully");// todo change 
         }
+        this.uploadLoading = false;
+      },
+      error=>{
+        this.uploadLoading = false;
       });
       
     }
@@ -312,6 +319,8 @@ export class EcommerceProductComponent implements OnInit
     image : any;
     imagePath : string;
 
+    private removeImageLoading: boolean = false;
+
     constructor(
       public dialogRef: MatDialogRef<ImageOverViewDialog>,
       private productService : ProductService,
@@ -332,6 +341,7 @@ export class EcommerceProductComponent implements OnInit
       
           dialogRef.afterClosed().subscribe(result => {
             if(result!=null && result.action!=null &&result.action == 'yes' && this.image.ProductPhotoId!=null){
+                this.removeImageLoading = true;
                 this.productService.RemoveImageById( this.image.ProductPhotoId).subscribe(result=>{
                     if(result>0){
                         this._matSnackBar.open('Deleted image successfully', 'Ok', { // todo translate
@@ -343,11 +353,13 @@ export class EcommerceProductComponent implements OnInit
                             duration        : 2000
                         });
                     }
+                    this.removeImageLoading = false;
                 },
                 error=>{
                     this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
                         duration        : 2000
                     });
+                    this.removeImageLoading = false;    
                 });
                 //
                 this.dialogRef.close({action : 'remove', image : this.image.ProductPhotoId});

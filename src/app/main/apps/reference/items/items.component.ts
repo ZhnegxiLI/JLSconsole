@@ -180,6 +180,8 @@ export class ReferenceItemsComponent implements OnInit
   export class ItemDialog {
     @ViewChild('contactForm',null) contactForm: NgForm;
     
+    private Loading: boolean = false;
+
     private itemInfo = {
         Id : 0,
         Code : '',
@@ -217,6 +219,7 @@ export class ReferenceItemsComponent implements OnInit
   
     onSubmit(form){
 
+        this.Loading = true;
         //saveReferenceItem
         this.referenceService.saveReferenceItem(this.itemInfo).subscribe(result=>{
             if(result>0){
@@ -226,11 +229,14 @@ export class ReferenceItemsComponent implements OnInit
 
                 this.dialogRef.close({IsSaved: true});
             }
+            this.Loading = false;
         },
         error=>{
             this._matSnackBar.open('Save fail', 'Fail', { // todo translate
                 duration        : 2000
             });
+
+            this.Loading = false;
         })
     }
 

@@ -2,7 +2,7 @@
     <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)" novalidate>
         <div mat-dialog-title>{{'ITEMS.Add/Modify' | translate}}</div>
         <div mat-dialog-content>
-
+            <ngx-loading [show]="Loading"></ngx-loading>
             <table class="example-full-width" cellspacing="0">
                 <tr>
                     <td>
