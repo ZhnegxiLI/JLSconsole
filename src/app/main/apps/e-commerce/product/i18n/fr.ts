@@ -39,6 +39,8 @@ export const locale = {
             "Msg_RemovePhotoSuccess":"Supprimer la photo avec succès",
             "Msg_RemovePhotoFail":"Échec de supprimer la photo, veuillez réessayer",
 
+            "CodeAlreadyExists":"Code déjà existe"
+
             
         }
     }

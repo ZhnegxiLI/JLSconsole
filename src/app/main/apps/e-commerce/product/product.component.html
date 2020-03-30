@@ -94,6 +94,10 @@
                                     <mat-label>{{'PRODUCT.REFERENCE_CODE'| translate}}</mat-label>
                                     <input matInput placeholder="{{'PRODUCT.REFERENCE_CODE'| translate}}"
                                         name="reference" formControlName="ReferenceCode" required>
+
+                                        <mat-error *ngIf="isAlreadyExists()">
+                                            {{'PRODUCT.CodeAlreadyExists' | translate}}
+                                        </mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">

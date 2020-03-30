@@ -6,14 +6,14 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, merge } from 'rxjs';
-import { takeUntil, filter, map } from 'rxjs/operators';
+import { takeUntil, filter, map, distinctUntilChanged, debounceTime, switchMap, first } from 'rxjs/operators';
 
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
@@ -32,177 +32,198 @@ import { ReferenceService } from 'app/Services/reference.service';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
-    selector     : 'e-commerce-product',
-    templateUrl  : './product.component.html',
-    styleUrls    : ['./product.component.scss'],
+    selector: 'e-commerce-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class EcommerceProductComponent implements OnInit
-{
- 
+export class EcommerceProductComponent implements OnInit {
+
     product: Product;
     pageType: string;
     productForm: FormGroup;
-    categoryTable : Array<any>; 
-    mainCategory : string = "";
-    imageDatas : Array<File> = [];
-    langLabels : Array<{"lang" : string, "label" : string}>;
-    taxRateTable : Array<any> = [];
-    loading : boolean = false;
+    categoryTable: Array<any>;
+    mainCategory: string = "";
+    imageDatas: Array<File> = [];
+    langLabels: Array<{ "lang": string, "label": string }>;
+    taxRateTable: Array<any> = [];
+    loading: boolean = false;
 
 
     private saveLoading: boolean = false
 
-    private previousView:string = "";
+    private previousView: string = "";
     public view: string = "product";
-    private productId : number = 0;
-    private mainCategoryList : any[] = [];
-    private secondCategoryList : any[] = [];
-    private referenceItemList : any[] = [];
-    private taxRateList : any [] = [];
-    private productInfo : any = {};
-    private photoPath : any = [];
+    private productId: number = 0;
+    private mainCategoryList: any[] = [];
+    private secondCategoryList: any[] = [];
+    private referenceItemList: any[] = [];
+    private taxRateList: any[] = [];
+    private productInfo: any = {};
+    private photoPath: any = [];
 
-    private uploadLoading:boolean = false;
-    
-    private validityList : any[] = [{
-        Value : true,
-        Label : 'Valide'
-    },{
-        Value : false,
-        Label :'Invalide'
+    private uploadLoading: boolean = false;
+
+    private validityList: any[] = [{
+        Value: true,
+        Label: 'Valide'
+    }, {
+        Value: false,
+        Label: 'Invalide'
     }
     ];
-    private productName : string ="";
-    private imgURL :any;
-    private progress : any;
+    private productName: string = "";
+    private imgURL: any;
+    private progress: any;
 
     constructor(
-        private referenceService : ReferenceService,
-        private productService : ProductService,
+        private referenceService: ReferenceService,
+        private productService: ProductService,
         private _formBuilder: FormBuilder,
         private _location: Location,
         private _matSnackBar: MatSnackBar,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private dialog: MatDialog,
-        private activeRoute : ActivatedRoute,
-        private formBuilder:FormBuilder, 
+        private activeRoute: ActivatedRoute,
+        private formBuilder: FormBuilder,
         private _fuseProgressBarService: FuseProgressBarService,
-        private router : Router
-    )
-    {
+        private router: Router
+    ) {
         // Set the default
         this.product = new Product();
 
         this.productForm = this.formBuilder.group({
             Labelfr: ['', Validators.required],
             Labelcn: [''],
-            Labelen : [''],
-            ReferenceCode : ['',Validators.required], 
-            Description : [''],
-            MainCategoryId: ['',Validators.required],
-            SecondCategoryId : ['',Validators.required],
-            ProductId : ['0'],
-            ReferenceId : ['0'],
-            QuantityPerBox : [''],
-            MinQuantity : ['',Validators.required],
-            Price : ['' , Validators.required],
-            TaxRateId : ['',Validators.required],
+            Labelen: [''],
+            ReferenceCode: ['', Validators.required, this.codeUniqueValidator()],
+            Description: [''],
+            MainCategoryId: ['', Validators.required],
+            SecondCategoryId: ['', Validators.required],
+            ProductId: ['0'],
+            ReferenceId: ['0'],
+            QuantityPerBox: [''],
+            MinQuantity: ['', Validators.required],
+            Price: ['', Validators.required],
+            TaxRateId: ['', Validators.required],
             Size: [''],
-            Color : [''],
-            Material : [''],
-            Validity : ['']
-          });
+            Color: [''],
+            Material: [''],
+            Validity: ['']
+        });
 
-        this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
+        this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
 
     }
 
-    ngOnInit(): void
-    {
+    codeUniqueValidator() {
+        return (control: FormControl): any => {
+          //进入管道进行串行操作
+          //valueChanges表示字段值变更才触发操作
+          return control.valueChanges.pipe(
+            //同valueChanges，不写也可
+            distinctUntilChanged(),
+            //防抖时间，单位毫秒
+            debounceTime(1000),
+            //调用服务，参数可写可不写，如果写的话变成如下形式
+            //switchMap((val) => this.registerService.isUserNameExist(val))
+            switchMap(() => this.referenceService.checkReferenceCodeExists({Code:control.value})),
+            //对返回值进行处理，null表示正确，对象表示错误
+            map(res => res == true ? {duplicate:true} : null),
+            //每次验证的结果是唯一的，截断流
+            first()
+            );
+          }
+      }
+    
+      isAlreadyExists(): boolean {
+        return this.productForm.get('ReferenceCode').hasError('duplicate');
+      }
+      
+
+    ngOnInit(): void {
         this.activeRoute.queryParams.subscribe((params: Params) => {
             this.productId = params['Id'];
             this.previousView = params['View'];
-     
+
             console.log("previous view:" + this.previousView);
-            if(this.productId!=null && this.productId !=0 ){
+            if (this.productId != null && this.productId != 0) {
                 // todo new product 
                 this.getProdudctData();
             }
-            else{
+            else {
                 // new product 
                 this.productName = "New product"; // todo translate
             }
-          });
+        });
         this.initLoadData();
     }
 
-    getProdudctData(){
+    getProdudctData() {
 
-        this.productService.GetProductById(this.productId).subscribe(result =>{
+        this.productService.GetProductById(this.productId).subscribe(result => {
             console.log(result);
             this.productInfo = result;
-            if(result!=null){
+            if (result != null) {
                 this.productName = this.getDefaultProductName();
                 // todo change
-                if(result.ImagesPath!=null && result.ImagesPath.length>0){
+                if (result.ImagesPath != null && result.ImagesPath.length > 0) {
 
                     var photoList = [];
-                    result.ImagesPath.map(p=>{
-                        photoList.push({CompletePath :environment.url + p.Path, ProductPhotoId: p.Id});
+                    result.ImagesPath.map(p => {
+                        photoList.push({ CompletePath: environment.url + p.Path, ProductPhotoId: p.Id });
                     });
                     this.photoPath = photoList;
                 }
 
-                if(result.Translation!= null&& result.Translation.length>0){
+                if (result.Translation != null && result.Translation.length > 0) {
                     result.Translation.map(val => {
-                        result['Label'+val.Lang] = val.Label;
+                        result['Label' + val.Lang] = val.Label;
                     });
                 }
-                delete result.Translation;     
-                delete result.ImagesPath;  
+                delete result.Translation;
+                delete result.ImagesPath;
                 delete result.TaxRate;
                 this.productForm.setValue(result);
             }
             console.log(this.productForm.value);
-        },      
-        error=>{
+        },
+            error => {
 
-        });
+            });
     }
 
-    getDefaultProductName(){
-        if(this.productInfo!=null && this.productInfo.Translation!=null && this.productInfo.Translation.length>0){
-           var productLabelObject = this.productInfo.Translation.find(p=>p.Lang == this._translateService.currentLang);
-           if(productLabelObject == null){
-            productLabelObject = this.productInfo.Translation[0];
-           }
-           return productLabelObject.Label;
+    getDefaultProductName() {
+        if (this.productInfo != null && this.productInfo.Translation != null && this.productInfo.Translation.length > 0) {
+            var productLabelObject = this.productInfo.Translation.find(p => p.Lang == this._translateService.currentLang);
+            if (productLabelObject == null) {
+                productLabelObject = this.productInfo.Translation[0];
+            }
+            return productLabelObject.Label;
         }
         return "";
-    } 
+    }
 
-    initLoadData() : void
-    {
+    initLoadData(): void {
         var criteria = {
-        Lang: this._translateService.getDefaultLang(),
-        ShortLabels:['MainCategory','SecondCategory','TaxRate']
+            Lang: this._translateService.getDefaultLang(),
+            ShortLabels: ['MainCategory', 'SecondCategory', 'TaxRate']
         };
-        this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
-            if(result!=null && result.length>0){
+        this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result => {
+            if (result != null && result.length > 0) {
                 this.referenceItemList = result;
-                this.mainCategoryList = result.filter(p=> p.ReferenceCategoryLabel == "MainCategory");
-                this.taxRateList = result.filter(p=> p.ReferenceCategoryLabel == "TaxRate");
+                this.mainCategoryList = result.filter(p => p.ReferenceCategoryLabel == "MainCategory");
+                this.taxRateList = result.filter(p => p.ReferenceCategoryLabel == "TaxRate");
 
                 console.log(this.mainCategoryList); // todo remove
                 console.log(this.taxRateList); // todo remove
             }
         },
-        error=>{
+            error => {
 
-        });
+            });
     }
 
 
@@ -217,53 +238,53 @@ export class EcommerceProductComponent implements OnInit
         formData.append('file', fileToUpload, fileToUpload.name);
         formData.append('ProductId', this.productId.toString());
 
-    
+
         this._fuseProgressBarService.show();
         this.uploadLoading = true;
-        this.productService.UploadPhoto(formData, {reportProgress: true, observe: 'events'})
-        .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress){
-            this.progress = Math.round(100 * event.loaded / event.total);
-            console.log(this.progress)
-        }
-        else if (event.type === HttpEventType.Response) {
-            this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadSuccess'), 'OK', {
-                duration        : 2000
-            });
-            this.getImagePath();
-            console.log("upload successfully");// todo change 
-        }
-        this.uploadLoading = false;
-      },
-      error=>{
+        this.productService.UploadPhoto(formData, { reportProgress: true, observe: 'events' })
+            .subscribe(event => {
+                if (event.type === HttpEventType.UploadProgress) {
+                    this.progress = Math.round(100 * event.loaded / event.total);
+                    console.log(this.progress)
+                }
+                else if (event.type === HttpEventType.Response) {
+                    this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadSuccess'), 'OK', {
+                        duration: 2000
+                    });
+                    this.getImagePath();
+                    console.log("upload successfully");// todo change 
+                }
+                this.uploadLoading = false;
+            },
+                error => {
 
-        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadFail'), 'OK', {
-            duration        : 2000
-        });
-        this.uploadLoading = false;
-      });
-      
+                    this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadFail'), 'OK', {
+                        duration: 2000
+                    });
+                    this.uploadLoading = false;
+                });
+
     }
 
-    openImageViewDialog(image){
+    openImageViewDialog(image) {
         console.log(image);
 
         const dialogRef = this.dialog.open(ImageOverViewDialog, {
-         
-            data: {image : image}
+
+            data: { image: image }
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
-            if( result!=null && result.action!= null && result.action == "remove"){
+            if (result != null && result.action != null && result.action == "remove") {
                 this.getProdudctData();
             }
         });
     }
 
-    getImagePath(){
-        this.productService.GetProductPhotoPathById({ProductId : this.productId}).subscribe(result=>{
-            if(result!= null && result.length>0){
-                result.map(p=>{
+    getImagePath() {
+        this.productService.GetProductPhotoPathById({ ProductId: this.productId }).subscribe(result => {
+            if (result != null && result.length > 0) {
+                result.map(p => {
                     p.CompletePath = environment.url + p.Path;
                     p.ProductPhotoId = p.Id
                 });
@@ -272,120 +293,122 @@ export class EcommerceProductComponent implements OnInit
                 console.log(this.photoPath);
             }
         },
-        error=>{
-            // todo change 
-        });
+            error => {
+                // todo change 
+            });
     }
-    
 
-    getSecondCategoryList(){
+
+    getSecondCategoryList() {
 
         var categoryId = this.productForm.controls['MainCategoryId'].value;
-        if(categoryId!=null&& categoryId!=0){
-          return this.referenceItemList.filter(p=>p.ParentId ==categoryId);
+        if (categoryId != null && categoryId != 0) {
+            return this.referenceItemList.filter(p => p.ParentId == categoryId);
         }
         return [];
     }
 
-    saveProduct(){
+    saveProduct() {
         console.log(this.productForm.value);
         this._fuseProgressBarService.show();
         var criteria = this.productForm.value;
         criteria.CreatedOrUpdatedBy = localStorage.getItem('userId');
         this.saveLoading = true;
-        this.productService.UpdateOrCreateProduct(criteria).subscribe(result=>{
-            if(result>0){
+        this.productService.UpdateOrCreateProduct(criteria).subscribe(result => {
+            if (result > 0) {
 
-                this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionSuccess'), 'OK', { 
-                    duration        : 2000
+                this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionSuccess'), 'OK', {
+                    duration: 2000
                 });
 
-              //  this.router.navigate(['apps/e-commerce/products']); // todo
-                
+                //  this.router.navigate(['apps/e-commerce/products']); // todo
+
             }
-            else{
+            else {
                 // error 
-                
+
                 this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionFail'), 'OK', {
-                    duration        : 2000
+                    duration: 2000
                 });
             }
             this.saveLoading = false;
             this._fuseProgressBarService.hide();
         },
-        error=>{
-            this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionFail'), 'OK', {
-                duration        : 2000
-            });
+            error => {
+                this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionFail'), 'OK', {
+                    duration: 2000
+                });
 
-            this.saveLoading = false;
-        });
+                this.saveLoading = false;
+            });
     }
- 
+
 }
 
 @Component({
     selector: 'image-over-view-dialog',
-    templateUrl : 'image-over-view-dialog.html'
-  })
+    templateUrl: 'image-over-view-dialog.html'
+})
 
-  export class ImageOverViewDialog {
+export class ImageOverViewDialog {
     imageRoot = environment.url + "images/";
-    image : any;
-    imagePath : string;
+    image: any;
+    imagePath: string;
 
     private removeImageLoading: boolean = false;
 
     constructor(
-      public dialogRef: MatDialogRef<ImageOverViewDialog>,
-      private productService : ProductService,
-      private _matSnackBar: MatSnackBar,
-      private _translateService: TranslateService,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private dialog: MatDialog) {}
+        public dialogRef: MatDialogRef<ImageOverViewDialog>,
+        private productService: ProductService,
+        private _matSnackBar: MatSnackBar,
+        private _translateService: TranslateService,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private dialog: MatDialog) { }
 
-      ngOnInit(): void{
+    ngOnInit(): void {
         this.image = this.data.image;
-      }
-      
+    }
+
 
     remove(): void {
         const dialogRef = this.dialog.open(ConfimDialog, {
-            data: {title :  this._translateService.instant('PRODUCT.Msg_RemoveTitle'),  
-                    message : this._translateService.instant('PRODUCT.Msg_RemoveMessage')}
-          });
-      
-          dialogRef.afterClosed().subscribe(result => {
-            if(result!=null && result.action!=null &&result.action == 'yes' && this.image.ProductPhotoId!=null){
+            data: {
+                title: this._translateService.instant('PRODUCT.Msg_RemoveTitle'),
+                message: this._translateService.instant('PRODUCT.Msg_RemoveMessage')
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result != null && result.action != null && result.action == 'yes' && this.image.ProductPhotoId != null) {
                 this.removeImageLoading = true;
-                this.productService.RemoveImageById( this.image.ProductPhotoId).subscribe(result=>{
-                    if(result>0){
+                this.productService.RemoveImageById(this.image.ProductPhotoId).subscribe(result => {
+                    if (result > 0) {
                         this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoSuccess'), 'OK', { // todo translate
-                            duration        : 2000
+                            duration: 2000
                         });
                     }
-                    else{
+                    else {
                         this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoFail'), 'OK', { // todo translate
-                            duration        : 2000
+                            duration: 2000
                         });
                     }
                     this.removeImageLoading = false;
                 },
-                error=>{
-                    this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoFail'), 'OK', { // todo translate
-                        duration        : 2000
+                    error => {
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoFail'), 'OK', { // todo translate
+                            duration: 2000
+                        });
+                        this.removeImageLoading = false;
                     });
-                    this.removeImageLoading = false;    
-                });
                 //
-                this.dialogRef.close({action : 'remove', image : this.image.ProductPhotoId});
+                this.dialogRef.close({ action: 'remove', image: this.image.ProductPhotoId });
             }
-          });
-        
+        });
+
     }
 
-    close(): void{
-        this.dialogRef.close({action : 'None'});
+    close(): void {
+        this.dialogRef.close({ action: 'None' });
     }
-  
-  }
+
+}
