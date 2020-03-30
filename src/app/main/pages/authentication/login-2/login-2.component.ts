@@ -83,14 +83,22 @@ export class Login2Component implements OnInit {
         loginCriteria.UserName = loginCriteria.email;
         loginCriteria.GrantType = 'password';
         this.authService.login(loginCriteria).subscribe(data => {
-            localStorage.setItem('login  Status', '1');
-            localStorage.setItem('jwt', data.authToken.token);
-            localStorage.setItem('username', data.authToken.username);
-            localStorage.setItem('userId',data.authToken.userId);
-            localStorage.setItem('expiration', data.authToken.expiration);
-            localStorage.setItem('userRole', data.authToken.roles);
-            localStorage.setItem('refreshToken', data.authToken.refresh_token);
-            this.router.navigate(['sample']);
+            if(data!=null && data.authToken!=null && data.authToken.roles!=null&& data.authToken.roles!='Client'){
+                localStorage.setItem('login  Status', '1');
+                localStorage.setItem('jwt', data.authToken.token);
+                localStorage.setItem('username', data.authToken.username);
+                localStorage.setItem('userId',data.authToken.userId);
+                localStorage.setItem('expiration', data.authToken.expiration);
+                localStorage.setItem('userRole', data.authToken.roles);
+                localStorage.setItem('refreshToken', data.authToken.refresh_token);
+                this.router.navigate(['sample']);
+            }
+            else{
+                this.matSnackBar.open("You don't have the permission", 'Ok', { // todo translate
+                    duration: 2000
+                });
+            }
+     
 
             this._fuseProgressBarService.hide();
         },
