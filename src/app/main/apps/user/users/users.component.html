@@ -26,8 +26,8 @@
             <!-- CONDITION -->
             
             <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'users.UserType' | translate}}</mat-label>
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'users.UserType' | translate}}</mat-label>
                     <mat-select  [(ngModel)]="searchCriteria.UserType">
                       <mat-option>None</mat-option>
                       <mat-option *ngFor="let item of userRoleList" [value]="item.Id">{{item.Name}}</mat-option>
@@ -36,8 +36,8 @@
             </div>
 
             <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'users.UserStatus' | translate}}</mat-label>
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'users.UserStatus' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                       <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>

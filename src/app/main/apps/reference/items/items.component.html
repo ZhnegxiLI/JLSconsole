@@ -17,26 +17,33 @@
         <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
             fxLayoutAlign.gt-sm="space-between center">
 
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ITEMS.CATEGORY' | translate}}</mat-label>
+            <div style="min-width: 15%; max-width: 15%;" class="mt-24">
+                <mat-form-field style="display: block;" floatLabel='always' >
+                    <mat-label class="searchTextLabel">{{'ITEMS.CATEGORY' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ReferenceCategoryId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of categoryList" [value]="item.Id">{{item.ShortLabel}}</mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ITEMS.Status' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="searchCriteria.Validity">
+                        <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ITEMS.PARENT_CATEGORY' | translate}}</mat-label>
+            <div style="min-width: 15%; max-width: 15%;" class="mt-24">
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ITEMS.PARENT_CATEGORY' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ParentCategoryId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of categoryList" [value]="item.Id">
                             {{item.ShortLabel}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ITEMS.PARENT' | translate}}</mat-label>
+                <mat-form-field style="display: block;"  floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ITEMS.PARENT' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.ParentId">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of getTargetReferenceItemByCategory()" [value]="item.Id">
@@ -44,14 +51,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ITEMS.Status' | translate}}</mat-label>
-                    <mat-select [(ngModel)]="searchCriteria.Validity">
-                        <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+  
             <!-- SEARCH -->
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">

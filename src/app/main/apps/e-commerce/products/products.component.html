@@ -26,24 +26,24 @@
             <!-- CONDITION -->
             
             <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'products.MainCategory' | translate}}</mat-label>
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'products.MainCategory' | translate}}</mat-label>
                     <mat-select  [(ngModel)]="searchCriteria.MainCategoryReferenceId">
                       <mat-option *ngFor="let item of mainCategoryList" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
                     </mat-select>
                   </mat-form-field>
             </div>
             <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'products.SecondCategory' | translate}}</mat-label>
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'products.SecondCategory' | translate}}</mat-label>
                     <mat-select multiple [(ngModel)]="searchCriteria.SecondCategoryReferenceId">
                       <mat-option *ngFor="let item of getSecondCategoryList()" [value]="item.Id">{{item.Label||item.Code}}</mat-option>
                     </mat-select>
                   </mat-form-field>
             </div>
             <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'products.Status' | translate}}</mat-label>
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'products.Status' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.Validity">
                       <mat-option *ngFor="let item of statusList" [value]="item.Value">{{item.Label}}</mat-option>
                     </mat-select>

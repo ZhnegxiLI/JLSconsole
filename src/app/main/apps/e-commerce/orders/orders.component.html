@@ -22,25 +22,25 @@
             </div>
             <!-- / APP TITLE -->
 
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ORDERS.FromDate' | translate}}</mat-label>
+            <div style="min-width: 10%; max-width: 10%;" class="mt-24">
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ORDERS.FromDate' | translate}}</mat-label>
                     <input matInput [matDatepicker]="picker" disabled  style="color: white;" [(ngModel)]="searchCriteria.FromDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker disabled="false"></mat-datepicker>
                   </mat-form-field>
-                  <mat-form-field style="display: block;">
-                    <mat-label>{{'ORDERS.ToDate' | translate}}</mat-label>
+                  <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ORDERS.ToDate' | translate}}</mat-label>
                     <input matInput [matDatepicker]="picker2" disabled style="color: white;" [(ngModel)]="searchCriteria.ToDate">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2 disabled="false"></mat-datepicker>
                   </mat-form-field>
             </div>
         
-            <div style="min-width: 10%; max-width: 10%;">
-                <mat-form-field style="display: block;">
-                    <mat-label>{{'ORDERS.USERNAME' | translate}}</mat-label>
-                    <mat-select placeholder="Bank" #singleSelect  [(ngModel)]="searchCriteria.UserId">
+            <div style="min-width: 10%; max-width: 10%;" class="mt-24">
+                <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ORDERS.USERNAME' | translate}}</mat-label>
+                    <mat-select  #singleSelect  [(ngModel)]="searchCriteria.UserId">
                     <mat-option>
                         <ngx-mat-select-search  placeholderLabel="username" [(ngModel)]="userSelectSearchText" noEntriesFoundLabel="No result found"></ngx-mat-select-search>
                     </mat-option>
@@ -49,8 +49,8 @@
                     </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field style="display: block;">
-                    <mat-label>{{'ORDERS.Product_STATUS' | translate}}</mat-label>
+                  <mat-form-field style="display: block;" floatLabel='always'>
+                    <mat-label class="searchTextLabel">{{'ORDERS.Product_STATUS' | translate}}</mat-label>
                     <mat-select [(ngModel)]="searchCriteria.StatusId">
                         <mat-option></mat-option>
                       <mat-option *ngFor="let item of statusList" [value]="item.Id">{{item.Label}}</mat-option>
