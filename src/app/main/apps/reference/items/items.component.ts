@@ -114,7 +114,7 @@ export class ReferenceItemsComponent implements OnInit
         }
         this.referenceService.getAllCategoryList(criteria).subscribe(result=>{
             if (result!=null && result.ReferenceCategoryList!=null){
-                this.categoryList = result.ReferenceCategoryList;
+                this.categoryList = result.ReferenceCategoryList.filter(p=>p.ShortLabel!="Product");
             }
         },
         error=>{
