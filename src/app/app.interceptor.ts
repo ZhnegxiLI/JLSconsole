@@ -47,7 +47,7 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
                             return this.handleHttpResponseError(request, next);
                         
                         case 400:
-                            return <any>this.acct.logout();
+                            return throwError(err); //<any>this.acct.logout();
                 }
                 } else 
                 {

@@ -120,28 +120,28 @@ export class EcommerceProductComponent implements OnInit {
 
     codeUniqueValidator() {
         return (control: FormControl): any => {
-          //进入管道进行串行操作
-          //valueChanges表示字段值变更才触发操作
-          return control.valueChanges.pipe(
-            //同valueChanges，不写也可
-            distinctUntilChanged(),
-            //防抖时间，单位毫秒
-            debounceTime(1000),
-            //调用服务，参数可写可不写，如果写的话变成如下形式
-            //switchMap((val) => this.registerService.isUserNameExist(val))
-            switchMap(() => this.referenceService.checkReferenceCodeExists({Code:control.value})),
-            //对返回值进行处理，null表示正确，对象表示错误
-            map(res => res == true ? {duplicate:true} : null),
-            //每次验证的结果是唯一的，截断流
-            first()
+            //进入管道进行串行操作
+            //valueChanges表示字段值变更才触发操作
+            return control.valueChanges.pipe(
+                //同valueChanges，不写也可
+                distinctUntilChanged(),
+                //防抖时间，单位毫秒
+                debounceTime(1000),
+                //调用服务，参数可写可不写，如果写的话变成如下形式
+                //switchMap((val) => this.registerService.isUserNameExist(val))
+                switchMap(() => this.referenceService.checkReferenceCodeExists({ Code: control.value })),
+                //对返回值进行处理，null表示正确，对象表示错误
+                map(res => (res == true && this.productId == 0) ? { duplicate: true } : null),
+                //每次验证的结果是唯一的，截断流
+                first()
             );
-          }
-      }
-    
-      isAlreadyExists(): boolean {
+        }
+    }
+
+    isAlreadyExists(): boolean {
         return this.productForm.get('ReferenceCode').hasError('duplicate');
-      }
-      
+    }
+
 
     ngOnInit(): void {
         this.activeRoute.queryParams.subscribe((params: Params) => {
@@ -176,6 +176,9 @@ export class EcommerceProductComponent implements OnInit {
                         photoList.push({ CompletePath: environment.url + p.Path, ProductPhotoId: p.Id });
                     });
                     this.photoPath = photoList;
+                }
+                else{
+                    this.photoPath = [];
                 }
 
                 if (result.Translation != null && result.Translation.length > 0) {
@@ -238,9 +241,9 @@ export class EcommerceProductComponent implements OnInit {
         formData.append('file', fileToUpload, fileToUpload.name);
         formData.append('ProductId', this.productId.toString());
 
-
+        this.saveLoading = true;
         this._fuseProgressBarService.show();
-        this.uploadLoading = true;
+  
         this.productService.UploadPhoto(formData, { reportProgress: true, observe: 'events' })
             .subscribe(event => {
                 if (event.type === HttpEventType.UploadProgress) {
@@ -254,14 +257,14 @@ export class EcommerceProductComponent implements OnInit {
                     this.getImagePath();
                     console.log("upload successfully");// todo change 
                 }
-                this.uploadLoading = false;
+                this.saveLoading = false;
             },
                 error => {
 
                     this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadFail'), 'OK', {
                         duration: 2000
                     });
-                    this.uploadLoading = false;
+                    this.saveLoading = false;
                 });
 
     }
@@ -392,6 +395,8 @@ export class ImageOverViewDialog {
                             duration: 2000
                         });
                     }
+                      //
+                    this.dialogRef.close({ action: 'remove', image: this.image.ProductPhotoId });
                     this.removeImageLoading = false;
                 },
                     error => {
@@ -400,8 +405,7 @@ export class ImageOverViewDialog {
                         });
                         this.removeImageLoading = false;
                     });
-                //
-                this.dialogRef.close({ action: 'remove', image: this.image.ProductPhotoId });
+              
             }
         });
 
