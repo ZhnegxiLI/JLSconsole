@@ -283,7 +283,9 @@ export class EcommerceProductComponent implements OnInit
     saveProduct(){
         console.log(this.productForm.value);
         this._fuseProgressBarService.show();
-        this.productService.UpdateOrCreateProduct(this.productForm.value).subscribe(result=>{
+        var criteria = this.productForm.value;
+        criteria.CreatedOrUpdatedBy = localStorage.getItem('userId');
+        this.productService.UpdateOrCreateProduct(criteria).subscribe(result=>{
             if(result>0){
 
                 this._matSnackBar.open('Save successfully', 'OK', { // todo translate

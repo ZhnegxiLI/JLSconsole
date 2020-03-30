@@ -192,7 +192,8 @@ export class ReferenceItemsComponent implements OnInit
         ParentId :0,
         LabelFR : null,
         LebelEN: null,
-        LabelCN : null
+        LabelCN : null,
+        CreatedOrUpdatedBy: null
     };
 
 
@@ -221,6 +222,7 @@ export class ReferenceItemsComponent implements OnInit
 
         this.Loading = true;
         //saveReferenceItem
+        this.itemInfo.CreatedOrUpdatedBy = localStorage.getItem('userId');
         this.referenceService.saveReferenceItem(this.itemInfo).subscribe(result=>{
             if(result>0){
                 this._matSnackBar.open('Save successfully', 'OK', { // todo translate

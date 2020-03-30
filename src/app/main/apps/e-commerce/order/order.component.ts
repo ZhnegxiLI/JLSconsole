@@ -131,7 +131,7 @@ export class EcommerceOrderComponent implements OnInit
             ShippingAddress:  this.order.ShippingAdress,
             FacturationAddress : this.order.FacturationAdress,
             OrderId: this.orderId,
-            CreatedOrUpdatedBy: 1, // todo change
+            CreatedOrUpdatedBy: localStorage.getItem('userId'), 
             StatusReferenceId : this.statusId,
             References : this.order.ProductList
         }
