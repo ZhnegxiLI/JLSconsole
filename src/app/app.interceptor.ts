@@ -40,6 +40,9 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
                             if(request.body!=null&& request.body.GrantType!=null&& request.body.GrantType=='password'){
                                return throwError(err) ;
                             }
+                            if(request.body!=null&& request.body.grantType!=null&& request.body.grantType=='refresh_token'){
+                                this.acct.logout();
+                             }
 
                             return this.handleHttpResponseError(request, next);
                         
@@ -91,7 +94,6 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
                         localStorage.setItem('refreshToken', tokenresponse.authToken.refresh_token);
                         console.log("Token refreshed...");
                         return next.handle(this.attachTokenToRequest(request));
-
                 }
                     return <any>this.acct.logout();
                 }),
