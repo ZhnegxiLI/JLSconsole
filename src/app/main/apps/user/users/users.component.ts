@@ -12,6 +12,7 @@ import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 import { AddressDialog } from './../../../../dialog/address-dialog/address-dialog.component';
 import { distinctUntilChanged, debounceTime, switchMap, map, first } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users',
@@ -159,6 +160,7 @@ export class UserDialog {
     private userService : UserService,
     private _matSnackBar: MatSnackBar,
     private _fuseProgressBarService: FuseProgressBarService,
+    private _translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) {
       this.userForm = this.formBuilder.group({
@@ -194,6 +196,7 @@ export class UserDialog {
   }
 
   ngOnInit() {
+    
     if(this.data.userId !=0){
       this.userService.GetUserById({UserId : this.data.userId}).subscribe(result=>{
         console.log(result);
@@ -213,13 +216,6 @@ export class UserDialog {
 
   onNoClick(): void {
     this.dialogRef.close({IsSaved: false});
-  }
-
-  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-  // let pass = group.get('Password').value;
-  // let confirmPass = group.get('ConfirmPassword').value;
-
-  // return pass === confirmPass ? null : {notTheSame : true};     
   }
 
   checkSaveButton(){
@@ -250,14 +246,14 @@ export class UserDialog {
         if(result.Succeeded!=null && result.Succeeded==false){
             result.Errors.forEach(p => {
               if(p.Code == "DuplicateUserName" || p.Code == "DuplicateUserName"){
-                this._matSnackBar.open('Email is taken', 'OK', { // todo translate
+                this._matSnackBar.open(this._translateService.instant('users.Error_UserAlreadyExists'), 'OK', { 
                   duration        : 2000
               });
               }
             });
         }
-        else if(result>0){
-          this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+        else if(result>0){       
+          this._matSnackBar.open(this._translateService.instant('users.ActionSuccess'), 'OK', { 
             duration        : 2000
         });
 
@@ -268,6 +264,11 @@ export class UserDialog {
     },
     error=>{
       console.log(error);
+
+      this._matSnackBar.open(this._translateService.instant('users.ActionFail'), 'OK', { 
+        duration        : 2000
+      });
+
       this.loading = false;
       //todo
     });

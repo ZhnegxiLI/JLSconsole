@@ -90,7 +90,6 @@ export class EcommerceProductsComponent implements OnInit {
 
 
     ngOnInit(): void {
-
         var criteriaStringfy = localStorage.getItem('ProductCriteria');
         if(criteriaStringfy!=null){
             this.searchCriteria = JSON.parse(criteriaStringfy);
@@ -164,7 +163,7 @@ export class EcommerceProductsComponent implements OnInit {
         }
         localStorage.setItem('cart', JSON.stringify(cartObject));
 
-        this._matSnackBar.open('Product is already add into the cart', 'OK', { // todo translate
+        this._matSnackBar.open(this._translateService.instant('products.Msg_AddProductIntoCart'), 'OK', { // todo translate
             duration        : 2000,
             verticalPosition: 'top'
         });

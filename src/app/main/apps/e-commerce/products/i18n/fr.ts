@@ -15,7 +15,8 @@ export const locale = {
             'MainCategory':'Catégories',
             'SecondCategory':'Sous catégories',
             'Status':'Statut',
-            'Search':'Recherche'
+            'Search':'Recherche',
+            "Msg_AddProductIntoCart":"Produit ajouté au panier",
 
         }
     }

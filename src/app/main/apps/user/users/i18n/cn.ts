@@ -20,8 +20,10 @@ export const locale = {
             'PasswordsDoNotMatch':'密码不相符',
             'Cancel':'取消',
             'Save':'保存',
-            'ModifyPassword':'修改密码'
-        
+            'ModifyPassword':'修改密码',
+            "Error_UserAlreadyExists":"用户已存在",
+            "ActionSuccess":"已成功保存",
+            "ActionFail":"保存失败，请稍后再试"
 
         }
     }

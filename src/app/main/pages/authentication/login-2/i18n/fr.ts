@@ -13,6 +13,7 @@ export const locale = {
             "Login":"Connectez-vous",
             "DontHaveAccount":"Nouveau client? Commencer ici",
             "CreateAnAccount":"Créer votre compte"
+         
         }
     }
 };

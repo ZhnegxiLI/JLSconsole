@@ -19,7 +19,10 @@ export const locale = {
             'Add/Modify':'Add/Modify',
             'UserStatus':'User status',
             'Cancel':'Cancel',
-            'Save':'Save'
+            'Save':'Save',
+            "ActionSuccess":"Successfully saved",
+            "ActionFail":"Save failed, please try again",
+            "CodeAlreadyExists":"Code already exists"
         }
         
     }

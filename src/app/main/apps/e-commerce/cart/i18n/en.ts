@@ -2,14 +2,16 @@ export const locale = {
     lang: 'en',
     data: {
         'CART': {
-            'CATEGORIES': 'Category',
+            'Title': 'Cart',
             'CreateOrder':'Create order',
             'Photos':'Photos',
             'Product': 'Product',
             'Price': 'Price',
             'Quantity': 'Quantity',
             'Total':'Total',
-            'Acion':'Action'
+            'Acion':'Action',
+            "Msg_RemoveProductInCart":"Are you sure you want to delete the product?",
+            "Msg_TitleRemoveProductInCart":"Delete",
         }
     }
 };

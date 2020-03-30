@@ -211,6 +211,7 @@ export class ReferenceItemsComponent implements OnInit
       private _matSnackBar: MatSnackBar,
       private _fuseProgressBarService: FuseProgressBarService,
       private referenceService : ReferenceService,
+      private _translateService: TranslateService,
       @Inject(MAT_DIALOG_DATA) public data: any
       ) { 
       }
@@ -250,7 +251,8 @@ export class ReferenceItemsComponent implements OnInit
         this.itemInfo.CreatedOrUpdatedBy = localStorage.getItem('userId');
         this.referenceService.saveReferenceItem(this.itemInfo).subscribe(result=>{
             if(result>0){
-                this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+
+                this._matSnackBar.open(this._translateService.instant('users.ActionSuccess'), 'OK', {
                     duration        : 2000
                 });
 
@@ -259,7 +261,7 @@ export class ReferenceItemsComponent implements OnInit
             this.Loading = false;
         },
         error=>{
-            this._matSnackBar.open('Save fail', 'Fail', { // todo translate
+            this._matSnackBar.open(this._translateService.instant('users.ActionFail'), 'Fail', { 
                 duration        : 2000
             });
 

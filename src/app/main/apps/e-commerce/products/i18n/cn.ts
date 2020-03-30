@@ -15,8 +15,8 @@ export const locale = {
             'MainCategory':'主分类',
             'SecondCategory':'二级分类',
             'Status':'状态',
-            'Search':'搜索'
-
+            'Search':'搜索',
+            "Msg_AddProductIntoCart":"商品已添加至购物车",
         }
     }
 };

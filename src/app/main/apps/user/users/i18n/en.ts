@@ -20,7 +20,10 @@ export const locale = {
             'PasswordsDoNotMatch':'Passwords not match',
             'Cancel':'Cancel',
             'Save':'Save',
-            'ModifyPassword':'Modify password'
+            'ModifyPassword':'Modify password',
+            "Error_UserAlreadyExists":"User already exists",
+            "ActionSuccess":"Successfully saved",
+            "ActionFail":"Save failed, please try again"
 
 
         }

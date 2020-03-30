@@ -224,7 +224,7 @@ export class EcommerceProductComponent implements OnInit
             console.log(this.progress)
         }
         else if (event.type === HttpEventType.Response) {
-            this._matSnackBar.open('Upload successfully', 'OK', { // todo translate
+            this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadSuccess'), 'OK', {
                 duration        : 2000
             });
             this.getImagePath();
@@ -233,6 +233,10 @@ export class EcommerceProductComponent implements OnInit
         this.uploadLoading = false;
       },
       error=>{
+
+        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadFail'), 'OK', {
+            duration        : 2000
+        });
         this.uploadLoading = false;
       });
       
@@ -288,7 +292,7 @@ export class EcommerceProductComponent implements OnInit
         this.productService.UpdateOrCreateProduct(criteria).subscribe(result=>{
             if(result>0){
 
-                this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+                this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionSuccess'), 'OK', { 
                     duration        : 2000
                 });
 
@@ -298,7 +302,7 @@ export class EcommerceProductComponent implements OnInit
             else{
                 // error 
                 
-                this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionFail'), 'OK', {
                     duration        : 2000
                 });
             }
@@ -327,6 +331,7 @@ export class EcommerceProductComponent implements OnInit
       public dialogRef: MatDialogRef<ImageOverViewDialog>,
       private productService : ProductService,
       private _matSnackBar: MatSnackBar,
+      private _translateService: TranslateService,
       @Inject(MAT_DIALOG_DATA) public data: any,
       private dialog: MatDialog) {}
 
@@ -337,8 +342,8 @@ export class EcommerceProductComponent implements OnInit
 
     remove(): void {
         const dialogRef = this.dialog.open(ConfimDialog, {
-            data: {title : "confim remove", // todo translate
-                    message : "sure remove the image"}
+            data: {title :  this._translateService.instant('PRODUCT.Msg_RemoveTitle'),  
+                    message : this._translateService.instant('PRODUCT.Msg_RemoveMessage')}
           });
       
           dialogRef.afterClosed().subscribe(result => {
@@ -346,19 +351,19 @@ export class EcommerceProductComponent implements OnInit
                 this.removeImageLoading = true;
                 this.productService.RemoveImageById( this.image.ProductPhotoId).subscribe(result=>{
                     if(result>0){
-                        this._matSnackBar.open('Deleted image successfully', 'Ok', { // todo translate
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoSuccess'), 'OK', { // todo translate
                             duration        : 2000
                         });
                     }
                     else{
-                        this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoFail'), 'OK', { // todo translate
                             duration        : 2000
                         });
                     }
                     this.removeImageLoading = false;
                 },
                 error=>{
-                    this._matSnackBar.open('Errors occued please retry again', 'Fail', { // todo translate
+                    this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemovePhotoFail'), 'OK', { // todo translate
                         duration        : 2000
                     });
                     this.removeImageLoading = false;    

@@ -121,9 +121,9 @@ export class CartComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfimDialog, {
       data: {
-        title: "Remove?",
-        message: "Are you sure to remove the product?"
-      } // todo translate
+        title: this._translateService.instant('CART.Msg_TitleRemoveProductInCart'), 
+        message: this._translateService.instant('CART.Msg_RemoveProductInCart')
+      } 
     });
 
     dialogRef.afterClosed().subscribe(result => {

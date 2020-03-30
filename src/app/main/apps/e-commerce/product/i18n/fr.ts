@@ -8,8 +8,8 @@ export const locale = {
             'SAVE' : 'Enregistrer',
             'PRODUCT_NAME': 'Nom du produit',
             'PRODUCT_DESCRIPTION': 'Description du produit',
-            'MAIN_CATEGORY': 'Catégories',
-            'PRODUCT_CATEGORY' : 'Sous_Catégories',
+            'MAIN_CATEGORY': 'Catégorie',
+            'PRODUCT_CATEGORY' : 'Sous Catégorie',
             'TAGS': 'Mots clés',
             'TAX_EXCLUDED_PRICE': 'Prix hor taxe',
             'TAX_INCLUDED_PRICE': 'Prix TTC',
@@ -27,7 +27,19 @@ export const locale = {
             'PRICING' : 'Prix',
             'PRICE' : 'Prix',
             'ADD_NEW_IMAGE' : "Ajouter nouveaux photos",
-            'PRODUCTS_STATUS':'Statut'
+            'PRODUCTS_STATUS':'Statut',
+            "ActionSuccess":"Enregistré avec succès",
+            "ActionFail":"Échec d'enregistrement, veuillez réessayer",
+            "Msg_UploadSuccess":"Photo téléchargée avec succès",
+            "Msg_UploadFail":"Échec du téléchargement de la photo, veuillez réessayer",
+
+            "Msg_RemoveTitle":"Confirmation",
+            "Msg_RemoveMessage":"Voulez-vous supprimer la photo?",
+
+            "Msg_RemovePhotoSuccess":"Supprimer la photo avec succès",
+            "Msg_RemovePhotoFail":"Échec de supprimer la photo, veuillez réessayer",
+
+            
         }
     }
 };

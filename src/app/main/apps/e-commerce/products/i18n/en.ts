@@ -15,7 +15,8 @@ export const locale = {
             'MainCategory':'Main category',
             'SecondCategory':'Second Category',
             'Status':'Status',
-            'Search':'Search'
+            'Search':'Search',
+            "Msg_AddProductIntoCart":"Product added to cart",
 
         }
     }

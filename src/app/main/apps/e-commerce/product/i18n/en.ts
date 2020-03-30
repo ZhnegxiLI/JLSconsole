@@ -27,7 +27,17 @@ export const locale = {
             'PRICING' : 'Price',
             'PRICE' : 'Price',
             'ADD_NEW_IMAGE' : "Add new photos",
-            'PRODUCTS_STATUS':'Product staus'
+            'PRODUCTS_STATUS':'Product staus',
+            "ActionSuccess":"Successfully saved",
+            "ActionFail":"Save failed, please try again",
+            "Msg_UploadSuccess":"Photo uploaded successfully",
+            "Msg_UploadFail":"Photo upload failed, please try again",
+
+            "Msg_RemoveTitle":"Confirmation",
+            "Msg_RemoveMessage":"Do you want to delete the photo?",
+
+            "Msg_RemovePhotoSuccess":"Remove the photo successfully",
+            "Msg_RemovePhotoFail":"Remove the photo failed, please try again",
         }
     }
 };

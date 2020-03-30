@@ -9,7 +9,7 @@
                 <mat-label>{{'users.Email' | translate}}</mat-label>
                 <input matInput required formControlName="Email" type="email">
                 <mat-error *ngIf="isAlreadyExists()">
-                    Account already exists(translate)
+                    {{'users.Error_UserAlreadyExists' | translate}}
                 </mat-error>
             </mat-form-field>
 

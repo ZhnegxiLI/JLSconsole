@@ -19,7 +19,10 @@ export const locale = {
             'Add/Modify':'Ajouter/Modifier',
             'UserStatus':"Statut d'usager",
             'Cancel':'Annuler',
-            'Save':'Enregistrer'
+            'Save':'Enregistrer',
+            "ActionSuccess":"Enregistré avec succès",
+            "ActionFail":"Échec d'enregistrement, veuillez réessayer",
+            "CodeAlreadyExists":"Code déjà existe"
         }
     }
 };

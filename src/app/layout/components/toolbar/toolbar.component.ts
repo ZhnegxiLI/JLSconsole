@@ -185,8 +185,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
     logout(){
 
         const dialogRef = this.dialog.open(ConfimDialog, {
-            data: {title : "Logout?",
-                    message : "Are you sure to logout"} // todo translate
+            data: {title : this._translateService.instant('TOOLBAR.Msg_LogoutTitle'),
+                    message : this._translateService.instant('TOOLBAR.Msg_LogoutMessage')} 
           });
       
           dialogRef.afterClosed().subscribe(result => {

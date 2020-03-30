@@ -8,7 +8,7 @@ export const locale = {
             'USERNAME': 'Identifiant',
             'Product_STATUS': 'Statut',
             'SEARCH_FOR_AN_ORDER': 'Recherche',
-            'SearchYourOrderID':'Recherche le numéro de commande',
+            'SearchYourOrderID':'Numéro de commande',
             'ID':'Numéro de commande',
             'OrderCreateOn':'Date de création',
             'OrderUpdateOn':'Date de mise à jour',

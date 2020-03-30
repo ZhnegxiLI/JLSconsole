@@ -19,7 +19,10 @@ export const locale = {
             'Add/Modify':'添加/修改',
             'UserStatus':'用户状态',
             'Cancel':'取消',
-            'Save':'保存'
+            'Save':'保存',
+            "ActionSuccess":"已成功保存",
+            "ActionFail":"保存失败，请稍后再试",
+            "CodeAlreadyExists":"编码已存在"
         }
     }
 };

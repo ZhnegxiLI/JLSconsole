@@ -20,7 +20,10 @@ export const locale = {
             'PasswordsDoNotMatch':"Mot de passe n'est pas correct",
             'Cancel':'Annuler',
             'Save':'Enregistrer',
-            'ModifyPassword':'Modifier mot de passe'
+            'ModifyPassword':'Modifier mot de passe',
+            "Error_UserAlreadyExists":"L'utilisateur déjà existe",
+            "ActionSuccess":"Enregistré avec succès",
+            "ActionFail":"Échec d'enregistrement, veuillez réessayer"
 
 
         }

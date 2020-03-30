@@ -27,7 +27,17 @@ export const locale = {
             'PRICING' : '价格',
             'PRICE' : '价格',
             'ADD_NEW_IMAGE' : "添加新图片",
-            'PRODUCTS_STATUS':'货物状态'
+            'PRODUCTS_STATUS':'货物状态',
+            "ActionSuccess":"已成功保存",
+            "ActionFail":"保存失败，请稍后再试",
+            "Msg_UploadSuccess":"照片上传成功",
+            "Msg_UploadFail":"照片上传失败，请重试",
+
+            "Msg_RemoveTitle":"确认",
+            "Msg_RemoveMessage":"是否要删除照片?",
+
+            "Msg_RemovePhotoSuccess":"照片删除成功",
+            "Msg_RemovePhotoFail":"照片删除失败",
         }
     }
 };
