@@ -16,6 +16,9 @@ export class UserService extends appServiceBase
     private apiUrlGetUserById = this.host + "admin/User/GetUserById";
     private apiUrlCreateOrUpdateUser = this.host + "admin/User/CreateOrUpdateUser";
 
+    private apiUrlCheckUserIsAlreadyExistAsync = this.host + "api/User/CheckUserIsAlreadyExistAsync";
+    
+
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -49,5 +52,10 @@ export class UserService extends appServiceBase
     CreateOrUpdateUser(criteria) : Observable<any>
     {
         return  super.postUrl(this.apiUrlCreateOrUpdateUser, criteria);
+    }
+
+    CheckUserIsAlreadyExistAsync(criteria):  Observable<boolean>
+    {
+        return  super.getUrl(this.apiUrlCheckUserIsAlreadyExistAsync, criteria);
     }
 }

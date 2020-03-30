@@ -15,6 +15,8 @@ export class ReferenceService extends appServiceBase
     private apiUrlGetAllCategoryList: string = this.host + "admin/Reference/GetAllCategoryList";
     private apiUrlAdvancedSearchReferenceItem: string = this.host + "admin/Reference/AdvancedSearchReferenceItem";
     private apiUrlGetAllReferenceItemWithChildren: string = this.host + "admin/Reference/GetAllReferenceItemWithChildren";
+    private apiUrlCheckReferenceCodeExists: string = this.host + "admin/Reference/CheckReferenceCodeExists";
+    
 
     private apiUrlSaveReferenceItem: string = this.host + "admin/Reference/SaveReferenceItem";
     
@@ -48,8 +50,13 @@ export class ReferenceService extends appServiceBase
         return super.getUrl(this.apiUrlGetAllReferenceItemWithChildren,criteria);
     } 
 
-    saveReferenceItem(criteria: any){
+    saveReferenceItem(criteria: any): Observable<any>{
         return super.postUrl(this.apiUrlSaveReferenceItem,criteria);
     }
+
+    checkReferenceCodeExists(criteria : any): Observable<any>
+    {
+        return super.getUrl(this.apiUrlCheckReferenceCodeExists,criteria);
+    } 
     
 }

@@ -20,6 +20,20 @@ $fuse-black: (
     font-weight: bold;
 }
 
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
 $fuse-navy: (
     50: #ECECEE,
     100: #C5C6CB,

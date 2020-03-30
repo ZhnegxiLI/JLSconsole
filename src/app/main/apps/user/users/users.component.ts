@@ -11,6 +11,7 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 import { AddressDialog } from './../../../../dialog/address-dialog/address-dialog.component';
+import { distinctUntilChanged, debounceTime, switchMap, map, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -161,10 +162,35 @@ export class UserDialog {
     @Inject(MAT_DIALOG_DATA) public data: any
     ) {
       this.userForm = this.formBuilder.group({
-        Email : ['',Validators.compose([Validators.required,Validators.email])],
+        Email : ['',Validators.compose([Validators.required,Validators.email]), this.userNameUniqueValidator()],
         RoleId : ['',Validators.required],
         Validity : ['']
       });
+  }
+
+
+  userNameUniqueValidator() {
+    return (control: FormControl): any => {
+      //进入管道进行串行操作
+      //valueChanges表示字段值变更才触发操作
+      return control.valueChanges.pipe(
+        //同valueChanges，不写也可
+        distinctUntilChanged(),
+        //防抖时间，单位毫秒
+        debounceTime(1000),
+        //调用服务，参数可写可不写，如果写的话变成如下形式
+        //switchMap((val) => this.registerService.isUserNameExist(val))
+        switchMap(() => this.userService.CheckUserIsAlreadyExistAsync({Username:control.value})),
+        //对返回值进行处理，null表示正确，对象表示错误
+        map(res => res == true ? {duplicate:true} : null),
+        //每次验证的结果是唯一的，截断流
+        first()
+        );
+      }
+  }
+
+  isAlreadyExists(): boolean {
+    return this.userForm.get('Email').hasError('duplicate');
   }
 
   ngOnInit() {

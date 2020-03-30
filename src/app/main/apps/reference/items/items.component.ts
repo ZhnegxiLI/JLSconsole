@@ -4,9 +4,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, first } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { ConfimDialog } from './../../../../dialog/confim-dialog/confim-dialog.component';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -181,6 +181,7 @@ export class ReferenceItemsComponent implements OnInit
     @ViewChild('contactForm',null) contactForm: NgForm;
     
     private Loading: boolean = false;
+    private CodeExist: boolean = false;
 
     private itemInfo = {
         Id : 0,
@@ -217,6 +218,43 @@ export class ReferenceItemsComponent implements OnInit
     onNoClick(): void {
       this.dialogRef.close({IsSaved: false});
     }
+
+    codeUniqueValidator() {
+        return (control: FormControl): any => {
+          //进入管道进行串行操作
+          //valueChanges表示字段值变更才触发操作
+          return control.valueChanges.pipe(
+            //同valueChanges，不写也可
+            distinctUntilChanged(),
+            //防抖时间，单位毫秒
+            debounceTime(1000),
+            //调用服务，参数可写可不写，如果写的话变成如下形式
+            //switchMap((val) => this.registerService.isUserNameExist(val))
+            switchMap(() => this.referenceService.checkReferenceCodeExists({Code:control.value})),
+            //对返回值进行处理，null表示正确，对象表示错误
+            map(res => res == true ? {duplicate:true} : {duplicate: false}),
+            //每次验证的结果是唯一的，截断流
+            first()
+            );
+          }
+      }
+
+      isAlreadyExists() {
+        if( this.itemInfo.Code!=null){
+            this.referenceService.checkReferenceCodeExists({Code: this.itemInfo.Code}).subscribe(result=>{
+                if(result==true){
+                    this.CodeExist = true;
+                }
+                else{
+                    this.CodeExist = false;
+                }
+            },
+            error=>{
+                this.CodeExist  = false;
+            })
+        }
+      }
+
   
     onSubmit(form){
 
@@ -259,7 +297,6 @@ export class ReferenceItemsComponent implements OnInit
                 this.itemInfo['Label'+p.Lang.toUpperCase()] = p.Label;
             });
         }
-    
     }
   
   }
