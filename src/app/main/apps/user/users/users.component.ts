@@ -98,7 +98,8 @@ export class UsersComponent implements OnInit {
           console.log(this.userList)
         }
         else{
-          this.userList = result.UserList.filter(p=>p.UserRoleName!='SuperAdmin');
+          // admin can only modify himself and client
+          this.userList = result.UserList.filter(p=>p.UserRoleName=='Client'||p.Id == localStorage.getItem('userId'));
           this.totalCount = result.TotalCount;
         }  
     }

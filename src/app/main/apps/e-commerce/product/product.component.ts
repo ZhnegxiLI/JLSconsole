@@ -51,6 +51,9 @@ export class EcommerceProductComponent implements OnInit
     taxRateTable : Array<any> = [];
     loading : boolean = false;
 
+
+    private saveLoading: boolean = false
+
     private previousView:string = "";
     public view: string = "product";
     private productId : number = 0;
@@ -289,6 +292,7 @@ export class EcommerceProductComponent implements OnInit
         this._fuseProgressBarService.show();
         var criteria = this.productForm.value;
         criteria.CreatedOrUpdatedBy = localStorage.getItem('userId');
+        this.saveLoading = true;
         this.productService.UpdateOrCreateProduct(criteria).subscribe(result=>{
             if(result>0){
 
@@ -306,10 +310,15 @@ export class EcommerceProductComponent implements OnInit
                     duration        : 2000
                 });
             }
+            this.saveLoading = false;
             this._fuseProgressBarService.hide();
         },
         error=>{
+            this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionFail'), 'OK', {
+                duration        : 2000
+            });
 
+            this.saveLoading = false;
         });
     }
  
