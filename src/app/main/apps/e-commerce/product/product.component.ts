@@ -131,7 +131,7 @@ export class EcommerceProductComponent implements OnInit {
                 //switchMap((val) => this.registerService.isUserNameExist(val))
                 switchMap(() => this.referenceService.checkReferenceCodeExists({ Code: control.value })),
                 //对返回值进行处理，null表示正确，对象表示错误
-                map(res => (res == true && this.productId == 0) ? { duplicate: true } : null),
+                map(res => (res == true && (this.productId == 0 || this.productInfo.ReferenceCode != control.value )) ? { duplicate: true } : null),
                 //每次验证的结果是唯一的，截断流
                 first()
             );
@@ -191,6 +191,7 @@ export class EcommerceProductComponent implements OnInit {
                 delete result.TaxRate;
                 this.productForm.setValue(result);
             }
+
             console.log(this.productForm.value);
         },
             error => {
