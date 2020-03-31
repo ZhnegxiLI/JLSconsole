@@ -5,7 +5,7 @@ export const locale = {
             'ORDERS': 'ORDERS',
             'FromDate':'From',
             'ToDate':'To',
-            'USERNAME': 'User name',
+            'USERNAME': 'Created by',
             'Product_STATUS': 'Status',
             'SEARCH_FOR_AN_ORDER': 'Search Order ',
             'SearchYourOrderID':'Search an order ID',
