@@ -4,7 +4,8 @@
 
         <form class="example-form" [formGroup]="adreeForm">
             <mat-form-field class="example-full-width" style="width: 100%;">
-                <input required matInput placeholder="Entreprise" formControlName="EntrepriseName">
+                <mat-label>{{'address.Email' | translate}}</mat-label>
+                <input required matInput  formControlName="EntrepriseName">
             
             </mat-form-field>
             <table class="example-full-width" cellspacing="0" style="width: 100%;">

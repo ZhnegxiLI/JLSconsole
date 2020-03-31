@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import { locale as english } from './i18n/en';
+import { locale as chinese } from './i18n/cn';
+import { locale as french } from './i18n/fr';
 
 @Component({
   selector: 'app-address-dialog',
@@ -13,7 +18,11 @@ export class AddressDialog implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddressDialog>,
     private formBuilder:FormBuilder, 
+    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+
+      this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
+
       this.adreeForm = this.formBuilder.group({
         Id:[''],
         EntrepriseName: ['', Validators.required],

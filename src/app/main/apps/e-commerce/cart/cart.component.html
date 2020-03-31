@@ -80,11 +80,13 @@
                     <mat-cell *matCellDef="let product">
                         <div>
                             <button mat-button color="primary" style="padding-left:0px; min-width: 32px;"
-                                (click)="addOrMinusProduct(product,'minus')" [disabled]="product.Quantity<=product.MinQuantity">
+                                (click)="addOrMinusProduct(product,'minus')"
+                                [disabled]="product.Quantity<=product.MinQuantity">
                                 <mat-icon>indeterminate_check_box</mat-icon>
                             </button>
-                            <input type="text" type="number" min="product.MinQuantity" style="width: 40px; padding: 0px; text-align: center;"
-                                [(ngModel)]="product.Quantity" (change)="quantityChange(product)"  >
+                            <input type="text" type="number" min="product.MinQuantity"
+                                style="width: 40px; padding: 0px; text-align: center;" [(ngModel)]="product.Quantity"
+                                (change)="quantityChange(product)">
                             <button mat-button color="primary" (click)="addOrMinusProduct(product,'add')">
                                 <mat-icon>add_box</mat-icon>
                             </button>
@@ -116,12 +118,15 @@
             </mat-table>
 
             <div class="m-24" *ngIf="cartProductList!=null&&cartProductList.length>0">
-                <h4>Total Sans TVA (translate): <span style="float: right;">{{ calculBasicTotalPrice()
+                <h4>{{'CART.TotalSansTVA' | translate}}: <span style="float: right;">{{ calculBasicTotalPrice()
                     | currency:'EUR':'symbol'}}</span> </h4>
                 <hr>
-                <h4>TVA(translate): <span style="float: right;">{{calculBasicTotalPrice()*taxRate | currency:'EUR':'symbol'}}</span> </h4>
-                <hr  >
-                <h2>Total avec TVA(translate): <span style="float: right;">{{calculBasicTotalPrice()*(1+taxRate) | currency:'EUR':'symbol'}}</span></h2>
+                <h4>{{'CART.TVA' | translate}}({{taxRate*100}}%): <span
+                        style="float: right;">{{calculBasicTotalPrice()*taxRate | currency:'EUR':'symbol'}}</span> </h4>
+                <hr>
+                <h2>{{'CART.TotalavecTVA' | translate}}: <span
+                        style="float: right;">{{calculBasicTotalPrice()*(1+taxRate) | currency:'EUR':'symbol'}}</span>
+                </h2>
             </div>
 
         </div>

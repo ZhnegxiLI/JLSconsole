@@ -12,6 +12,9 @@ export const locale = {
             'Acion':'Action',
             "Msg_RemoveProductInCart":"Voulez-vous supprimer le produit?",
             "Msg_TitleRemoveProductInCart":"Suppression",
+            'TotalSansTVA':'Total sans TVA',
+            'TVA':'TVA',
+            'TotalavecTVA':'Total avec TVA'
         }
     }
 };

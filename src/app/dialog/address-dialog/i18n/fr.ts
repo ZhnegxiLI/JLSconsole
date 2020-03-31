@@ -1,7 +1,7 @@
 export const locale = {
     lang: 'fr',
     data: {
-        'order': {
+        'address': {
             'Email':'Email',
             'Phone':'Numéro de téléphone',
             'Siret':'Siret',

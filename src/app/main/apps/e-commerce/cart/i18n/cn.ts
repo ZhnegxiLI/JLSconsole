@@ -12,6 +12,10 @@ export const locale = {
             'Acion':'操作',
             "Msg_RemoveProductInCart":"确定要删除此商品吗?",
             "Msg_TitleRemoveProductInCart":"删除",
+            'TotalSansTVA':'总价（不含税）',
+            'TVA':'TVA',
+            'TotalavecTVA':'总价（含税）'
+
         }
     }
 };
