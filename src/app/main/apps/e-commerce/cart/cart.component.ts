@@ -10,6 +10,7 @@ import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import { ReferenceService } from 'app/Services/reference.service';
 
 
 @Component({
@@ -23,12 +24,14 @@ export class CartComponent implements OnInit {
   displayedColumns = ['image', 'product', 'price', 'quantity', 'total', 'action'];
 
   private view: string = "cart";
+  private taxRate: number = 0;
 
   private environment = environment;
   private cartProductList: any[] = [];
   constructor(
     private _translateService: TranslateService,
     private productService: ProductService,
+    private referenceService: ReferenceService,
     private _fuseTranslationLoaderService: FuseTranslationLoaderService,
     private dialog: MatDialog) {
 
@@ -37,6 +40,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.getCartData();
+    this.getTaxRate();
   }
 
   getCartData() {
@@ -62,6 +66,22 @@ export class CartComponent implements OnInit {
     }
 
     console.log(this.cartProductList);
+  }
+
+  getTaxRate(){
+    var criteria = {
+      ShortLabels : ['TaxRate'],
+      Lang : this._translateService.currentLang
+    }
+    this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+      if(result!=null && result.length>0){
+        //Take the first tax rate 
+        this.taxRate = result[0].Value *0.01; //TaxRate: %
+      }
+    },
+    error=>{
+      // todo
+    })
   }
 
   ValideOrder() {
@@ -105,6 +125,16 @@ export class CartComponent implements OnInit {
     if (product.Quantity != null && product.Quantity != "" && product.Quantity >= product.MinQuantity) {
       localStorage.setItem('cart', JSON.stringify(this.cartProductList));
     }
+  }
+
+  calculBasicTotalPrice(){
+    var TotalPrice = 0;
+    this.cartProductList.forEach(p=>{
+      if(p.Quantity!=null && p.Price!=null){
+        TotalPrice = TotalPrice + p.Quantity * p.Price;
+      }
+    });
+    return TotalPrice;
   }
 
   addOrMinusProduct(product, action) {

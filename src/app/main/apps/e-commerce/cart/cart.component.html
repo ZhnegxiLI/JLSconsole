@@ -83,7 +83,7 @@
                                 (click)="addOrMinusProduct(product,'minus')" [disabled]="product.Quantity<=product.MinQuantity">
                                 <mat-icon>indeterminate_check_box</mat-icon>
                             </button>
-                            <input type="text" type="number" min="product.MinQuantity" style="width: 30px; padding: 0px; text-align: center;"
+                            <input type="text" type="number" min="product.MinQuantity" style="width: 40px; padding: 0px; text-align: center;"
                                 [(ngModel)]="product.Quantity" (change)="quantityChange(product)"  >
                             <button mat-button color="primary" (click)="addOrMinusProduct(product,'add')">
                                 <mat-icon>add_box</mat-icon>
@@ -113,9 +113,16 @@
                 </mat-row>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
-
-
             </mat-table>
+
+            <div class="m-24" *ngIf="cartProductList!=null&&cartProductList.length>0">
+                <h4>Total Sans TVA (translate): <span style="float: right;">{{ calculBasicTotalPrice()
+                    | currency:'EUR':'symbol'}}</span> </h4>
+                <hr>
+                <h4>TVA(translate): <span style="float: right;">{{calculBasicTotalPrice()*taxRate | currency:'EUR':'symbol'}}</span> </h4>
+                <hr  >
+                <h2>Total avec TVA(translate): <span style="float: right;">{{calculBasicTotalPrice()*(1+taxRate) | currency:'EUR':'symbol'}}</span></h2>
+            </div>
 
         </div>
         <!-- / CONTENT CARD -->
