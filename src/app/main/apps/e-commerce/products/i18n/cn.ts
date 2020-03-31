@@ -11,7 +11,7 @@ export const locale = {
             'Price': '价格',
             'Quantity': '数量',
             'Valid': '上架',
-            'SearchProduct' : '搜索商品',
+            'SearchProduct' : '编号/物品名称',
             'MainCategory':'主分类',
             'SecondCategory':'二级分类',
             'Status':'状态',

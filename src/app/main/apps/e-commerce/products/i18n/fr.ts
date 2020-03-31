@@ -11,7 +11,7 @@ export const locale = {
             'Price': 'Prix',
             'Quantity': 'Quantité',
             'Valid': 'Validé',
-            'SearchProduct' : 'recherche des produits',
+            'SearchProduct' : 'Référence/Nom',
             'MainCategory':'Catégories',
             'SecondCategory':'Sous catégories',
             'Status':'Statut',

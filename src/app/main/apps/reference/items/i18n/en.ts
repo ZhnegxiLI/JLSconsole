@@ -3,9 +3,9 @@ export const locale = {
     data: {
         'ITEMS' : {
             'ITEMS' : 'Items',
-            'SEARCH_FOR_A_ITEM' : 'Reference items',
+            'SEARCH_FOR_A_ITEM' : 'Reference/Label',
             'ADD_NEW_ITEM' : 'Add',
-            'CODE' : 'Code',
+            'CODE' : 'Reference',
             'PARENT' : 'Parent',
             'VALUE' : 'Value',
             'ORDER' : 'Order',

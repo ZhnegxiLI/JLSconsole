@@ -3,7 +3,7 @@ export const locale = {
     data: {
         'ITEMS' : {
             'ITEMS' : '商品类别/杂项',
-            'SEARCH_FOR_A_ITEM' : '商品类别',
+            'SEARCH_FOR_A_ITEM' : '编号/标签名',
             'ADD_NEW_ITEM' : '添加',
             'CODE' : '编号',
             'PARENT' : '父项',

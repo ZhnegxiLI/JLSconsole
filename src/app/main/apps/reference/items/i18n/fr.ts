@@ -3,7 +3,7 @@ export const locale = {
     data: {
         'ITEMS' : {
             'ITEMS' : 'Référence items',
-            'SEARCH_FOR_A_ITEM' : 'Référence items',
+            'SEARCH_FOR_A_ITEM' : 'Référence/Label',
             'ADD_NEW_ITEM' : 'Ajouter',
             'CODE' : 'Référence',
             'PARENT' : 'Parent',
