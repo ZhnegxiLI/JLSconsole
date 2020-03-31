@@ -5,7 +5,7 @@ export const locale = {
             'Email':'Email',
             'Phone':'Numéro de téléphone',
             'Siret':'Siret',
-            'Company':'Compagnie',
+            'Company':'Entreprise',
             'OrderDetails':'Détails de la commande',
             'Products':'Produits',
             'Invoice':'Facture',

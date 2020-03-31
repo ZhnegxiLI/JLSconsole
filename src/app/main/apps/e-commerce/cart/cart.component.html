@@ -42,10 +42,10 @@
         <!-- / HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card">
+        <div class="content-card" fusePerfectScrollbar>
 
             <mat-table class="items-table" #table [dataSource]="cartProductList" matSort
-                [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+                [@animateStagger]="{value:'50'}" >
 
                 <ng-container matColumnDef="image">
                     <mat-header-cell *matHeaderCellDef>{{'CART.Photos' | translate}}</mat-header-cell>

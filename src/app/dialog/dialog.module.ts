@@ -4,11 +4,13 @@ import {MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, Ma
 import { AddressDialog } from './address-dialog/address-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CustomerInfoDialogComponent } from './customer-info-dialog/customer-info-dialog.component';
 
 @NgModule({
     declarations: [
         ConfimDialog,
-        AddressDialog
+        AddressDialog,
+        CustomerInfoDialogComponent
     ],
     imports     : [
         MatDialogModule,
@@ -21,8 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule
     ],
-    exports : [ConfimDialog,AddressDialog],
-    entryComponents: [ConfimDialog,AddressDialog],
+    exports : [ConfimDialog,AddressDialog,CustomerInfoDialogComponent],
+    entryComponents: [ConfimDialog,AddressDialog,CustomerInfoDialogComponent],
 })
 
 export class DialogModule{}

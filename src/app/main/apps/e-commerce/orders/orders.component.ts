@@ -29,7 +29,7 @@ import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-b
 })
 export class EcommerceOrdersComponent implements OnInit
 {
-    displayedColumns = ['id',  'createdOn' , 'updatedOn', 'lastModified', 'entrepriseName', 'userName','total', 'status'];
+    displayedColumns = ['id',  'createdOn' , 'updatedOn', 'lastModified',  'userName', 'entrepriseName','total', 'type','status'];
 
     public view: string = "orders";
 

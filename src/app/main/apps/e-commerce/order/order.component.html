@@ -42,7 +42,7 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
+            <ngx-loading [show]="Loading"></ngx-loading>
             <!-- CONTENT -->
             <div class="content">
 
@@ -56,7 +56,10 @@
 
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 secondary-text">{{'order.Customer' | translate}}</div>
+                                    <div class="h2 secondary-text">
+                                        {{'order.Customer' | translate}}
+                                        <button mat-button (click)="ModifyCustomerInfo()">Modify(translate)</button>
+                                    </div>
                                 </div>
 
                                 <div class="customer mb-32" *ngIf="order.OrderInfo && order.OrderInfo.User">

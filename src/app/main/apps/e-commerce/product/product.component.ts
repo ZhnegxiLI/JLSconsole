@@ -131,7 +131,7 @@ export class EcommerceProductComponent implements OnInit {
                 //switchMap((val) => this.registerService.isUserNameExist(val))
                 switchMap(() => this.referenceService.checkReferenceCodeExists({ Code: control.value })),
                 //对返回值进行处理，null表示正确，对象表示错误
-                map(res => (res == true && (this.productId == 0 || this.productInfo.ReferenceCode != control.value )) ? { duplicate: true } : null),
+                map(res => (res == true && (this.productId == 0 || this.productInfo.ReferenceCode != control.value)) ? { duplicate: true } : null),
                 //每次验证的结果是唯一的，截断流
                 first()
             );
@@ -177,7 +177,7 @@ export class EcommerceProductComponent implements OnInit {
                     });
                     this.photoPath = photoList;
                 }
-                else{
+                else {
                     this.photoPath = [];
                 }
 
@@ -244,7 +244,7 @@ export class EcommerceProductComponent implements OnInit {
 
         this.saveLoading = true;
         this._fuseProgressBarService.show();
-  
+
         this.productService.UploadPhoto(formData, { reportProgress: true, observe: 'events' })
             .subscribe(event => {
                 if (event.type === HttpEventType.UploadProgress) {
@@ -324,8 +324,7 @@ export class EcommerceProductComponent implements OnInit {
                 this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionSuccess'), 'OK', {
                     duration: 2000
                 });
-
-                //  this.router.navigate(['apps/e-commerce/products']); // todo
+               this.router.navigate(['apps/e-commerce/products']); // todo
 
             }
             else {
@@ -396,7 +395,7 @@ export class ImageOverViewDialog {
                             duration: 2000
                         });
                     }
-                      //
+                    //
                     this.dialogRef.close({ action: 'remove', image: this.image.ProductPhotoId });
                     this.removeImageLoading = false;
                 },
@@ -406,7 +405,7 @@ export class ImageOverViewDialog {
                         });
                         this.removeImageLoading = false;
                     });
-              
+
             }
         });
 

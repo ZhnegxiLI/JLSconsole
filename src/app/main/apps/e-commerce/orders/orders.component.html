@@ -62,7 +62,7 @@
             <div class="search-wrapper  ml-sm-32">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="{{'ORDERS.SearchYourOrderID' | translate}}">
+                    <input #filter placeholder="{{'ORDERS.SearchYourOrderID' | translate}}" [(ngModel)]="searchCriteria.OrderId">
                 </div>
             </div>
 
@@ -88,8 +88,8 @@
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.ID' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let order">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm style="max-width: 10%;">Id</mat-header-cell>
+                    <mat-cell *matCellDef="let order" style="max-width: 10%;">
                         <p class="text-truncate">{{order.Id}}</p>
                     </mat-cell>
                 </ng-container>
@@ -114,6 +114,16 @@
                 </mat-cell>
                 </ng-container>
 
+                <!-- Name Column -->
+                <ng-container matColumnDef="entrepriseName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.ENTREPRISE_NAME' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let order">
+                        <p class="text-truncate" style=" white-space: inherit;">
+                            {{order.User.EntrepriseName}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
                 <!-- Reference Column -->
                 <ng-container matColumnDef="lastModified" >
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxShow.gt-sm>{{'ORDERS.OrderLastModifiUser' | translate}}</mat-header-cell>
@@ -122,15 +132,7 @@
                     </mat-cell>
                 </ng-container>
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="entrepriseName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.ENTREPRISE_NAME' | translate}}</mat-header-cell>
-                    <mat-cell *matCellDef="let order">
-                        <p class="text-truncate">
-                            {{order.User.EntrepriseName}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
+            
 
                 <ng-container matColumnDef="userName">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.OrderUserName' | translate}}</mat-header-cell>
@@ -151,6 +153,16 @@
                     </mat-cell>
                 </ng-container>
 
+
+
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.Type' | translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let order">
+                        <p class="status text-truncate h6 p-4" *ngIf="order.OrderType!=null">
+                            {{order.OrderType.Label||order.OrderType.Code}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
