@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 import { fuseAnimations } from '@fuse/animations';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ReferenceService } from 'app/Services/reference.service';
 import { OrderService } from 'app/Services/order.service';
 
@@ -13,6 +13,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { AddressDialog } from 'app/dialog/address-dialog/address-dialog.component';
 
+
+import { ShipmentInfoDialogComponent } from 'app/dialog/shipment-info-dialog/shipment-info-dialog.component';
+
 import { CustomerInfoDialogComponent } from 'app/dialog/customer-info-dialog/customer-info-dialog.component';
 
 import { locale as english } from './i18n/en';
@@ -20,6 +23,7 @@ import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { ModifyProductPriceDialogComponent } from 'app/dialog/modify-product-price-dialog/modify-product-price-dialog.component';
 
 @Component({
     selector: 'e-commerce-order',
@@ -30,16 +34,25 @@ import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-b
 })
 export class EcommerceOrderComponent implements OnInit {
 
+    private displayTransactionModule: boolean = true;
+    private displayShippingModule: boolean = true;
+
     private environment = environment;
     private order: any = {};
     private orderId: number = 0;
     private statusList: any[] = [];
-    private statusId: number = 0;
+    private taxRateList: any[] = [];
+
+    private criteria: any = {
+        taxRateId: 0,
+        statusId: 0,
+        ClientRemark: {Id :0,Text:null},
+        AdminRemark:  {Id:0,Text:null}
+    }
 
     public view: string = "order";
 
-    orderStatuses: any;
-    statusForm: FormGroup;
+    private basicTotalPrice: number;
 
     private orderType: string = 'OrderType_Internal'; // OrderType_Internal / OrderType_External
 
@@ -64,6 +77,7 @@ export class EcommerceOrderComponent implements OnInit {
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _fuseProgressBarService: FuseProgressBarService,
         private _matSnackBar: MatSnackBar,
+        private router: Router
     ) {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
     }
@@ -99,16 +113,19 @@ export class EcommerceOrderComponent implements OnInit {
             // get status label
             this.referenceService.getReferenceItemsByCategoryLabels({
                 Lang: this.translationService.currentLang,
-                ShortLabels: ['OrderStatus']
+                ShortLabels: ['OrderStatus', 'TaxRate']
             }).subscribe(result => {
                 if (result != null) {
                     console.log(result);
-                    this.statusList = result;
-
+                    this.statusList = result.filter(p => p.ReferenceCategoryLabel == 'OrderStatus' && p.Validity == true);
+                    this.taxRateList = result.filter(p => p.ReferenceCategoryLabel == 'TaxRate' && p.Validity == true);
                     if (this.orderId == 0) {
                         this.statusList = this.statusList.filter(p => p.Code == 'OrderStatus_Progressing');
                         if (this.statusList != null && this.statusList.length > 0) {
-                            this.statusId = this.statusList[0].Id;
+                            this.criteria.statusId = this.statusList[0].Id;
+                        }
+                        if (this.taxRateList != null && this.taxRateList.length > 0) {
+                            this.criteria.taxRateId = this.taxRateList[0].Id;
                         }
                     }
                 }
@@ -118,6 +135,32 @@ export class EcommerceOrderComponent implements OnInit {
                 });
 
         });
+    }
+
+    private UpdateProductPriceQuantity(product) {
+        console.log(product);
+
+        const dialogRef = this.dialog.open(ModifyProductPriceDialogComponent, { // todo change
+            data: {
+                Product: product
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+            if (result != null) {
+                product = result.Product;
+            }
+        });
+
+    }
+
+    private getCurrentTaxRatePercentage() {
+        var taxRate = this.taxRateList.find(p => p.Id == this.criteria.taxRateId);
+        if (taxRate != null && taxRate.Value != null) {
+            return taxRate.Value;
+        }
+        return 0;
     }
 
     ModifyCustomerInfo() {
@@ -132,20 +175,45 @@ export class EcommerceOrderComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log(result);
             if (result != null) {
-                this.order.CustomerInfo = result;
+                this.order.CustomerInfo = result.CustomerInfo;
             }
         });
 
     }
 
+    calculBasicTotalPrice() {
+        var TotalPrice = 0;
+        if (this.basicTotalPrice == null && this.order.ProductList!=null) {
+            this.order.ProductList.forEach(p => {
+                if (p.Quantity != null && p.Price != null) {
+                    TotalPrice = TotalPrice + p.Quantity * p.Price;
+                }
+            });
+        }
+        else {
+            TotalPrice = this.basicTotalPrice;
+        }
+
+        return TotalPrice;
+    }
+
+
     saveOrder() {
+        var Order = this.order.OrderInfo!=null?this.order.OrderInfo:{};
+        Order.TaxRateId = this.criteria.taxRateId;
+        Order.StatusReferenceItemId = this.criteria.statusId;
+
+
         var OrderCriteria = {
+            AdminRemark : this.criteria.AdminRemark.Text==null? null: this.criteria.AdminRemark,
+            ClientRemark: this.criteria.ClientRemark.Text==null? null: this.criteria.ClientRemark,
+            ShipmentInfo: this.order.ShipmentInfo,
             ShippingAddress: this.order.ShippingAdress,
             FacturationAddress: this.order.FacturationAdress,
-            OrderId: this.orderId,
+            Orderinfo: Order,
             CreatedOrUpdatedBy: localStorage.getItem('userId'),
-            StatusReferenceId: this.statusId,
-            References: this.order.ProductList
+            References: this.order.ProductList,
+            CustomerInfo: this.order.CustomerInfo
         }
 
         this._fuseProgressBarService.show();
@@ -160,8 +228,12 @@ export class EcommerceOrderComponent implements OnInit {
                 });
 
                 this.orderId = result;
-                localStorage.removeItem('cart'); // remove cart after the order is created
-                this.initLoadData();
+                if(this.order.Id==null ||this.order.Id==0 ){
+                    localStorage.removeItem('cart'); // remove cart after the order is created
+                }
+            
+                //this.initLoadData();
+                this.router.navigate(['apps/e-commerce/orders']); // todo
             }
             else {
                 this._matSnackBar.open('Error please try again', 'OK', { // todo translate
@@ -169,11 +241,11 @@ export class EcommerceOrderComponent implements OnInit {
                 });
             }
         },
-            error => {
-                this._matSnackBar.open('Error please try again', 'OK', { // todo translate
-                    duration: 2000
-                });
-            })
+        error => {
+            this._matSnackBar.open('Error please try again', 'OK', { // todo translate
+                duration: 2000
+            });
+        });
     }
 
     matchStatusClass(Code) {
@@ -188,7 +260,7 @@ export class EcommerceOrderComponent implements OnInit {
 
 
     checkSaveButtonAvailable() {
-        if (this.statusId != null && this.statusId != 0 && this.order.ShippingAdress != null && this.order.FacturationAdress != null) {
+        if (this.criteria.statusId != null && this.criteria.statusId != 0 && this.order.ShippingAdress != null && this.order.FacturationAdress != null) {
             return false;
         }
         return true;
@@ -205,11 +277,24 @@ export class EcommerceOrderComponent implements OnInit {
                 this.order = result.Data;
 
                 this.orderId = result.Data.OrderInfo.Id;
-                this.statusId = result.Data.Status.Id;
+                this.criteria.statusId = result.Data.Status.Id;
+                
+                if(result.Data.ClientRemark!=null){
+                    this.criteria.ClientRemark = result.Data.ClientRemark;
+                }
+                if(result.Data.AdminRemark!=null){
+                    this.criteria.AdminRemark = result.Data.AdminRemark;
+                }
 
                 if (result.Data.OrderType != null) {
                     this.orderType = result.Data.OrderType.Code;
                 }
+
+                if(result.Data.OrderInfo!=null && result.Data.OrderInfo.TaxRateId!=null){
+                    this.criteria.taxRateId = result.Data.OrderInfo.TaxRateId;
+                }
+
+                
 
                 this.title = 'Order info' + this.orderId; // todo translation
                 console.log(this.order);
@@ -222,6 +307,7 @@ export class EcommerceOrderComponent implements OnInit {
             });
 
     }
+
 
     modifyAddress(addressType) {
         console.log(addressType);
@@ -274,6 +360,45 @@ export class EcommerceOrderComponent implements OnInit {
             UpdatedOn: null,
             UpdatedBy: null
         }
+    }
+
+    getEmptyShipmentInfo() {
+        return {
+            Id: 0,
+            ShipmentNumber: null,
+            Weight: null,
+            Fee: null,
+            Date: null,
+            CreatedOn: null,
+            CreatedBy: null,
+            UpdatedOn: null,
+            UpdatedBy: null
+        }
+    }
+
+
+    ModifyShipmentInfo() {
+
+        var ShipmentInfo = null
+        if (this.order == null || this.order.ShipmentInfo == null) {
+            ShipmentInfo = this.getEmptyShipmentInfo();
+        }
+        else {
+            ShipmentInfo = this.order.ShipmentInfo;
+        }
+        const dialogRef = this.dialog.open(ShipmentInfoDialogComponent, {
+            data: {
+                ShipmentInfo: ShipmentInfo
+            } // todo translate
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+            if (result != null) {
+                this.order.ShipmentInfo = result.ShipmentInfo;
+            }
+
+        });
     }
 
 

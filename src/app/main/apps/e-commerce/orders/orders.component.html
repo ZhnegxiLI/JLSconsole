@@ -168,7 +168,7 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ORDERS.Status' | translate}}</mat-header-cell>
                     <mat-cell *matCellDef="let order">
-                        <p class="status text-truncate h6 p-4">
+                        <p class="status text-truncate h6 p-4" [ngClass]="matchStatusClass(order.Status.Code)" style="color: white!important;">
                             {{order.Status.Label||order.Status.Code}}
                         </p>
                     </mat-cell>

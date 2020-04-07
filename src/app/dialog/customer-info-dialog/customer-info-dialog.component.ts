@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-customer-info-dialog',
@@ -18,12 +18,13 @@ export class CustomerInfoDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CustomerInfoDialogComponent>,
     private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
     this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
 
 
     this.customerForm = this.formBuilder.group({
-      Id: [''],
+      Id: ['0'],
       Email: ['', Validators.required],
       EntrepriseName: ['', Validators.required],
       PhoneNumber: ['', Validators.required],
@@ -33,10 +34,10 @@ export class CustomerInfoDialogComponent implements OnInit {
       UpdatedOn: [''],
       UpdatedBy: ['']
     });
-
   }
 
   ngOnInit() {
+    this.customerForm.setValue(this.data.CustomerInfo);
   }
 
 

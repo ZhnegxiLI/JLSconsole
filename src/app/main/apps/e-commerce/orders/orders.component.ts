@@ -39,6 +39,12 @@ export class EcommerceOrdersComponent implements OnInit
     private userList : any[] = [];
     private userSelectSearchText : string = '';
 
+    private orderStatusClass: any[] = [
+        { Code: 'OrderStatus_Valid', Class: 'green-500' },
+        { Code: 'OrderStatus_Refus', Class: 'red-500' },
+        { Code: 'OrderStatus_Progressing', Class: 'orange-500' },
+    ]
+
 
     private searchCriteria = {
         FromDate: '',
@@ -120,6 +126,18 @@ export class EcommerceOrdersComponent implements OnInit
             return p.UserName.includes(this.userSelectSearchText);
         })
     }
+
+
+    matchStatusClass(Code) {
+        if (this.orderStatusClass != null && Code != null) {
+            var temp = this.orderStatusClass.find(p => p.Code == Code);
+            if (temp != null) {
+                return temp.Class;
+            }
+        }
+        return '';
+    }
+    
 
     getServerData(event){
         this.searchCriteria.begin = event.pageIndex;
