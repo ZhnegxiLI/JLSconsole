@@ -46,7 +46,9 @@ export const locale = {
             'PleasePayWithin15Days_ThankYouForYourBusiness':'Please pay with in 15 days.Thank you for your buisiness.',
             'small-note':'Small notice',
             'OldStatus':'Old status',
-           'Operator':'Modified by'
+           'Operator':'Modified by',
+           "ActionSuccess":"Successfully saved",
+           "ActionFail":"Save failed, please try again"
  
         }
     }

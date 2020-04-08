@@ -223,7 +223,7 @@ export class EcommerceOrderComponent implements OnInit {
 
                 this._fuseProgressBarService.hide();
 
-                this._matSnackBar.open('Save successfully', 'OK', { // todo translate
+                this._matSnackBar.open(this.translationService.instant('order.ActionSuccess'), 'OK', { 
                     duration: 2000
                 });
 
@@ -236,13 +236,13 @@ export class EcommerceOrderComponent implements OnInit {
                 this.router.navigate(['apps/e-commerce/orders']); // todo
             }
             else {
-                this._matSnackBar.open('Error please try again', 'OK', { // todo translate
+                this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', { 
                     duration: 2000
                 });
             }
         },
         error => {
-            this._matSnackBar.open('Error please try again', 'OK', { // todo translate
+            this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', { 
                 duration: 2000
             });
         });

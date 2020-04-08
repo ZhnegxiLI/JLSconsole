@@ -46,7 +46,9 @@ export const locale = {
             'PleasePayWithin15Days_ThankYouForYourBusiness':'Veuillez payer votre commande dans les 15 jours. Merci pour votre coopération',
             'small-note':'Petit avis',
             'OldStatus':'Ancien statut',
-           'Operator':'Modifié par'
+           'Operator':'Modifié par',
+           "ActionSuccess":"Enregistré avec succès",
+           "ActionFail":"Échec d'enregistrement, veuillez réessayer"
  
         }
     }

@@ -46,7 +46,9 @@ export const locale = {
            'PleasePayWithin15Days_ThankYouForYourBusiness':'请于15日内支付您的订单,谢谢您的合作.',
            'small-note':'小提示',
            'OldStatus':'旧状态',
-           'Operator':'操作员'
+           'Operator':'操作员',
+           "ActionSuccess":"已成功保存",
+           "ActionFail":"保存失败，请稍后再试"
         
 
 
