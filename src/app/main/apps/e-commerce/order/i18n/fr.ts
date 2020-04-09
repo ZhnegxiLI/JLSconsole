@@ -9,7 +9,7 @@ export const locale = {
             'OrderDetails':'Détails de la commande',
             'Products':'Produits',
             'Invoice':'Facture',
-            'Customer':'Client',
+            'Customer':'Information de client',
             'ShippingAddress':'Adresse de livraison',
             'Modify':'Modifier',
             'FirstLineAddress':'Adresse',
@@ -48,7 +48,20 @@ export const locale = {
             'OldStatus':'Ancien statut',
            'Operator':'Modifié par',
            "ActionSuccess":"Enregistré avec succès",
-           "ActionFail":"Échec d'enregistrement, veuillez réessayer"
+           "ActionFail":"Échec d'enregistrement, veuillez réessayer",
+           'Customercomment':'Commentaires de client',
+           'Comment':'Commantaires',
+           'Internalcomment':'Commentaire interne',
+           'CreatedBy':'Créé par',
+           'Totalprice':'Totale',
+           'SaveOrder':'Enregistrer',
+           'AmountBeforeTax':'Totale (sans TVA)',
+           'TaxRate':"Taux d'imposition",
+           'TotalSansTVA':'Totale sans TVA',
+           'TVA':'TVA',
+           'TotalavecTVA':'Totale',
+           'NewOrder':'Nouvelle commande',
+           'OrderNumber':'Numéro de commande'
  
         }
     }

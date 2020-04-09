@@ -1,18 +1,12 @@
 export const locale = {
     lang: 'en',
     data: {
-        'customer': {
+        'customer-info-dialog': {
             'Add/Modify':'Add/Modify',
-            'Entreprisename':'Company Name',
-            'LastName':'Last name',
-            'FirstName':'First name',
-            'Address':'Address',
-            'AddressComplet':'Supplementary address',
-            'City':'City',
-            'Country':'Country',
-            'ZipCode':'Zip code',
+            'EntrepriseName':'Entreprise name',
+            'Email':'Email',
             'PhoneNumber':'Phone number',
-            'FAX':'FAX',
+            'Siret':'Siret',
             'Cancel':'Cancel',
             'Save':'Save'
         }

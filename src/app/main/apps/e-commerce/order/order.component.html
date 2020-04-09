@@ -26,13 +26,13 @@
                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="order.OrderInfo">
 
                     <div class="subtitle secondary-text" *ngIf="order.OrderInfo.User">
-                        <p><span>CreatedBy(translate)</span>: {{order.OrderInfo.User.UserName}}</p>
+                        <p><span>{{'order.CreatedBy' | translate}}</span>: {{order.OrderInfo.User.UserName}}</p>
                     </div>
                 </div>
             </div>
             <!-- / APP TITLE -->
             <div>
-                <h2 *ngIf="order.OrderInfo">Total price(translate):
+                <h2 *ngIf="order.OrderInfo">{{'order.Totalprice' | translate}}:
                     <b>{{calculBasicTotalPrice()*(1+getCurrentTaxRatePercentage()*0.01) | currency:'EUR':'symbol'}}</b>
                 </h2>
             </div>
@@ -63,7 +63,7 @@
                                     <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
                                     <div class="h2 secondary-text">
                                         {{'order.Customer' | translate}}
-                                        <button mat-button (click)="ModifyCustomerInfo()">Modify(translate)</button>
+                                        <button mat-button (click)="ModifyCustomerInfo()">{{'order.Modify' | translate}}</button>
                                     </div>
                                 </div>
 
@@ -253,7 +253,7 @@
                                 <table class="simple">
                                     <thead>
                                         <tr>
-                                            <th>{{'order.taxRate' | translate}}</th>
+                                            <th>{{'order.TaxRate' | translate}}</th>
                                             <th>{{'order.AmountBeforeTax' | translate}}</th>
                                             <th>{{'order.Amount' | translate}}</th>
                                         </tr>
@@ -286,7 +286,7 @@
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">local_shipping</mat-icon>
                                     <div class="h2 secondary-text">{{'order.Shipping' | translate}}</div>
-                                    <button mat-button (click)="ModifyShipmentInfo()">Modify(translate)</button>
+                                    <button mat-button (click)="ModifyShipmentInfo()">{{'order.Modify' | translate}}</button>
                                 </div>
 
                                 <table class="simple">
@@ -329,14 +329,14 @@
                                     <tr>
                                         <td>
                                             <mat-form-field class="w-100-p" appearance="outline">
-                                                <mat-label>Customer comment</mat-label>
+                                                <mat-label>{{'order.Customercomment' | translate}}</mat-label>
                                                 <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" disabled
                                                     cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10"  [(ngModel)]="criteria.ClientRemark.Text"></textarea>
                                             </mat-form-field>
                                         </td>
                                         <td>
                                             <mat-form-field class="w-100-p" appearance="outline">
-                                                <mat-label>Internal comment</mat-label>
+                                                <mat-label>{{'order.Internalcomment' | translate}}</mat-label>
                                                 <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                                     cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" [(ngModel)]="criteria.AdminRemark.Text"></textarea>
                                             </mat-form-field>
@@ -397,14 +397,14 @@
                             </table>
 
                             <div class="m-24" *ngIf="order.ProductList!=null&&order.ProductList.length>0">
-                                <h4>{{'CART.TotalSansTVA' | translate}}: <span style="float: right;">{{ calculBasicTotalPrice()
+                                <h4>{{'order.TotalSansTVA' | translate}}: <span style="float: right;">{{ calculBasicTotalPrice()
                                     | currency:'EUR':'symbol'}}</span> </h4>
                                 <hr>
-                                <h4>{{'CART.TVA' | translate}}({{getCurrentTaxRatePercentage()}}%): <span
+                                <h4>{{'order.TVA' | translate}}({{getCurrentTaxRatePercentage()}}%): <span
                                         style="float: right;">{{calculBasicTotalPrice()*getCurrentTaxRatePercentage()*0.01 | currency:'EUR':'symbol'}}</span>
                                 </h4>
                                 <hr>
-                                <h2>{{'CART.TotalavecTVA' | translate}}: <span
+                                <h2>{{'order.TotalavecTVA' | translate}}: <span
                                         style="float: right;">{{calculBasicTotalPrice()*(1+getCurrentTaxRatePercentage()*0.01) | currency:'EUR':'symbol'}}</span>
                                 </h2>
                             </div>
@@ -430,7 +430,7 @@
                                                 <div class="client" *ngIf="order.OrderInfo!=null && order.CustomerInfo!=null ">
                                                     <div class="invoice-number" fxLayout="row"
                                                         fxLayoutAlign="start center">
-                                                        <span class="title">{{'order.INVOICE' | translate}}(translate)</span>
+                                                        <span class="title">{{'order.INVOICE' | translate}}</span>
                                                         <span class="number">{{order.OrderInfo.Id}}</span>
                                                     </div>
 

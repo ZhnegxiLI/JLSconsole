@@ -1,21 +1,14 @@
 export const locale = {
     lang: 'fr',
     data: {
-        'customer': {
+        'customer-info-dialog': {
             'Add/Modify':'Ajouter/Modifier',
-            'Entreprisename':'Nom de la société',
-            'LastName':'Nom',
-            'FirstName':'Prénom',
-            'Address':'Adresse',
-            'AddressComplet':'Adresse complète',
-            'City':'Ville',
-            'Country':'Pay',
-            'ZipCode':'Code postale',
+            'EntrepriseName':"Nom de l'entreprise",
+            'Email':'Email',
             'PhoneNumber':'Numéro de téléphone',
-            'FAX':'FAX',
-            'Cancel':'Annuler',
+            'Siret':'Siret',
+            'Cancel':'Supprimer',
             'Save':'Enregistrer'
- 
         }
     }
 };

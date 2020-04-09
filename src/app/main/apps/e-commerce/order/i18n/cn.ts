@@ -9,7 +9,7 @@ export const locale = {
            'OrderDetails':'订单详情',
            'Products':'商品',
            'Invoice':'发票',
-           'Customer':'顾客',
+           'Customer':'顾客信息',
            'ShippingAddress':'运送地址',
            'Modify':'修改',
            'FirstLineAddress':'地址',
@@ -48,7 +48,20 @@ export const locale = {
            'OldStatus':'旧状态',
            'Operator':'操作员',
            "ActionSuccess":"已成功保存",
-           "ActionFail":"保存失败，请稍后再试"
+           "ActionFail":"保存失败，请稍后再试",
+           'Customercomment':'顾客留言',
+           'Comment':'留言',
+           'Internalcomment':'内部评论',
+           'CreatedBy':'创建者',
+           'Totalprice':'总价',
+           'SaveOrder':'保存订单',
+           'AmountBeforeTax':'总价（不含税）',
+           'TaxRate':'税率',
+           'TotalSansTVA':'总价（不含税）',
+           'TVA':'TVA',
+           'TotalavecTVA':'总价（含税）',
+           'NewOrder':'新订单',
+           'OrderNumber':'订单号'
         
 
 

@@ -1,18 +1,12 @@
 export const locale = {
     lang: 'en',
     data: {
-        'shipmentInfo': {
+        'shipment-info-dialog': {
             'Add/Modify':'Add/Modify',
-            'Entreprisename':'Company Name',
-            'LastName':'Last name',
-            'FirstName':'First name',
-            'Address':'Address',
-            'AddressComplet':'Supplementary address',
-            'City':'City',
-            'Country':'Country',
-            'ZipCode':'Zip code',
-            'PhoneNumber':'Phone number',
-            'FAX':'FAX',
+            'ShipmentNumber':'Tracking number',
+            'Weight':'Weight',
+            'Fee':'Fee',
+            'Date':'Date',
             'Cancel':'Cancel',
             'Save':'Save'
         }

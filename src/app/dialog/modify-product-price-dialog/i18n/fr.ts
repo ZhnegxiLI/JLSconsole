@@ -1,19 +1,10 @@
 export const locale = {
     lang: 'fr',
     data: {
-        'ProductPrice': {
+        'modify-product-price-dialog': {
             'Add/Modify':'Ajouter/Modifier',
-            'Entreprisename':'Nom de la société',
-            'LastName':'Nom',
-            'FirstName':'Prénom',
-            'Address':'Adresse',
-            'AddressComplet':'Adresse complète',
-            'City':'Ville',
-            'Country':'Pay',
-            'ZipCode':'Code postale',
-            'PhoneNumber':'Numéro de téléphone',
-            'FAX':'FAX',
-            'Cancel':'Annuler',
+            'Price':'Prix',
+            'Quantity':'Quantité',
             'Save':'Enregistrer'
  
         }

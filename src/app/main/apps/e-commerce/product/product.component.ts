@@ -189,6 +189,8 @@ export class EcommerceProductComponent implements OnInit {
                 delete result.Translation;
                 delete result.ImagesPath;
                 delete result.TaxRate;
+                delete result.Label;
+                delete result.Comments;
                 this.productForm.setValue(result);
             }
 

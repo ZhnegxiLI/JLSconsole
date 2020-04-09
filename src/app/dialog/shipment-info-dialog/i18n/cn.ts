@@ -1,18 +1,12 @@
 export const locale = {
     lang: 'cn',
     data: {
-    'shipmentInfo': {
+    'shipment-info-dialog': {
         'Add/Modify':'添加/更改',
-        'Entreprisename':'公司名称',
-        'LastName':'姓',
-        'FirstName':'名',
-        'Address':'地址',
-        'AddressComplet':'补充地址',
-        'City':'城市',
-        'Country':'国家',
-        'ZipCode':'邮编',
-        'PhoneNumber':'电话号码',
-        'FAX':'传真号',
+        'ShipmentNumber':'快递单号',
+        'Weight':'重量',
+        'Fee':'费用',
+        'Date':'日期',
         'Cancel':'取消',
         'Save':'保存'
     }

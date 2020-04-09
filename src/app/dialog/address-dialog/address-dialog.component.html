@@ -45,18 +45,21 @@
                     <td>
                         <mat-form-field style="width: 100%;">
                             <mat-label>{{'address.Country' | translate}}</mat-label>
-                            <mat-select required placeholder formControlName="Country">
-                                <mat-option value=1>
+                            <mat-select required placeholder formControlName="CountryId">
+                                <mat-option [value]=1>
                                     France
                                 </mat-option>
-                                <mat-option value=2>
+                                <mat-option [value]=2>
                                     Belgique
                                 </mat-option>
-                                <mat-option value=3>
+                                <mat-option [value]=3>
                                     Espagnol
                                 </mat-option>
                             </mat-select>
+
+                         
                         </mat-form-field>
+
                     </td>
 
                     <td>

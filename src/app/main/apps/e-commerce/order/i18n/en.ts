@@ -9,7 +9,7 @@ export const locale = {
             'OrderDetails':'Order details',
             'Products':'Products',
             'Invoice':'Invoice',
-            'Customer':'Customer',
+            'Customer':'Customer information',
             'ShippingAddress':'Shipping address',
             'Modify':'Modify',
             'FirstLineAddress':'Address',
@@ -48,7 +48,20 @@ export const locale = {
             'OldStatus':'Old status',
            'Operator':'Modified by',
            "ActionSuccess":"Successfully saved",
-           "ActionFail":"Save failed, please try again"
+           "ActionFail":"Save failed, please try again",
+           'Customercomment':'Customer comment',
+           'Comment':'Comment',
+           'Internalcomment':'Internal comment',
+           'CreatedBy':'Created by',
+           'Totalprice':'Total price',
+           'SaveOrder':'Save order',
+           'AmountBeforeTax':'Total without TVA ',
+           'TaxRate':'Taxe rate',
+           'TotalSansTVA':'Total without TVA',
+           'TVA':'TVA',
+           'TotalavecTVA':'Total',
+           'NewOrder':'New order',
+           'OrderNumber':'Order number'
  
         }
     }

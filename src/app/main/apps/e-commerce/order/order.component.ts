@@ -43,11 +43,13 @@ export class EcommerceOrderComponent implements OnInit {
     private statusList: any[] = [];
     private taxRateList: any[] = [];
 
+    private countryList: any[] = [];
+
     private criteria: any = {
         taxRateId: 0,
         statusId: 0,
-        ClientRemark: {Id :0,Text:null},
-        AdminRemark:  {Id:0,Text:null}
+        ClientRemark: { Id: 0, Text: null },
+        AdminRemark: { Id: 0, Text: null }
     }
 
     public view: string = "order";
@@ -103,7 +105,7 @@ export class EcommerceOrderComponent implements OnInit {
             }
             else {
                 this.urlReturnView = '/apps/e-commerce/cart';
-                this.title = 'New order'; // todo translation
+                this.title = this.translationService.instant('order.NewOrder'); // todo translation
 
                 if (this.orderId == 0 && localStorage.getItem('cart') != null) {
                     this.order.ProductList = JSON.parse(localStorage.getItem('cart'));
@@ -183,7 +185,7 @@ export class EcommerceOrderComponent implements OnInit {
 
     calculBasicTotalPrice() {
         var TotalPrice = 0;
-        if (this.basicTotalPrice == null && this.order.ProductList!=null) {
+        if (this.basicTotalPrice == null && this.order.ProductList != null) {
             this.order.ProductList.forEach(p => {
                 if (p.Quantity != null && p.Price != null) {
                     TotalPrice = TotalPrice + p.Quantity * p.Price;
@@ -199,14 +201,14 @@ export class EcommerceOrderComponent implements OnInit {
 
 
     saveOrder() {
-        var Order = this.order.OrderInfo!=null?this.order.OrderInfo:{};
+        var Order = this.order.OrderInfo != null ? this.order.OrderInfo : {};
         Order.TaxRateId = this.criteria.taxRateId;
         Order.StatusReferenceItemId = this.criteria.statusId;
 
 
         var OrderCriteria = {
-            AdminRemark : this.criteria.AdminRemark.Text==null? null: this.criteria.AdminRemark,
-            ClientRemark: this.criteria.ClientRemark.Text==null? null: this.criteria.ClientRemark,
+            AdminRemark: this.criteria.AdminRemark.Text == null ? null : this.criteria.AdminRemark,
+            ClientRemark: this.criteria.ClientRemark.Text == null ? null : this.criteria.ClientRemark,
             ShipmentInfo: this.order.ShipmentInfo,
             ShippingAddress: this.order.ShippingAdress,
             FacturationAddress: this.order.FacturationAdress,
@@ -223,29 +225,29 @@ export class EcommerceOrderComponent implements OnInit {
 
                 this._fuseProgressBarService.hide();
 
-                this._matSnackBar.open(this.translationService.instant('order.ActionSuccess'), 'OK', { 
+                this._matSnackBar.open(this.translationService.instant('order.ActionSuccess'), 'OK', {
                     duration: 2000
                 });
 
                 this.orderId = result;
-                if(this.order.Id==null ||this.order.Id==0 ){
+                if (this.order.Id == null || this.order.Id == 0) {
                     localStorage.removeItem('cart'); // remove cart after the order is created
                 }
-            
+
                 //this.initLoadData();
                 this.router.navigate(['apps/e-commerce/orders']); // todo
             }
             else {
-                this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', { 
+                this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', {
                     duration: 2000
                 });
             }
         },
-        error => {
-            this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', { 
-                duration: 2000
+            error => {
+                this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', {
+                    duration: 2000
+                });
             });
-        });
     }
 
     matchStatusClass(Code) {
@@ -278,11 +280,11 @@ export class EcommerceOrderComponent implements OnInit {
 
                 this.orderId = result.Data.OrderInfo.Id;
                 this.criteria.statusId = result.Data.Status.Id;
-                
-                if(result.Data.ClientRemark!=null){
+
+                if (result.Data.ClientRemark != null) {
                     this.criteria.ClientRemark = result.Data.ClientRemark;
                 }
-                if(result.Data.AdminRemark!=null){
+                if (result.Data.AdminRemark != null) {
                     this.criteria.AdminRemark = result.Data.AdminRemark;
                 }
 
@@ -290,13 +292,13 @@ export class EcommerceOrderComponent implements OnInit {
                     this.orderType = result.Data.OrderType.Code;
                 }
 
-                if(result.Data.OrderInfo!=null && result.Data.OrderInfo.TaxRateId!=null){
+                if (result.Data.OrderInfo != null && result.Data.OrderInfo.TaxRateId != null) {
                     this.criteria.taxRateId = result.Data.OrderInfo.TaxRateId;
                 }
 
-                
 
-                this.title = 'Order info' + this.orderId; // todo translation
+
+                this.title = this.translationService.instant('order.OrderNumber') + ' ' + this.orderId; // todo translation
                 console.log(this.order);
             }
             this.Loading = false;
@@ -306,17 +308,43 @@ export class EcommerceOrderComponent implements OnInit {
                 //todo
             });
 
+
+        this.referenceService.getReferenceItemsByCategoryLabels({
+            Lang: this.translationService.currentLang,
+            ShortLabels: ['Country']
+        }).subscribe(result => {
+            if (result != null) {
+                console.log(result);
+                this.countryList = result.filter(p => p.Validity == true);
+            }
+        },
+            error => {
+                //todo 
+            });
+
     }
+
+
 
 
     modifyAddress(addressType) {
         console.log(addressType);
         var addressData = null;
         if (addressType == 'InvoiceAddress') {
-            addressData = this.getEmptyAddressInfo();
+            if (this.order.FacturationAdress == null) {
+                addressData = this.getEmptyAddressInfo();
+            }
+            else {
+                addressData = this.order.FacturationAdress;
+            }
         }
         else if (addressType == 'ShippingAddress') {
-            addressData = this.getEmptyAddressInfo();
+            if (this.order.ShippingAdress == null) {
+                addressData = this.getEmptyAddressInfo();
+            }
+            else {
+                addressData = this.order.ShippingAdress;
+            }
         }
         const dialogRef = this.dialog.open(AddressDialog, {
             data: {
@@ -350,7 +378,7 @@ export class EcommerceOrderComponent implements OnInit {
             FirstLineAddress: null,
             SecondLineAddress: null,
             City: null,
-            Country: null,
+            CountryId: null,
             EntrepriseName: null,
             ContactTelephone: null,
             Provence: null,

@@ -16,7 +16,8 @@ export const locale = {
             'ENTREPRISE_NAME': '公司名称',
             'OrderUserName':'用户名',
             'TOTAL_PRICE': '总价',
-            'Status':'状态'
+            'Status':'状态',
+            'Type':'类别'
         }
     }
 };
