@@ -25,6 +25,10 @@ export class ProductService extends appServiceBase
 
     private apiUrlRemoveImageById: string = this.host + "admin/Product/RemoveImageById"
 
+    private apiUrlRemoveProductCommentById: string = this.host + "admin/Product/RemoveProductCommentById";
+
+    private apiUrlGetProductCommentListByCriteria: string = this.host + "api/Product/GetProductCommentListByCriteria";
+
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -33,6 +37,12 @@ export class ProductService extends appServiceBase
     {
         super(_httpClient,_matSnackBar,_router);
     }
+
+    GetProductCommentListByCriteria(criteria: any): Observable<any>
+    {
+        return super.getUrl(this.apiUrlGetProductCommentListByCriteria,criteria);
+    } 
+
 
     AdvancedProductSearchByCriteria(criteria : any) : Observable<any>
     {
@@ -67,6 +77,11 @@ export class ProductService extends appServiceBase
     RemoveImageById(criteria :any ): Observable<any>
     {
         return super.postUrl(this.apiUrlRemoveImageById,criteria);
+    }
+
+    RemoveProductCommentById(criteria: any): Observable<any>
+    {
+        return super.getUrl(this.apiUrlRemoveProductCommentById,criteria);
     }
 
     

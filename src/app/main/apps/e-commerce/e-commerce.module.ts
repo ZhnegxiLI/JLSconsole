@@ -29,7 +29,7 @@ import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
 import { EcommerceProductsComponent } from 'app/main/apps/e-commerce/products/products.component';
 
-import { EcommerceProductComponent, ImageOverViewDialog } from 'app/main/apps/e-commerce/product/product.component';
+import { EcommerceProductComponent, ImageOverViewDialog, ProductEvaluationDialog } from 'app/main/apps/e-commerce/product/product.component';
 
 import { EcommerceOrdersComponent } from 'app/main/apps/e-commerce/orders/orders.component';
 import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
@@ -71,6 +71,7 @@ const routes: Routes = [
         EcommerceOrdersComponent,
         EcommerceOrderComponent,
         ImageOverViewDialog,
+        ProductEvaluationDialog,
         CartComponent
     ],
     imports     : [
@@ -113,6 +114,7 @@ const routes: Routes = [
     ],
     entryComponents: [
         ImageOverViewDialog,
+        ProductEvaluationDialog,
         ConfimDialog],
 })
 export class EcommerceModule

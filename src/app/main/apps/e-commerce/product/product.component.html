@@ -95,9 +95,9 @@
                                     <input matInput placeholder="{{'PRODUCT.REFERENCE_CODE'| translate}}"
                                         name="reference" formControlName="ReferenceCode" required>
 
-                                        <mat-error *ngIf="isAlreadyExists()">
-                                            {{'PRODUCT.CodeAlreadyExists' | translate}}
-                                        </mat-error>
+                                    <mat-error *ngIf="isAlreadyExists()">
+                                        {{'PRODUCT.CodeAlreadyExists' | translate}}
+                                    </mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
@@ -143,7 +143,7 @@
                         </mat-tab>
 
                         <mat-tab label="{{'PRODUCT.PRODUCT_IMAGE' | translate}}" [disabled]="productId==0">
-                            
+
                             <div class="tab-content p-24" fusePerfectScrollbar>
                                 <div fxLayout="row wrap" fxLayoutAlign="start start">
 
@@ -224,7 +224,7 @@
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>{{'PRODUCT.QUANTITY_PER_BOX' | translate}}</mat-label>
-                                    <input  matInput placeholder="{{'PRODUCT.QUANTITY_PER_BOX' | translate}}"
+                                    <input matInput placeholder="{{'PRODUCT.QUANTITY_PER_BOX' | translate}}"
                                         name="quantityPerBox" formControlName="QuantityPerBox" type="number">
                                     <!-- <span matSuffix>kg</span> -->
                                 </mat-form-field>
@@ -239,6 +239,35 @@
                             </div>
 
                         </mat-tab>
+
+                        <mat-tab label="{{'PRODUCT.Evaluation' | translate}}">
+
+                            <div class="tab-content p-24">
+
+                                <table class="simple invoice-table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'PRODUCT.EvaluationDate' | translate}}</th>
+                                            <th class="text-right">{{'PRODUCT.EvaluationEntreprise' | translate}}</th>
+                                            <th class="text-right">{{'PRODUCT.EvaluationTitle' | translate}}</th>
+                                            <th class="text-right">{{'PRODUCT.EvaluationLevel' | translate}}</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of ProductEvaluationList"
+                                            (click)="ModifyProductEvaluation(item)" style="cursor:pointer;">
+                                            <td style="text-align: center;">{{item.CreatedOn}}</td>
+                                            <td style="text-align: center;"> {{item.User.EntrepriseName}}</td>
+                                            <td style="text-align: center;">{{item.ProductComment.Title}}</td>
+                                            <td style="text-align: center;">{{item.ProductComment.Level}}/5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </mat-tab>
+
 
                     </mat-tab-group>
 

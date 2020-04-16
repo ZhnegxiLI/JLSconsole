@@ -77,6 +77,8 @@ export class EcommerceProductComponent implements OnInit {
     private imgURL: any;
     private progress: any;
 
+    private ProductEvaluationList: any[] = [];
+
     constructor(
         private referenceService: ReferenceService,
         private productService: ProductService,
@@ -199,7 +201,23 @@ export class EcommerceProductComponent implements OnInit {
             error => {
 
             });
+        this.productService.GetProductCommentListByCriteria(
+            {
+                ProductId: this.productId,
+                Lang: this._translateService.currentLang,
+                Step: -1,
+                Begin: -1
+            }).subscribe(result => {
+            if (result.Success) {
+                this.ProductEvaluationList = result.Data.ProductCommentListData;
+            }
+            },
+            error => {
+
+            });
+
     }
+
 
     getDefaultProductName() {
         if (this.productInfo != null && this.productInfo.Translation != null && this.productInfo.Translation.length > 0) {
@@ -326,7 +344,7 @@ export class EcommerceProductComponent implements OnInit {
                 this._matSnackBar.open(this._translateService.instant('PRODUCT.ActionSuccess'), 'OK', {
                     duration: 2000
                 });
-               this.router.navigate(['apps/e-commerce/products']); // todo
+                this.router.navigate(['apps/e-commerce/products']); // todo
 
             }
             else {
@@ -347,6 +365,23 @@ export class EcommerceProductComponent implements OnInit {
                 this.saveLoading = false;
             });
     }
+
+    ModifyProductEvaluation(ProductEvaluation){
+        console.log(ProductEvaluation);
+
+        const dialogRef = this.dialog.open(ProductEvaluationDialog, {
+
+            data: { ProductEvaluation: ProductEvaluation }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result != null && result.action != null && result.action == "remove" && result.CommentId !=null && result.CommentId>0) {
+
+                this.ProductEvaluationList = this.ProductEvaluationList.filter(p=>p.ProductComment.Id!= result.CommentId);
+            }
+        });
+    };
+
 
 }
 
@@ -406,6 +441,75 @@ export class ImageOverViewDialog {
                             duration: 2000
                         });
                         this.removeImageLoading = false;
+                    });
+
+            }
+        });
+
+    }
+
+    close(): void {
+        this.dialogRef.close({ action: 'None' });
+    }
+
+}
+
+
+
+@Component({
+    selector: 'product-evaluation-dialog',
+    templateUrl: 'product-evaluation-dialog.html'
+})
+
+export class ProductEvaluationDialog {
+   
+    private removeEvaluationLoading: boolean = false;
+    private ProductComment: any = {};
+
+    constructor(
+        public dialogRef: MatDialogRef<ProductEvaluationDialog>,
+        private productService: ProductService,
+        private _matSnackBar: MatSnackBar,
+        private _translateService: TranslateService,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private dialog: MatDialog) { }
+
+    ngOnInit(): void {
+        this.ProductComment = this.data.ProductEvaluation.ProductComment;
+    }
+
+
+    remove(): void {
+        const dialogRef = this.dialog.open(ConfimDialog, {
+            data: {
+                title: this._translateService.instant('PRODUCT.Msg_RemoveTitle'),
+                message: this._translateService.instant('PRODUCT.Msg_RemoveMessage')
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result != null && result.action != null && result.action == 'yes' && this.ProductComment.Id != null) {
+                this.removeEvaluationLoading = true;
+                this.productService.RemoveProductCommentById({CommentId: this.ProductComment.Id}).subscribe(result => {
+                    if (result > 0) {
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemoveProductCommentSuccess'), 'OK', { // todo translate
+                            duration: 2000
+                        });
+                    }
+                    else {
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemoveProductCommentFail'), 'OK', { // todo translate
+                            duration: 2000
+                        });
+                    }
+                    //
+                    this.dialogRef.close({ action: 'remove',CommentId: result });
+                    this.removeEvaluationLoading = false;
+                },
+                    error => {
+                        this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_RemoveProductCommentFail'), 'OK', { // todo translate
+                            duration: 2000
+                        });
+                        this.removeEvaluationLoading = false;
                     });
 
             }
