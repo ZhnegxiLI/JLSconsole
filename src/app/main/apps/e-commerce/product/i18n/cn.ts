@@ -38,8 +38,14 @@ export const locale = {
 
             "Msg_RemovePhotoSuccess":"照片删除成功",
             "Msg_RemovePhotoFail":"照片删除失败",
+            "CodeAlreadyExists":"编码已存在",
+            "Level":"评价",
+            "Evaluation":"客户评价",
+            "EvaluationEntreprise":"对公司评价",
+            "EvaluationTitle":"标题",
+            "EvaluationLevel":"等级",
+            "EvaluationDate":"日期"
 
-            "CodeAlreadyExists":"编码已存在"
         }
     }
 };

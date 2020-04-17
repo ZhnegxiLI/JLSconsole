@@ -39,7 +39,14 @@ export const locale = {
             "Msg_RemovePhotoSuccess":"Supprimer la photo avec succès",
             "Msg_RemovePhotoFail":"Échec de supprimer la photo, veuillez réessayer",
 
-            "CodeAlreadyExists":"Code déjà existe"
+            "CodeAlreadyExists":"Code déjà existe",
+            "Level":"Niveau",
+            "Evaluation":"Évaluation",
+            "EvaluationEntreprise":"Évaluation d'entreprise",
+            "EvaluationTitle":"Title",
+            "EvaluationLevel":"Niveau",
+            "EvaluationDate":"Date"
+
 
             
         }

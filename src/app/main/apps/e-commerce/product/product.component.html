@@ -247,20 +247,20 @@
                                 <table class="simple invoice-table">
                                     <thead>
                                         <tr>
-                                            <th>{{'PRODUCT.EvaluationDate' | translate}}</th>
-                                            <th class="text-right">{{'PRODUCT.EvaluationEntreprise' | translate}}</th>
-                                            <th class="text-right">{{'PRODUCT.EvaluationTitle' | translate}}</th>
-                                            <th class="text-right">{{'PRODUCT.EvaluationLevel' | translate}}</th>
+                                            <th class="text-left">{{'PRODUCT.EvaluationDate' | translate}}</th>
+                                            <th class="text-left">{{'PRODUCT.EvaluationEntreprise' | translate}}</th>
+                                            <th class="text-left">{{'PRODUCT.EvaluationTitle' | translate}}</th>
+                                            <th class="text-left">{{'PRODUCT.EvaluationLevel' | translate}}</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of ProductEvaluationList"
                                             (click)="ModifyProductEvaluation(item)" style="cursor:pointer;">
-                                            <td style="text-align: center;">{{item.CreatedOn}}</td>
-                                            <td style="text-align: center;"> {{item.User.EntrepriseName}}</td>
-                                            <td style="text-align: center;">{{item.ProductComment.Title}}</td>
-                                            <td style="text-align: center;">{{item.ProductComment.Level}}/5</td>
+                                            <td class="text-left">{{item.CreatedOn}}</td>
+                                            <td class="text-left"> {{item.User.EntrepriseName}}</td>
+                                            <td class="text-left">{{item.ProductComment.Title}}</td>
+                                            <td class="text-left">{{item.ProductComment.Level}}/5</td>
                                         </tr>
                                     </tbody>
                                 </table>

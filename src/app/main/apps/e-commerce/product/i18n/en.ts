@@ -39,7 +39,14 @@ export const locale = {
             "Msg_RemovePhotoSuccess":"Remove the photo successfully",
             "Msg_RemovePhotoFail":"Remove the photo failed, please try again",
 
-            "CodeAlreadyExists":"Code already exists"
+            "CodeAlreadyExists":"Code already exists",
+            "Level":"Level",
+            "Evaluation":"Evaluation",
+            "EvaluationEntreprise":"Company evaluation",
+            "EvaluationTitle":"Titre",
+            "EvaluationLevel":"Level",
+            "EvaluationDate":"Date"
+
         }
     }
 };
