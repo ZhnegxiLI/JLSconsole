@@ -188,12 +188,12 @@ export class EcommerceProductComponent implements OnInit {
                         result['Label' + val.Lang] = val.Label;
                     });
                 }
-                delete result.Translation;
-                delete result.ImagesPath;
-                delete result.TaxRate;
-                delete result.Label;
-                delete result.Comments;
-                this.productForm.setValue(result);
+                // delete result.Translation;
+                // delete result.ImagesPath;
+                // delete result.TaxRate;
+                // delete result.Label;
+                // delete result.Comments;
+                this.productForm.patchValue(result);
             }
 
             console.log(this.productForm.value);

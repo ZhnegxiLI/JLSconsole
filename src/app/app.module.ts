@@ -36,6 +36,7 @@ import { AuthentificationService } from 'app/Services/authentification.service';
 import { MatSnackBarModule } from '@angular/material';
 
 import { AppInterceptor } from './app.interceptor';
+import { ExportService } from './Services/export.service';
 
 const appRoutes: Routes = [
     
@@ -108,7 +109,8 @@ const appRoutes: Routes = [
         ProductService,
         ReferenceService,
         OrderService,
-        UserService
+        UserService,
+        ExportService
     ]
 })
 export class AppModule

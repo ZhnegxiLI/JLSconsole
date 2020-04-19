@@ -23,7 +23,9 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
     intercept(request : HttpRequest<any>, next : HttpHandler): Observable<HttpEvent<any>> 
     {
         // Check if the user is logging in for the first time
-
+        if(request.url.indexOf("Export")!=-1){
+            return next.handle(request.clone({responseType:  'blob'}));
+        }
         return next.handle(this.attachTokenToRequest(request)).pipe(
             tap((event : HttpEvent<any>) => {
                 if(event instanceof HttpResponse) 
@@ -48,6 +50,7 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
                         
                         case 400:
                             return throwError(err); //<any>this.acct.logout();
+                            
                 }
                 } else 
                 {

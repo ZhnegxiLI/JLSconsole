@@ -19,6 +19,7 @@ import { OrderService } from 'app/Services/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'app/Services/user.service';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { ExportService } from 'app/Services/export.service';
 
 @Component({
     selector     : 'e-commerce-orders',
@@ -74,7 +75,8 @@ export class EcommerceOrdersComponent implements OnInit
         private userService  : UserService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _fuseProgressBarService: FuseProgressBarService
+        private _fuseProgressBarService: FuseProgressBarService,
+        private exportService: ExportService
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
@@ -149,6 +151,28 @@ export class EcommerceOrdersComponent implements OnInit
         this.searchCriteria.Lang = this._translateService.currentLang;
         this._fuseProgressBarService.show();
         this.orderService.advancedOrderSearchByCriteria(this.searchCriteria).subscribe(result=>{
+            if(result!=null && result.OrderList !=null && result.TotalCount != null){
+                this.orderList = result.OrderList;
+                this.totalCount = result.TotalCount;
+                console.log(this.orderList);
+            }
+            this._fuseProgressBarService.hide();
+        },
+        error=>{
+            //todo 
+        })
+    }
+
+    export(){
+        this.searchCriteria.Lang = this._translateService.currentLang;
+        this._fuseProgressBarService.show();
+        this.exportService.ExportAction(
+            {
+                ExportType: "AdvancedOrderSearchByCriteria",
+                Criteria:  this.searchCriteria,
+                Lang: this._translateService.currentLang
+            }
+        ).subscribe(result=>{
             if(result!=null && result.OrderList !=null && result.TotalCount != null){
                 this.orderList = result.OrderList;
                 this.totalCount = result.TotalCount;

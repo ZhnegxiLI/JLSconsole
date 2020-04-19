@@ -40,6 +40,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { CartComponent } from './cart/cart.component';
 
 import { NgxLoadingModule } from 'ngx-loading';
+import { DatePipe } from '@angular/common';
 
 const routes: Routes = [
     {
@@ -110,7 +111,8 @@ const routes: Routes = [
         FuseWidgetModule
     ],
     providers   : [
-        EcommerceOrdersService
+        EcommerceOrdersService,
+        DatePipe
     ],
     entryComponents: [
         ImageOverViewDialog,

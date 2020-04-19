@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -23,6 +24,7 @@ import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-b
 import { ActivatedRoute, Params } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { MatSnackBar } from '@angular/material';
+import { ExportService } from 'app/Services/export.service';
 
 @Component({
     selector: 'e-commerce-products',
@@ -34,7 +36,6 @@ import { MatSnackBar } from '@angular/material';
 export class EcommerceProductsComponent implements OnInit {
     displayedColumns = ['action', 'reference', 'image', 'name', 'MainCategory', 'SecondCategory', 'price', 'active'];
     //imageRoot = this._ecommerceProductsService.host + "images/";
-
     private environment = environment;
     public view: string = "products";
 
@@ -77,6 +78,7 @@ export class EcommerceProductsComponent implements OnInit {
 
 
     constructor(
+        private datePipe: DatePipe,
         private referenceService: ReferenceService,
         private productService: ProductService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
@@ -84,6 +86,7 @@ export class EcommerceProductsComponent implements OnInit {
         private _fuseProgressBarService: FuseProgressBarService,
         private activeRoute: ActivatedRoute,
         private _matSnackBar: MatSnackBar,
+        private exportService: ExportService
     ) {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
     }
@@ -91,7 +94,7 @@ export class EcommerceProductsComponent implements OnInit {
 
     ngOnInit(): void {
         var criteriaStringfy = localStorage.getItem('ProductCriteria');
-        if(criteriaStringfy!=null){
+        if (criteriaStringfy != null) {
             this.searchCriteria = JSON.parse(criteriaStringfy);
 
             localStorage.removeItem('ProductCriteria');
@@ -118,7 +121,7 @@ export class EcommerceProductsComponent implements OnInit {
     }
 
     getSecondCategoryList() {
-        if (this.searchCriteria.MainCategoryReferenceId != null && this.searchCriteria.MainCategoryReferenceId != 0 && this.referenceItemList!=null ) {
+        if (this.searchCriteria.MainCategoryReferenceId != null && this.searchCriteria.MainCategoryReferenceId != 0 && this.referenceItemList != null) {
             return this.referenceItemList.filter(p => p.ParentId == this.searchCriteria.MainCategoryReferenceId);
         }
         return [];
@@ -164,7 +167,7 @@ export class EcommerceProductsComponent implements OnInit {
         localStorage.setItem('cart', JSON.stringify(cartObject));
 
         this._matSnackBar.open(this._translateService.instant('products.Msg_AddProductIntoCart'), 'OK', { // todo translate
-            duration        : 2000,
+            duration: 2000,
             verticalPosition: 'top'
         });
     }
@@ -183,11 +186,49 @@ export class EcommerceProductsComponent implements OnInit {
             }
 
         },
-            error => {
+        error => {
 
-            });
+        });
     }
 
+    export() {
+        this._fuseProgressBarService.show();
+        this.searchCriteria.Lang = this._translateService.currentLang;
+        this.exportService.ExportAction(
+            {
+                ExportType: "AdvancedProductSearchByCriteria",
+                Criteria:  this.searchCriteria,
+                Lang: this._translateService.currentLang
+            }
+          ).subscribe(result => {
+                var DatetimeFormat = this.datePipe.transform(Date.now(),'yyyy-MM-dd_HHmmss');
+                this.SaveExcel(result, 'Products_'+DatetimeFormat);
+                this._fuseProgressBarService.hide();
+
+                this.search();
+        },
+        error => {
+            this._matSnackBar.open(this._translateService.instant('products.SomeErrorsOccur'), 'OK', { // todo translate
+                duration: 2000,
+                verticalPosition: 'bottom'
+            });
+            this._fuseProgressBarService.hide();
+        });
+    }
+
+    SaveExcel(data: Blob, name: string) {
+        const a = document.createElement('a');
+        // tslint:disable-next-line: quotemark
+        // tslint:disable-next-line: object-literal-key-quotes
+        const blob = new Blob([data], { 'type': 'application/vnd.ms-excel' });
+        a.href = URL.createObjectURL(blob);
+        a.download = name + '.xlsx';
+        a.click();
+      }
+
+     
+
+  
     getServerData(event) {
         this.searchCriteria.begin = event.pageIndex;
         this.searchCriteria.step = event.pageSize;
@@ -199,7 +240,7 @@ export class EcommerceProductsComponent implements OnInit {
         console.log(event);
     }
 
-    saveCriteria(){
+    saveCriteria() {
         localStorage.setItem('ProductCriteria', JSON.stringify(this.searchCriteria));
     }
 }
