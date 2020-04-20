@@ -219,7 +219,7 @@ export class EcommerceOrderComponent implements OnInit {
         }
 
         this._fuseProgressBarService.show();
-
+        this.Loading = true;
         this.orderService.saveAdminOrder(OrderCriteria).subscribe(result => {
             if (result > 0) {
 
@@ -234,6 +234,8 @@ export class EcommerceOrderComponent implements OnInit {
                     localStorage.removeItem('cart'); // remove cart after the order is created
                 }
 
+         
+
                 //this.initLoadData();
                 this.router.navigate(['apps/e-commerce/orders']); // todo
             }
@@ -242,8 +244,10 @@ export class EcommerceOrderComponent implements OnInit {
                     duration: 2000
                 });
             }
+            this.Loading = true;
         },
             error => {
+                this.Loading = true;
                 this._matSnackBar.open(this.translationService.instant('order.ActionFail'), 'OK', {
                     duration: 2000
                 });
