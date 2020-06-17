@@ -37,6 +37,7 @@ import { MatSnackBarModule } from '@angular/material';
 
 import { AppInterceptor } from './app.interceptor';
 import { ExportService } from './Services/export.service';
+import { ChatService } from './Services/chat.service';
 
 const appRoutes: Routes = [
     
@@ -57,7 +58,10 @@ const appRoutes: Routes = [
         path      : '**',
         redirectTo: 'sample'
     },
-  
+    // {
+    //     path      : '**',
+    //     redirectTo: 'apps/dashboards/analytics'
+    // } 
 ];
 
 @NgModule({
@@ -110,7 +114,8 @@ const appRoutes: Routes = [
         ReferenceService,
         OrderService,
         UserService,
-        ExportService
+        ExportService,
+        ChatService
     ]
 })
 export class AppModule

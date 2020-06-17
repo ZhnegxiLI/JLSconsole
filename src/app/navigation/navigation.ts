@@ -8,6 +8,53 @@ export const navigation: FuseNavigation[] = [
         type     : 'group',
         children : [
             {
+                id       : 'dashboards',
+                title    : 'Dashboards',
+                translate: 'NAV.DASHBOARDS',
+                type     : 'collapsable',
+                icon     : 'dashboard',
+                children : [
+                    {
+                        id   : 'analytics',
+                        title: 'Analytics',
+                        type : 'item',
+                        url  : '/apps/dashboards/analytics'
+                    },
+                    {
+                        id   : 'project',
+                        title: 'Project',
+                        type : 'item',
+                        url  : '/apps/dashboards/project'
+                    }
+                ]
+            },
+            {
+                id       : 'to-do',
+                title    : 'To-Do',
+                translate: 'NAV.TODO',
+                type     : 'item',
+                icon     : 'check_box',
+                url      : '/apps/todo',
+                badge    : {
+                    title: '3',
+                    bg   : '#FF6F00',
+                    fg   : '#FFFFFF'
+                }
+            },
+            {
+                id       : 'chat',
+                title    : 'Chat',
+                translate: 'NAV.Chat',
+                type     : 'item',
+                icon     : 'chat',
+                url      : '/apps/chat',
+                badge    : {
+                    title: '3',
+                    bg   : '#FF6F00',
+                    fg   : '#FFFFFF'
+                }
+            },
+            {
                 id : 'products-management',
                 title : 'Products Management',
                 translate : 'NAV.PRODUCTS_MANAGEMENT',

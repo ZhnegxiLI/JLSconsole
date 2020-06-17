@@ -10,6 +10,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 import { ToolbarComponent } from 'app/layout/components/toolbar/toolbar.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatBadgeModule } from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
         FuseSharedModule,
         FuseSearchBarModule,
         FuseShortcutsModule,
+        MatBadgeModule
     ],
     exports     : [
         ToolbarComponent,

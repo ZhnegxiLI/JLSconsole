@@ -17,6 +17,7 @@ import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import { ChatService } from 'app/Services/chat.service';
 
 @Component({
     selector     : 'toolbar',
@@ -35,6 +36,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
 
+    numberOfNewMessage: number;
     // Private
     private _unsubscribeAll: Subject<any>;
     private username :string;
@@ -52,10 +54,21 @@ export class ToolbarComponent implements OnInit, OnDestroy
         private _authService : AuthentificationService,
         private dialog: MatDialog,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private chatService: ChatService
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
         
+        this.chatService.noReadMessageSubject.subscribe(p=> {
+            if(p!=null && p.length>0){
+                p.map(x=> this.numberOfNewMessage = x.NumberOfNoReadMessage);
+            }
+            else {
+                this.numberOfNewMessage = 0;
+            }
+             
+        })
+
         this.username = localStorage.getItem('username');
         // Set the defaults
         this.userStatusOptions = [

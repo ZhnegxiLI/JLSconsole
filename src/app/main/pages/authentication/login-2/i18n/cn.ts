@@ -12,8 +12,12 @@ export const locale = {
             "ForgotPassword":"忘记密码",
             "Login":"登录",
             "DontHaveAccount":"还未拥有账户",
-            "CreateAnAccount":"创建一个账户"
-        }
+            "CreateAnAccount":"创建一个账户",
+        },
+        "Msg_AccountBloque":"账户已锁定",
+        "Msg_EmailNotValide":"邮箱尚未验证",
+        "Msg_PasswordNotCorrect":"用户密码不正确",
+        "Msg_Error":"当前操作出错，请稍后重试"
         }
     
 };

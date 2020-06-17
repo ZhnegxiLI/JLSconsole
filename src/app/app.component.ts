@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,10 @@ import { navigation } from 'app/navigation/navigation';
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationChinese } from 'app/navigation/i18n/cn';
 import { locale as navigationFrench } from 'app/navigation/i18n/fr';
+
+import { ChatService } from 'app/Services/chat.service';
+import { Message } from './Services/message';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app',
@@ -48,7 +52,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private _fuseSplashScreenService: FuseSplashScreenService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _platform: Platform
+        private _platform: Platform,
+        private chatService: ChatService, 
+        private _ngZone: NgZone,
+        private _snackBar: MatSnackBar
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -154,6 +161,31 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
+
+        // subscribe to message receiver 
+        this.chatService.messageReceived.subscribe((message: Message) => {
+            this._ngZone.run(() => {
+                message.type = "received";
+                /* Step 1: show a toast */
+                let snackBarRef = this._snackBar.open('Message archived', 'ok',{
+                    duration: 2000
+                  });
+                /* Step 2: show badge in an icon */
+
+                // todo change
+                console.log(message);
+            });
+        });    
+
+        // get not readed message 
+
+        this.chatService.GetNoReadedDialog({UserId: localStorage.getItem('userId')}).subscribe(p=>{
+            if(p!=null && p.length>0){
+                this.chatService.noReadMessageSubject.next(p);
+                localStorage.setItem('noReadMessage', JSON.stringify(p));
+            }
+        });
+
     }
 
     /**

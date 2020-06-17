@@ -18,7 +18,9 @@ export class UserService extends appServiceBase
 
     private apiUrlCheckUserIsAlreadyExistAsync = this.host + "api/User/CheckUserIsAlreadyExistAsync";
     
-
+    private apiUrlGetChatedUser = this.host +"admin/User/GetChatedUser";
+    private apiUrlGetChatDialog = this.host +"admin/User/GetChatDialog";
+    
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
@@ -37,6 +39,16 @@ export class UserService extends appServiceBase
     advancedUserSearch(criteria) : Observable<any>
     {
         return  super.postUrl(this.apiUrlAdvancedUserSearch, criteria );
+    }
+
+    GetChatedUser(criteria) : Observable<any>
+    {
+        return  super.getUrl(this.apiUrlGetChatedUser ,criteria);
+    }
+
+    GetChatDialog(criteria) : Observable<any>
+    {
+        return  super.getUrl(this.apiUrlGetChatDialog ,criteria);
     }
 
     getUserRoleList() : Observable<any>

@@ -28,9 +28,9 @@
             <button mat-button [matMenuTriggerFor]="userMenu"
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/admin.png">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>{{username}} </span>
-                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/admin.png" >
+                    <span [matBadge]="numberOfNewMessage" matBadgePosition="before" class="username mr-12" fxHide fxShow.gt-sm >{{username}} </span>
+                    <mat-icon  class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
             </button>
 
@@ -42,7 +42,7 @@
                 </button>
 
                 <button mat-menu-item class="">
-                    <mat-icon>mail</mat-icon>
+                    <mat-icon [matBadge]="numberOfNewMessage">mail</mat-icon>
                     <span>{{'TOOLBAR.INBOX' | translate}}</span>
                 </button>
 

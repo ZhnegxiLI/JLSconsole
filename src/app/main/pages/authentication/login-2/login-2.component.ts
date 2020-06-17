@@ -14,6 +14,7 @@ import { locale as english } from './i18n/en';
 import { locale as chinese } from './i18n/cn';
 import { locale as french } from './i18n/fr';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'login-2',
@@ -39,6 +40,7 @@ export class Login2Component implements OnInit {
         private router: Router,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _fuseProgressBarService: FuseProgressBarService,
+        private _translateService: TranslateService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -69,7 +71,7 @@ export class Login2Component implements OnInit {
      */
     ngOnInit(): void {
         if (localStorage.getItem('jwt') != null && localStorage.getItem('refreshToken') != null) {
-            this.router.navigate(['sample']);
+            this.router.navigate(['apps/dashboards/analytics']);
         }
         this.loginForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
@@ -91,7 +93,7 @@ export class Login2Component implements OnInit {
                 localStorage.setItem('expiration', data.authToken.expiration);
                 localStorage.setItem('userRole', data.authToken.roles);
                 localStorage.setItem('refreshToken', data.authToken.refresh_token);
-                this.router.navigate(['sample']);
+                this.router.navigate(['apps/dashboards/analytics']);
             }
             else{
                 this.matSnackBar.open("You don't have the permission", 'Ok', { // todo translate
@@ -105,12 +107,12 @@ export class Login2Component implements OnInit {
             error => {
                 console.log(error);
                 if(error.Body!=null && error.Body.LoginError!=null){
-                    this.matSnackBar.open(error.Body.LoginError, 'OK', { // todo translate
+                    this.matSnackBar.open( this._translateService.instant(error.Body.LoginError), 'OK', { 
                         duration: 2000
                     });
                 }
                 else{
-                    this.matSnackBar.open("Some error is occur, please try again", 'OK', { // todo translate
+                    this.matSnackBar.open(this._translateService.instant("Msg_Error") , 'OK', { 
                         duration: 2000
                     });
                 }
