@@ -29,7 +29,12 @@ export class ProjectDashboardComponent implements OnInit
     widget11: any = {};
 
     dateNow = Date.now();
+    teamMemberPerformance: any[] = [];
+    teamMemberPerformanceColumns: string[];
 
+    internalExternalPerformanceCount: any[] = [];
+    internalExternalPerformanceSum: any[] = [];
+    performanceByStatus: any[] = [];
     /**
      * Constructor
      *
@@ -157,6 +162,57 @@ export class ProjectDashboardComponent implements OnInit
         this.selectedProject = this.projects[0];
         this.widgets = this._projectDashboardService.widgets;
 
+        this.teamMemberPerformance = this._projectDashboardService.teamSalesPerformance;
+        if(this._projectDashboardService.teamSalesPerformance!=null && this._projectDashboardService.teamSalesPerformance.length>0){
+            this._projectDashboardService.teamSalesPerformance.map(user=>{
+                user.YearPerformance = 0;
+                user.MonthPerformance = 0;
+
+                var currentMonth =  new Date().getMonth() + 1;
+                var currentYear =  new Date().getFullYear();
+                if(user.Performance!=null && user.Performance.length>0){
+                    user.Performance.map(performance=>{
+                        // Month performance
+                        if(performance.Year == currentYear && performance.Month == currentMonth){
+                            user.MonthPerformance = performance.Sum;
+                        }
+                        // Year Performance
+                        user.YearPerformance = user.YearPerformance + performance.Sum;
+
+                    });
+                }
+            })
+        }
+        this.teamMemberPerformanceColumns = ['Username', 'CreatedOn', 'MonthPerformance', 'YearPerformance' ];
+        
+     ;
+        if( this._projectDashboardService.internalExternalPerformance!=null &&  this._projectDashboardService.internalExternalPerformance.length>0){
+            this.internalExternalPerformanceCount = [];
+            this._projectDashboardService.internalExternalPerformance.map(p=>{
+                this.internalExternalPerformanceCount.push({
+                    name: p.Label,
+                    value: p.OrderCount!=null? p.OrderCount : 0
+                });
+            });
+            this.internalExternalPerformanceSum = [];
+            this._projectDashboardService.internalExternalPerformance.map(p=>{
+                this.internalExternalPerformanceSum.push({
+                    name: p.Label,
+                    value: p.OrderSum!=null?  p.OrderSum:0
+                })
+            });
+        }
+
+        if(this._projectDashboardService.performanceByStatus!=null &&  this._projectDashboardService.performanceByStatus.length>0){
+            this._projectDashboardService.performanceByStatus.map(p=>{
+                this.performanceByStatus.push({
+                    name: p.Label,
+                    value: p.OrderCount!=null?  p.OrderCount:0
+                })
+            });
+           
+        }
+        
         /**
          * Widget 11
          */

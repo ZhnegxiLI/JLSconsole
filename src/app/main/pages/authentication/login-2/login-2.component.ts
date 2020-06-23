@@ -71,7 +71,7 @@ export class Login2Component implements OnInit {
      */
     ngOnInit(): void {
         if (localStorage.getItem('jwt') != null && localStorage.getItem('refreshToken') != null) {
-            this.router.navigate(['apps/dashboards/analytics']);
+            this.router.navigate(['apps/dashboards/project']);
         }
         this.loginForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],

@@ -7,6 +7,8 @@ export const locale = {
                 'TITLE': 'Sample',
                 'BADGE': '25'
             },
+            'DASHBOARDS':'Dashboards',
+            'INBOX': 'Message',
             'ORDER_DETAIL':'Détails de la commande',
             'ORDERS' : 'Commandes',
             'PRODUCTS' : 'List des produits',

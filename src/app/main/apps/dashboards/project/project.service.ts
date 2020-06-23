@@ -1,23 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { appServiceBase } from 'app/app.service';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
-export class ProjectDashboardService implements Resolve<any>
+export class ProjectDashboardService extends appServiceBase  implements Resolve<any>
 {
+
     projects: any[];
     widgets: any[];
-
+    teamSalesPerformance: any[];
+    internalExternalPerformance: any[];
+    performanceByStatus: any[];
+    
+    private apiUrlGetInternalExternalSalesPerformance = this.host + "admin/Analytics/GetInternalExternalSalesPerformance";
+    private apiUrlGetTeamMemberSalesPerformance = this.host + "admin/Analytics/GetTeamMemberSalesPerformance";
+    
+    private apiUrlGetSalesPerformanceByStatus = this.host + "admin/Analytics/GetSalesPerformanceByStatus";
     /**
      * Constructor
      *
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        private _httpClient: HttpClient,
+        protected _matSnackBar: MatSnackBar,
+        protected _router : Router
     )
     {
+        super(_httpClient,_matSnackBar,_router);
     }
 
     /**
@@ -34,7 +47,10 @@ export class ProjectDashboardService implements Resolve<any>
 
             Promise.all([
                 this.getProjects(),
-                this.getWidgets()
+                this.getWidgets(),
+                this.GetTeamMemberSalesPerformance(),
+                this.GetInternalExternalSalesPerformance(),
+                this.GetSalesPerformanceByStatus()
             ]).then(
                 () => {
                     resolve();
@@ -43,6 +59,42 @@ export class ProjectDashboardService implements Resolve<any>
             );
         });
     }
+
+    GetTeamMemberSalesPerformance(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(this.apiUrlGetTeamMemberSalesPerformance)
+                .subscribe((response: any) => {
+                    this.teamSalesPerformance = response;
+                    resolve(response);
+                }, reject);
+        });
+    }
+    GetInternalExternalSalesPerformance(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            
+            super.getUrl(this.apiUrlGetInternalExternalSalesPerformance, { Lang : localStorage.getItem('Lang')})
+                .subscribe((response: any) => {
+                    this.internalExternalPerformance = response;
+                    resolve(response);
+                }, reject);
+        });
+    }
+    
+    GetSalesPerformanceByStatus(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            
+            super.getUrl(this.apiUrlGetSalesPerformanceByStatus, { Lang : localStorage.getItem('Lang')})
+                .subscribe((response: any) => {
+                    this.performanceByStatus = response;
+                    resolve(response);
+                }, reject);
+        });
+    }
+    
+    
 
     /**
      * Get projects

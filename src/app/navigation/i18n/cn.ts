@@ -7,6 +7,8 @@ export const locale = {
                 'TITLE': '样本',
                 'BADGE': '15'
             },
+            'DASHBOARDS':'仪表盘',
+            'INBOX': '信息',
             'ORDER_DETAIL':'订单详情',
             'ORDERS' : '订单列表',
             'PRODUCT_DETAIL' : '商品详情',

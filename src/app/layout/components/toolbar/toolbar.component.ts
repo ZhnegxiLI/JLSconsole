@@ -59,16 +59,6 @@ export class ToolbarComponent implements OnInit, OnDestroy
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
         
-        this.chatService.noReadMessageSubject.subscribe(p=> {
-            if(p!=null && p.length>0){
-                p.map(x=> this.numberOfNewMessage = x.NumberOfNoReadMessage);
-            }
-            else {
-                this.numberOfNewMessage = 0;
-            }
-             
-        })
-
         this.username = localStorage.getItem('username');
         // Set the defaults
         this.userStatusOptions = [
@@ -143,6 +133,16 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
+
+        this.chatService.noReadMessageSubject.subscribe(p=> {
+            if(p!=null && p.length>0){
+                p.map(x=> this.numberOfNewMessage = x.NumberOfNoReadMessage);
+            }
+            else {
+                this.numberOfNewMessage = 0;
+            }
+             
+        })
     }
 
     /**

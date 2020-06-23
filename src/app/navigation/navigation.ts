@@ -14,12 +14,7 @@ export const navigation: FuseNavigation[] = [
                 type     : 'collapsable',
                 icon     : 'dashboard',
                 children : [
-                    {
-                        id   : 'analytics',
-                        title: 'Analytics',
-                        type : 'item',
-                        url  : '/apps/dashboards/analytics'
-                    },
+               
                     {
                         id   : 'project',
                         title: 'Project',
@@ -29,30 +24,12 @@ export const navigation: FuseNavigation[] = [
                 ]
             },
             {
-                id       : 'to-do',
-                title    : 'To-Do',
-                translate: 'NAV.TODO',
-                type     : 'item',
-                icon     : 'check_box',
-                url      : '/apps/todo',
-                badge    : {
-                    title: '3',
-                    bg   : '#FF6F00',
-                    fg   : '#FFFFFF'
-                }
-            },
-            {
                 id       : 'chat',
                 title    : 'Chat',
-                translate: 'NAV.Chat',
+                translate: 'NAV.INBOX',
                 type     : 'item',
                 icon     : 'chat',
                 url      : '/apps/chat',
-                badge    : {
-                    title: '3',
-                    bg   : '#FF6F00',
-                    fg   : '#FFFFFF'
-                }
             },
             {
                 id : 'products-management',
@@ -136,20 +113,20 @@ export const navigation: FuseNavigation[] = [
                     }
                 ]
             },
-            {
-                id       : 'sample',
-                title    : 'Sample',
-                translate: 'NAV.SAMPLE.TITLE',
-                type     : 'item',
-                icon     : 'email',
-                url      : '/sample',
-                badge    : {
-                    title    : '25',
-                    translate: 'NAV.SAMPLE.BADGE',
-                    bg       : '#F44336',
-                    fg       : '#FFFFFF'
-                }
-            }      
+            // {
+            //     id       : 'sample',
+            //     title    : 'Sample',
+            //     translate: 'NAV.SAMPLE.TITLE',
+            //     type     : 'item',
+            //     icon     : 'email',
+            //     url      : '/sample',
+            //     badge    : {
+            //         title    : '25',
+            //         translate: 'NAV.SAMPLE.BADGE',
+            //         bg       : '#F44336',
+            //         fg       : '#FFFFFF'
+            //     }
+            // }      
         ]
     }
 ];

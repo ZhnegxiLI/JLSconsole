@@ -1214,24 +1214,13 @@ export class ProjectDashboardDb
             'mainChart': [
                 {
                     'name' : 'Wireframing',
-                    'value': 12
+                    'value': 51
                 },
                 {
                     'name' : 'Design',
-                    'value': 17
+                    'value': 89
                 },
-                {
-                    'name' : 'Coding',
-                    'value': 28
-                },
-                {
-                    'name' : 'Marketing',
-                    'value': 25
-                },
-                {
-                    'name' : 'Extra',
-                    'value': 15
-                }
+       
             ]
         },
         'widget9'      : {
@@ -1785,7 +1774,7 @@ export class ProjectDashboardDb
         'widget11'     : {
             'title': 'Team Members',
             'table': {
-                'columns': ['avatar', 'name', 'position', 'office', 'email', 'phone'],
+                'columns': [ 'name', 'position', 'office', 'email', 'phone'],
                 'rows'   : [
                     {
                         avatar  : 'assets/images/avatars/james.jpg',

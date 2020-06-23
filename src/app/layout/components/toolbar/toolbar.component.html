@@ -36,12 +36,9 @@
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
-                <button mat-menu-item>
-                    <mat-icon>account_circle</mat-icon>
-                    <span>{{'TOOLBAR.MYPROFILE' | translate}}</span>
-                </button>
+       
 
-                <button mat-menu-item class="">
+                <button mat-menu-item class="" routerLink="apps/chat">
                     <mat-icon [matBadge]="numberOfNewMessage">mail</mat-icon>
                     <span>{{'TOOLBAR.INBOX' | translate}}</span>
                 </button>

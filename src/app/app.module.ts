@@ -56,7 +56,8 @@ const appRoutes: Routes = [
     },
     {
         path      : '**',
-        redirectTo: 'sample'
+        loadChildren: './main/apps/apps.module#AppsModule',
+        canActivate: [AuthGuard]
     },
     // {
     //     path      : '**',
