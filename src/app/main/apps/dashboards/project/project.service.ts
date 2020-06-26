@@ -14,11 +14,17 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
     teamSalesPerformance: any[];
     internalExternalPerformance: any[];
     performanceByStatus: any[];
+
+    salesPerformancePerYearAndMonth: any[];
+    recentOrdeInfo: any[];
     
+    private apiUrlGetSalesPerformanceByYearMonth = this.host +"admin/Analytics/GetSalesPerformanceByYearMonth";
     private apiUrlGetInternalExternalSalesPerformance = this.host + "admin/Analytics/GetInternalExternalSalesPerformance";
     private apiUrlGetTeamMemberSalesPerformance = this.host + "admin/Analytics/GetTeamMemberSalesPerformance";
     
     private apiUrlGetSalesPerformanceByStatus = this.host + "admin/Analytics/GetSalesPerformanceByStatus";
+    private apiUrlGetRecentOrderInfo = this.host +"admin/Analytics/GetRecentOrderInfo";
+
     /**
      * Constructor
      *
@@ -50,7 +56,9 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
                 this.getWidgets(),
                 this.GetTeamMemberSalesPerformance(),
                 this.GetInternalExternalSalesPerformance(),
-                this.GetSalesPerformanceByStatus()
+                this.GetSalesPerformanceByStatus(),
+                this.GetSalesPerformanceByYearMonth(),
+                this.GetRecentOrderInfo()
             ]).then(
                 () => {
                     resolve();
@@ -70,6 +78,31 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
                 }, reject);
         });
     }
+    GetRecentOrderInfo(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            
+            super.getUrl(this.apiUrlGetRecentOrderInfo,{ Lang : localStorage.getItem('Lang')})
+                .subscribe((response: any) => {
+                    this.recentOrdeInfo = response;
+                    resolve(response);
+                }, reject);
+        });
+    }
+    
+    GetSalesPerformanceByYearMonth(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            
+            super.getUrl(this.apiUrlGetSalesPerformanceByYearMonth,null)
+                .subscribe((response: any) => {
+                    this.salesPerformancePerYearAndMonth = response;
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+
     GetInternalExternalSalesPerformance(): Promise<any>
     {
         return new Promise((resolve, reject) => {
