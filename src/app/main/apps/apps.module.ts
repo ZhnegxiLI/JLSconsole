@@ -28,6 +28,10 @@ const routes = [
     {
         path: 'errors',
         loadChildren: './errors/errors.module#ErrorsModule'
+    },
+    {
+        path: '',
+        loadChildren: './dashboards/project/project.module#ProjectDashboardModule'
     }
 ];
 

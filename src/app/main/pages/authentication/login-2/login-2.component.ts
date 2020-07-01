@@ -71,7 +71,7 @@ export class Login2Component implements OnInit {
      */
     ngOnInit(): void {
         if (localStorage.getItem('jwt') != null && localStorage.getItem('refreshToken') != null) {
-            this.router.navigate(['apps/dashboards/project']);
+            this.router.navigate(['apps']);
         }
         this.loginForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
@@ -93,7 +93,7 @@ export class Login2Component implements OnInit {
                 localStorage.setItem('expiration', data.authToken.expiration);
                 localStorage.setItem('userRole', data.authToken.roles);
                 localStorage.setItem('refreshToken', data.authToken.refresh_token);
-                this.router.navigate(['apps/dashboards/analytics']);
+                this.router.navigate(['apps']);
             }
             else{
                 this.matSnackBar.open("You don't have the permission", 'Ok', { // todo translate
