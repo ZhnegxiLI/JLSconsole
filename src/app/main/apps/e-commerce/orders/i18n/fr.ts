@@ -17,7 +17,8 @@ export const locale = {
             'OrderUserName':'Identifiant',
             'TOTAL_PRICE': 'Prix total',
             'Status':'Statut',
-            'Type':'Type'
+            'Type':'Type',
+            'Export': 'Export'
         }
     }
 };

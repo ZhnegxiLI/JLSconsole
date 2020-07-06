@@ -17,7 +17,7 @@ export const locale = {
             'Status':'Statut',
             'Search':'Recherche',
             "Msg_AddProductIntoCart":"Produit ajouté au panier",
-
+            'Export': 'Export'
         }
     }
 };

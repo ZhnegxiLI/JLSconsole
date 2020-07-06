@@ -17,6 +17,7 @@ export const locale = {
             'Status':'状态',
             'Search':'搜索',
             "Msg_AddProductIntoCart":"商品已添加至购物车",
+            'Export': '导出商品'
         }
     }
 };

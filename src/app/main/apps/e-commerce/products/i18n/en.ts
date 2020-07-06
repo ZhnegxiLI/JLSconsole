@@ -17,6 +17,7 @@ export const locale = {
             'Status':'Status',
             'Search':'Search',
             "Msg_AddProductIntoCart":"Product added to cart",
+            'Export': 'Export'
 
         }
     }

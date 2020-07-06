@@ -17,7 +17,8 @@ export const locale = {
             'OrderUserName':'用户名',
             'TOTAL_PRICE': '总价',
             'Status':'状态',
-            'Type':'类别'
+            'Type':'类别',
+            'Export': '导出订单'
         }
     }
 };

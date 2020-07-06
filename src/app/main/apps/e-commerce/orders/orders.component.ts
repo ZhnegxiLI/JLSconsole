@@ -20,6 +20,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'app/Services/user.service';
 import { FuseProgressBarService } from '@fuse/components/progress-bar/progress-bar.service';
 import { ExportService } from 'app/Services/export.service';
+import { MatSnackBar } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector     : 'e-commerce-orders',
@@ -69,6 +71,7 @@ export class EcommerceOrdersComponent implements OnInit
     sort: MatSort;
 
     constructor(
+        private datePipe: DatePipe,
         private referenceService : ReferenceService,
         private productService : ProductService,
         private orderService : OrderService,
@@ -76,7 +79,8 @@ export class EcommerceOrdersComponent implements OnInit
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _fuseProgressBarService: FuseProgressBarService,
-        private exportService: ExportService
+        private exportService: ExportService,
+        private _matSnackBar: MatSnackBar,
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);
@@ -173,17 +177,32 @@ export class EcommerceOrdersComponent implements OnInit
                 Lang: this._translateService.currentLang
             }
         ).subscribe(result=>{
-            if(result!=null && result.OrderList !=null && result.TotalCount != null){
-                this.orderList = result.OrderList;
-                this.totalCount = result.TotalCount;
-                console.log(this.orderList);
-            }
+            var DatetimeFormat = this.datePipe.transform(Date.now(),'yyyy-MM-dd_HHmmss');
+            this.SaveExcel(result, 'Orders_'+DatetimeFormat);
+            this._fuseProgressBarService.hide();
+
+            this.search();
+
             this._fuseProgressBarService.hide();
         },
         error=>{
-            //todo 
+            this._matSnackBar.open(this._translateService.instant('products.SomeErrorsOccur'), 'OK', { // todo translate
+                duration: 2000,
+                verticalPosition: 'bottom'
+            });
+            this._fuseProgressBarService.hide();
         })
     }
+
+    SaveExcel(data: Blob, name: string) {
+        const a = document.createElement('a');
+        // tslint:disable-next-line: quotemark
+        // tslint:disable-next-line: object-literal-key-quotes
+        const blob = new Blob([data], { 'type': 'application/vnd.ms-excel' });
+        a.href = URL.createObjectURL(blob);
+        a.download = name + '.xlsx';
+        a.click();
+      }
 
     saveSearchCriteria(){
         localStorage.setItem('OrderCriteria', JSON.stringify(this.searchCriteria));
