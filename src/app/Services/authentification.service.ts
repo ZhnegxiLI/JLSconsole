@@ -39,7 +39,7 @@ export class AuthentificationService extends appServiceBase {
         // Set Loginstatus to false and delete saved jwt cookie
         this.loginStatus.next(false);
         localStorage.clear();
-        this.router.navigate(['login']);
+        this.router.navigate(['pages']);
         console.log("Logged Out Successfully");
         return;
 
