@@ -181,7 +181,6 @@ export class EcommerceProductsComponent implements OnInit {
                 this.productList = result.ProductList;
                 this.totalCount = result.TotalCount;
 
-                console.log(this.productList);
                 this._fuseProgressBarService.hide();
             }
 
@@ -236,8 +235,7 @@ export class EcommerceProductsComponent implements OnInit {
     }
 
     sortData(event) {
-        // todo implement the logic 
-        console.log(event);
+        
     }
 
     saveCriteria() {

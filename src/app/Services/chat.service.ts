@@ -165,12 +165,11 @@ export class ChatService extends appServiceBase
             .start()
             .then(() => {
                 this.connectionIsEstablished = true;
-                console.log('Hub connection started');
+           
                 this.connectionEstablished.emit(true);
             })
             .catch(err => {
-                console.log('Error while establishing connection, retrying...');
-                setTimeout(function () { this.startConnection(); }, 5000);
+                setTimeout(function () { this.startConnection(); }, 50000);
             }); 
     }
 

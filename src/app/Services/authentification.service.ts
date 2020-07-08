@@ -40,7 +40,7 @@ export class AuthentificationService extends appServiceBase {
         this.loginStatus.next(false);
         localStorage.clear();
         this.router.navigate(['pages']);
-        console.log("Logged Out Successfully");
+   
         return;
 
     }
