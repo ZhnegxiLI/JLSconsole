@@ -162,7 +162,7 @@
                                     </div>
 
                                     <img *ngIf="imgURL" [src]="imgURL">
-                                    <input hidden #imgFileInput type="file" accept="image/png"
+                                    <input hidden #imgFileInput type="file" accept="image/*"
                                         (change)="uploadImage($event.target.files)">
                                 </div>
                             </div>
