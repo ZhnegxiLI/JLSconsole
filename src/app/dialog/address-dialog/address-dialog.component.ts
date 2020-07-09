@@ -50,8 +50,6 @@ export class AddressDialog implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data.Type);
-    console.log(this.data.Address);
     this.adreeForm.setValue(this.data.Address);
 
   }
@@ -62,7 +60,6 @@ export class AddressDialog implements OnInit {
 
 
   save(){
-    console.log(this.adreeForm.value);
     this.dialogRef.close({Address: this.adreeForm.value, Type: this.data.Type});
   }
 

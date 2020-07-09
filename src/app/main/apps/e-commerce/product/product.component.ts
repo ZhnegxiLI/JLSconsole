@@ -150,7 +150,6 @@ export class EcommerceProductComponent implements OnInit {
             this.productId = params['Id'];
             this.previousView = params['View'];
 
-            console.log("previous view:" + this.previousView);
             if (this.productId != null && this.productId != 0) {
                 // todo new product 
                 this.getProdudctData();
@@ -166,7 +165,7 @@ export class EcommerceProductComponent implements OnInit {
     getProdudctData() {
 
         this.productService.GetProductById(this.productId).subscribe(result => {
-            console.log(result);
+          
             this.productInfo = result;
             if (result != null) {
                 this.productName = this.getDefaultProductName();
@@ -196,7 +195,7 @@ export class EcommerceProductComponent implements OnInit {
                 this.productForm.patchValue(result);
             }
 
-            console.log(this.productForm.value);
+           
         },
             error => {
 
@@ -241,8 +240,6 @@ export class EcommerceProductComponent implements OnInit {
                 this.mainCategoryList = result.filter(p => p.ReferenceCategoryLabel == "MainCategory");
                 this.taxRateList = result.filter(p => p.ReferenceCategoryLabel == "TaxRate");
 
-                console.log(this.mainCategoryList); // todo remove
-                console.log(this.taxRateList); // todo remove
             }
         },
             error => {
@@ -252,7 +249,7 @@ export class EcommerceProductComponent implements OnInit {
 
 
     uploadImage(file) {
-        console.log(file);
+  
 
         if (file.length == 0) {
             return;
@@ -269,14 +266,14 @@ export class EcommerceProductComponent implements OnInit {
             .subscribe(event => {
                 if (event.type === HttpEventType.UploadProgress) {
                     this.progress = Math.round(100 * event.loaded / event.total);
-                    console.log(this.progress)
+               
                 }
                 else if (event.type === HttpEventType.Response) {
                     this._matSnackBar.open(this._translateService.instant('PRODUCT.Msg_UploadSuccess'), 'OK', {
                         duration: 2000
                     });
                     this.getImagePath();
-                    console.log("upload successfully");// todo change 
+         
                 }
                 this.saveLoading = false;
             },
@@ -291,7 +288,6 @@ export class EcommerceProductComponent implements OnInit {
     }
 
     openImageViewDialog(image) {
-        console.log(image);
 
         const dialogRef = this.dialog.open(ImageOverViewDialog, {
 
@@ -314,7 +310,7 @@ export class EcommerceProductComponent implements OnInit {
                 });
                 this.photoPath = result;
                 this._fuseProgressBarService.hide();
-                console.log(this.photoPath);
+              
             }
         },
             error => {
@@ -333,7 +329,6 @@ export class EcommerceProductComponent implements OnInit {
     }
 
     saveProduct() {
-        console.log(this.productForm.value);
         this._fuseProgressBarService.show();
         var criteria = this.productForm.value;
         criteria.CreatedOrUpdatedBy = localStorage.getItem('userId');
@@ -367,7 +362,7 @@ export class EcommerceProductComponent implements OnInit {
     }
 
     ModifyProductEvaluation(ProductEvaluation){
-        console.log(ProductEvaluation);
+       
 
         const dialogRef = this.dialog.open(ProductEvaluationDialog, {
 

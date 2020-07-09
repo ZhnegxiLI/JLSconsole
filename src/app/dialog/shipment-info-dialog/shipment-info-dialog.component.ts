@@ -47,7 +47,6 @@ export class ShipmentInfoDialogComponent implements OnInit {
   }
 
   save() {
-    console.log(this.shipmentForm.value);
     this.dialogRef.close({ ShipmentInfo: this.shipmentForm.value });
   }
 

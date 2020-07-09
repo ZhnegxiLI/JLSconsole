@@ -91,8 +91,7 @@ export class ReferenceCategoryComponent implements OnInit
     }
 
     ShowCategoryDialog(categoryDetail: any){
-      console.log(categoryDetail);
-      // todo create or modify (only internal function)
+   
     }
 
     crateNewCategory(){

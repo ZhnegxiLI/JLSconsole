@@ -93,7 +93,7 @@ export class EcommerceOrderComponent implements OnInit {
                 this.urlReturnView = '/apps/e-commerce/orders';
                 // Orders page come into
                 this.orderId = params['Id'] != null && params['Id'] != 0 ? params['Id'] : 0;
-                console.log(this.orderId);
+
                 if (this.orderId != 0) {
                     this.initLoadData();
                 }
@@ -118,7 +118,7 @@ export class EcommerceOrderComponent implements OnInit {
                 ShortLabels: ['OrderStatus', 'TaxRate']
             }).subscribe(result => {
                 if (result != null) {
-                    console.log(result);
+
                     this.statusList = result.filter(p => p.ReferenceCategoryLabel == 'OrderStatus' && p.Validity == true);
                     this.taxRateList = result.filter(p => p.ReferenceCategoryLabel == 'TaxRate' && p.Validity == true);
                     if (this.orderId == 0) {
@@ -140,7 +140,6 @@ export class EcommerceOrderComponent implements OnInit {
     }
 
     private UpdateProductPriceQuantity(product) {
-        console.log(product);
 
         const dialogRef = this.dialog.open(ModifyProductPriceDialogComponent, { // todo change
             data: {
@@ -149,7 +148,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+
             if (result != null) {
                 product = result.Product;
             }
@@ -166,8 +165,6 @@ export class EcommerceOrderComponent implements OnInit {
     }
 
     ModifyCustomerInfo() {
-        console.log(this.order.CustomerInfo);
-
         const dialogRef = this.dialog.open(CustomerInfoDialogComponent, { // todo change
             data: {
                 CustomerInfo: this.order.CustomerInfo
@@ -175,7 +172,6 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
             if (result != null) {
                 this.order.CustomerInfo = result.CustomerInfo;
             }
@@ -234,7 +230,7 @@ export class EcommerceOrderComponent implements OnInit {
                     localStorage.removeItem('cart'); // remove cart after the order is created
                 }
 
-         
+
 
                 //this.initLoadData();
                 this.router.navigate(['apps/e-commerce/orders']); // todo
@@ -303,7 +299,7 @@ export class EcommerceOrderComponent implements OnInit {
 
 
                 this.title = this.translationService.instant('order.OrderNumber') + ' ' + this.orderId; // todo translation
-                console.log(this.order);
+             
             }
             this.Loading = false;
         },
@@ -318,7 +314,7 @@ export class EcommerceOrderComponent implements OnInit {
             ShortLabels: ['Country']
         }).subscribe(result => {
             if (result != null) {
-                console.log(result);
+        
                 this.countryList = result.filter(p => p.Validity == true);
             }
         },
@@ -332,7 +328,7 @@ export class EcommerceOrderComponent implements OnInit {
 
 
     modifyAddress(addressType) {
-        console.log(addressType);
+     
         var addressData = null;
         if (addressType == 'InvoiceAddress') {
             if (this.order.FacturationAdress == null) {
@@ -358,7 +354,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+           
             if (result != null) {
                 if (result.Type != null) {
                     if (result.Type == 'ShippingAddress') {
@@ -425,7 +421,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+    
             if (result != null) {
                 this.order.ShipmentInfo = result.ShipmentInfo;
             }

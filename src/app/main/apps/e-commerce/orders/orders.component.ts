@@ -108,7 +108,7 @@ export class EcommerceOrdersComponent implements OnInit
             ShortLabels:['OrderStatus']
         }).subscribe(result=>{
             if(result!=null){
-                console.log(result);
+           
                 this.statusList = result;
             }
         },
@@ -118,7 +118,7 @@ export class EcommerceOrdersComponent implements OnInit
 
         this.userService.getUserListByRole(['Client','Admin']).subscribe(result=>{
             if(result!=null){
-                console.log(result);
+             
                 this.userList = result;
             }
         },
@@ -158,7 +158,7 @@ export class EcommerceOrdersComponent implements OnInit
             if(result!=null && result.OrderList !=null && result.TotalCount != null){
                 this.orderList = result.OrderList;
                 this.totalCount = result.TotalCount;
-                console.log(this.orderList);
+      
             }
             this._fuseProgressBarService.hide();
         },
