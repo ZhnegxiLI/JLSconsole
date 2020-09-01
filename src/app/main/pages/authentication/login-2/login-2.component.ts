@@ -105,6 +105,7 @@ export class Login2Component implements OnInit {
             this._fuseProgressBarService.hide();
         },
             error => {
+                console.log(error);
                 if(error.Body!=null && error.Body.LoginError!=null){
                     this.matSnackBar.open( this._translateService.instant(error.Body.LoginError), 'OK', { 
                         duration: 2000

@@ -87,6 +87,7 @@ export class UsersComponent implements OnInit {
   }
 
   search(){
+    console.log(this.searchCriteria);
     this._fuseProgressBarService.show();
     this.userService.advancedUserSearch(this.searchCriteria).subscribe(result=>{
       // Only the super admin can view the account of super admin
@@ -94,7 +95,7 @@ export class UsersComponent implements OnInit {
         if(localStorage.getItem('userRole')!=null && localStorage.getItem('userRole')=='SuperAdmin'){
           this.userList = result.UserList;
           this.totalCount = result.TotalCount;
-       
+          console.log(this.userList)
         }
         else{
           // admin can only modify himself and client
@@ -116,11 +117,12 @@ export class UsersComponent implements OnInit {
   }
 
   sortData(event){
-
+    //todo
+    console.log(event);
   }
 
   insertOrUpdateUser(userId){
-
+    console.log(userId);
 
     var filterUserRoleList = this.userRoleList.filter(p=>p.Name != 'SuperAdmin');
     const dialogRef = this.dialog.open(UserDialog, {
@@ -129,7 +131,7 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     
+      console.log(result);
       if(result!=null && result.IsSaved!=null&& result.IsSaved == true){
         this.search();
       }
@@ -198,7 +200,7 @@ export class UserDialog {
     
     if(this.data.userId !=0){
       this.userService.GetUserById({UserId : this.data.userId}).subscribe(result=>{
-    
+        console.log(result);
         if(result!=null){
           this.userForm.controls['Email'].setValue(result.Email);
           this.userForm.controls['Email'].disable();
@@ -262,6 +264,7 @@ export class UserDialog {
      this.loading = false
     },
     error=>{
+      console.log(error);
 
       this._matSnackBar.open(this._translateService.instant('users.ActionFail'), 'OK', { 
         duration        : 2000

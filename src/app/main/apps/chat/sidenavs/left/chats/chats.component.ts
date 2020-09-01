@@ -155,6 +155,6 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy {
      * Logout
      */
     logout(): void {
-    
+        console.log('logout triggered');
     }
 }

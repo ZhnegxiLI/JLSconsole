@@ -147,6 +147,7 @@ export class ReferenceItemsComponent implements OnInit
     }
 
     updateOrCreateReferenceItem(item){
+        console.log(item);
 
         const dialogRef = this.dialog.open(ItemDialog, {
             width: '600px',
@@ -154,7 +155,7 @@ export class ReferenceItemsComponent implements OnInit
         });
     
         dialogRef.afterClosed().subscribe(result => {
-        
+          console.log(result);
           if(result!=null && result.IsSaved!=null&& result.IsSaved == true){
             this.search();
             this.getParentReferenceItemList();
@@ -216,7 +217,7 @@ export class ReferenceItemsComponent implements OnInit
       }
   
     ngOnInit() {
-    
+        console.log(this.data.referenceItem);
         this.itemInfo = this.data.referenceItem;
         this.getFormatedTranslation();
         this.getParentCateogryId();

@@ -170,6 +170,10 @@ export class AppComponent implements OnInit, OnDestroy {
                 let snackBarRef = this._snackBar.open('Message archived', 'ok',{
                     duration: 2000
                   });
+                /* Step 2: show badge in an icon */
+
+                // todo change
+                console.log(message);
             });
         });    
 

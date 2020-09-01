@@ -54,6 +54,9 @@ export class CartComponent implements OnInit {
         ReferenceIds: this.getProductReferenceIdList(cartObject),
         Lang: this._translateService.currentLang
       }).subscribe(result => {
+        console.log(this.cartProductList);
+        console.log(result);
+
         this.mapQuantityForNewInfomation(result);
       },
         error => {
@@ -62,30 +65,31 @@ export class CartComponent implements OnInit {
 
     }
 
+    console.log(this.cartProductList);
   }
 
-  getTaxRate() {
+  getTaxRate(){
     var criteria = {
-      ShortLabels: ['TaxRate'],
-      Lang: this._translateService.currentLang
+      ShortLabels : ['TaxRate'],
+      Lang : this._translateService.currentLang
     }
-    this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result => {
-      if (result != null && result.length > 0) {
+    this.referenceService.getReferenceItemsByCategoryLabels(criteria).subscribe(result=>{
+      if(result!=null && result.length>0){
         //Take the first tax rate 
-        this.taxRate = result[0].Value * 0.01; //TaxRate: %
+        this.taxRate = result[0].Value *0.01; //TaxRate: %
       }
     },
-      error => {
-        // todo
-      })
+    error=>{
+      // todo
+    })
   }
 
   ValideOrder() {
 
   }
 
-  checkInput(event) {
-
+  checkInput(event){
+    console.log(event)
   }
 
   mapQuantityForNewInfomation(newResult) {
@@ -114,7 +118,7 @@ export class CartComponent implements OnInit {
   }
 
   quantityChange(product) {
-    if (product.Quantity < product.MinQuantity) {
+    if(product.Quantity < product.MinQuantity){
       product.Quantity = product.MinQuantity;
     }
 
@@ -123,10 +127,10 @@ export class CartComponent implements OnInit {
     }
   }
 
-  calculBasicTotalPrice() {
+  calculBasicTotalPrice(){
     var TotalPrice = 0;
-    this.cartProductList.forEach(p => {
-      if (p.Quantity != null && p.Price != null) {
+    this.cartProductList.forEach(p=>{
+      if(p.Quantity!=null && p.Price!=null){
         TotalPrice = TotalPrice + p.Quantity * p.Price;
       }
     });
@@ -143,13 +147,13 @@ export class CartComponent implements OnInit {
     this.quantityChange(product);
   }
   DeleteFromCart(product, event) {
-
+    console.log(product);
 
     const dialogRef = this.dialog.open(ConfimDialog, {
       data: {
-        title: this._translateService.instant('CART.Msg_TitleRemoveProductInCart'),
+        title: this._translateService.instant('CART.Msg_TitleRemoveProductInCart'), 
         message: this._translateService.instant('CART.Msg_RemoveProductInCart')
-      }
+      } 
     });
 
     dialogRef.afterClosed().subscribe(result => {

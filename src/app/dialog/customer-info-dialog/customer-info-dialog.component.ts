@@ -46,6 +46,7 @@ export class CustomerInfoDialogComponent implements OnInit {
   }
 
   save() {
+    console.log(this.customerForm.value);
     this.dialogRef.close({ CustomerInfo: this.customerForm.value });
   }
 }

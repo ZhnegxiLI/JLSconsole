@@ -93,7 +93,7 @@ export class EcommerceOrderComponent implements OnInit {
                 this.urlReturnView = '/apps/e-commerce/orders';
                 // Orders page come into
                 this.orderId = params['Id'] != null && params['Id'] != 0 ? params['Id'] : 0;
-
+                console.log(this.orderId);
                 if (this.orderId != 0) {
                     this.initLoadData();
                 }
@@ -118,7 +118,7 @@ export class EcommerceOrderComponent implements OnInit {
                 ShortLabels: ['OrderStatus', 'TaxRate']
             }).subscribe(result => {
                 if (result != null) {
-
+                    console.log(result);
                     this.statusList = result.filter(p => p.ReferenceCategoryLabel == 'OrderStatus' && p.Validity == true);
                     this.taxRateList = result.filter(p => p.ReferenceCategoryLabel == 'TaxRate' && p.Validity == true);
                     if (this.orderId == 0) {
@@ -148,7 +148,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-
+            console.log(result);
             if (result != null) {
                 product = result.Product;
             }
@@ -165,6 +165,8 @@ export class EcommerceOrderComponent implements OnInit {
     }
 
     ModifyCustomerInfo() {
+        console.log(this.order.CustomerInfo);
+
         const dialogRef = this.dialog.open(CustomerInfoDialogComponent, { // todo change
             data: {
                 CustomerInfo: this.order.CustomerInfo
@@ -172,6 +174,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
             if (result != null) {
                 this.order.CustomerInfo = result.CustomerInfo;
             }
@@ -230,7 +233,7 @@ export class EcommerceOrderComponent implements OnInit {
                     localStorage.removeItem('cart'); // remove cart after the order is created
                 }
 
-
+         
 
                 //this.initLoadData();
                 this.router.navigate(['apps/e-commerce/orders']); // todo
@@ -299,7 +302,11 @@ export class EcommerceOrderComponent implements OnInit {
 
 
                 this.title = this.translationService.instant('order.OrderNumber') + ' ' + this.orderId; // todo translation
+<<<<<<< HEAD
 
+=======
+                console.log(this.order);
+>>>>>>> parent of 5e46f94... Merge branch 'master' of https://github.com/ZhnegxiLI/JLSconsole
             }
             this.Loading = false;
         },
@@ -314,7 +321,11 @@ export class EcommerceOrderComponent implements OnInit {
             ShortLabels: ['Country']
         }).subscribe(result => {
             if (result != null) {
+<<<<<<< HEAD
 
+=======
+                console.log(result);
+>>>>>>> parent of 5e46f94... Merge branch 'master' of https://github.com/ZhnegxiLI/JLSconsole
                 this.countryList = result.filter(p => p.Validity == true);
             }
         },
@@ -328,7 +339,11 @@ export class EcommerceOrderComponent implements OnInit {
 
 
     modifyAddress(addressType) {
+<<<<<<< HEAD
 
+=======
+        console.log(addressType);
+>>>>>>> parent of 5e46f94... Merge branch 'master' of https://github.com/ZhnegxiLI/JLSconsole
         var addressData = null;
         if (addressType == 'InvoiceAddress') {
             if (this.order.FacturationAdress == null) {
@@ -354,7 +369,11 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+<<<<<<< HEAD
 
+=======
+            console.log(result);
+>>>>>>> parent of 5e46f94... Merge branch 'master' of https://github.com/ZhnegxiLI/JLSconsole
             if (result != null) {
                 if (result.Type != null) {
                     if (result.Type == 'ShippingAddress') {
@@ -421,7 +440,11 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+<<<<<<< HEAD
 
+=======
+            console.log(result);
+>>>>>>> parent of 5e46f94... Merge branch 'master' of https://github.com/ZhnegxiLI/JLSconsole
             if (result != null) {
                 this.order.ShipmentInfo = result.ShipmentInfo;
             }
