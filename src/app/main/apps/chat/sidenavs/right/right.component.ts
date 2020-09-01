@@ -17,17 +17,17 @@ export class ChatRightSidenavComponent implements OnInit, OnDestroy
 {
     view: string;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     constructor(
-        private _chatService: ChatService
+        public _chatService: ChatService
     )
     {
         // Set the defaults
         this.view = 'contact';
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

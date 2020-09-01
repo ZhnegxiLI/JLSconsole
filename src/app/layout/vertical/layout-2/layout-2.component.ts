@@ -16,8 +16,8 @@ export class VerticalLayout2Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -25,13 +25,13 @@ export class VerticalLayout2Component implements OnInit, OnDestroy
      * @param {FuseConfigService} _fuseConfigService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        public _fuseConfigService: FuseConfigService
     )
     {
         // Set the defaults
         this.navigation = navigation;
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

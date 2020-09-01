@@ -22,8 +22,8 @@ export class LockComponent implements OnInit
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
+        public _fuseConfigService: FuseConfigService,
+        public _formBuilder: FormBuilder
     )
     {
         // Configure the layout

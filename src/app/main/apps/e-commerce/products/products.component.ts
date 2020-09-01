@@ -36,17 +36,17 @@ import { ExportService } from 'app/Services/export.service';
 export class EcommerceProductsComponent implements OnInit {
     displayedColumns = ['action', 'reference', 'image', 'name', 'MainCategory', 'SecondCategory', 'price', 'active'];
     //imageRoot = this._ecommerceProductsService.host + "images/";
-    private environment = environment;
+    public environment = environment;
     public view: string = "products";
 
-    private totalCount: number = 0;
+    public totalCount: number = 0;
 
-    private productList: any[] = [];
+    public productList: any[] = [];
 
-    private mainCategoryList: any[];
-    private secondCategoryList: any[];
-    private referenceItemList: any[];
-    private statusList: any[] = [{
+    public mainCategoryList: any[];
+    public secondCategoryList: any[];
+    public referenceItemList: any[];
+    public statusList: any[] = [{
         Value: true,
         Label: 'Valide'
     }, {
@@ -55,7 +55,7 @@ export class EcommerceProductsComponent implements OnInit {
     }
     ];
 
-    private searchCriteria = {
+    public searchCriteria = {
         MainCategoryReferenceId: 0,
         SecondCategoryReferenceId: [],
         Validity: true,
@@ -78,15 +78,15 @@ export class EcommerceProductsComponent implements OnInit {
 
 
     constructor(
-        private datePipe: DatePipe,
-        private referenceService: ReferenceService,
-        private productService: ProductService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _translateService: TranslateService,
-        private _fuseProgressBarService: FuseProgressBarService,
-        private activeRoute: ActivatedRoute,
-        private _matSnackBar: MatSnackBar,
-        private exportService: ExportService
+        public datePipe: DatePipe,
+        public referenceService: ReferenceService,
+        public productService: ProductService,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _translateService: TranslateService,
+        public _fuseProgressBarService: FuseProgressBarService,
+        public activeRoute: ActivatedRoute,
+        public _matSnackBar: MatSnackBar,
+        public exportService: ExportService
     ) {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
     }

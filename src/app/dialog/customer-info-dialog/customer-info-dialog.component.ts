@@ -13,13 +13,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class CustomerInfoDialogComponent implements OnInit {
 
 
-  private customerForm: FormGroup;
+  public customerForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<CustomerInfoDialogComponent>,
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService) {
     this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
 
 

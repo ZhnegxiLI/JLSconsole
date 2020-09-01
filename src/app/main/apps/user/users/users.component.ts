@@ -27,13 +27,13 @@ export class UsersComponent implements OnInit {
   //imageRoot = this._ecommerceProductsService.host + "images/";
 
 
-  private environment = environment;
+  public environment = environment;
   public view: string = "users";
-  private userRoleList :any[] = [];
-  private totalCount : number = 0;
-  private userList : any[] = [];
+  public userRoleList :any[] = [];
+  public totalCount : number = 0;
+  public userList : any[] = [];
 
-  private searchCriteria = {
+  public searchCriteria = {
       UserType: null,
       Validity: true,
       Username : '',
@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
       Lang :''
   };
 
-  private statusList : any[] = [{
+  public statusList : any[] = [{
     Value : true,
     Label : 'Valide'
   },{
@@ -61,10 +61,10 @@ export class UsersComponent implements OnInit {
 
   
   constructor(
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-    private userService : UserService,
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    public userService : UserService,
     public dialog: MatDialog,
-    private _fuseProgressBarService: FuseProgressBarService,
+    public _fuseProgressBarService: FuseProgressBarService,
   ) {
       this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
    }
@@ -144,22 +144,22 @@ export class UsersComponent implements OnInit {
   templateUrl: 'user-dialog.html',
 })
 export class UserDialog {
-  private userForm: FormGroup;
-  private modifyPassword : boolean = false;
-  private password : string;
-  private confirmPassword: string;
-  private modifyPasswordDisabled : boolean = false;
+  public userForm: FormGroup;
+  public modifyPassword : boolean = false;
+  public password : string;
+  public confirmPassword: string;
+  public modifyPasswordDisabled : boolean = false;
 
-  private loading: boolean = false;
+  public loading: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UserDialog>,
     public dialog: MatDialog,
-    private formBuilder:FormBuilder,
-    private userService : UserService,
-    private _matSnackBar: MatSnackBar,
-    private _fuseProgressBarService: FuseProgressBarService,
-    private _translateService: TranslateService,
+    public formBuilder:FormBuilder,
+    public userService : UserService,
+    public _matSnackBar: MatSnackBar,
+    public _fuseProgressBarService: FuseProgressBarService,
+    public _translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) {
       this.userForm = this.formBuilder.group({

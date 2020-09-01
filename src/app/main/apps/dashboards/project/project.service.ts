@@ -18,12 +18,12 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
     salesPerformancePerYearAndMonth: any[];
     recentOrdeInfo: any[];
     
-    private apiUrlGetSalesPerformanceByYearMonth = this.host +"admin/Analytics/GetSalesPerformanceByYearMonth";
-    private apiUrlGetInternalExternalSalesPerformance = this.host + "admin/Analytics/GetInternalExternalSalesPerformance";
-    private apiUrlGetTeamMemberSalesPerformance = this.host + "admin/Analytics/GetTeamMemberSalesPerformance";
+    public apiUrlGetSalesPerformanceByYearMonth = this.host +"admin/Analytics/GetSalesPerformanceByYearMonth";
+    public apiUrlGetInternalExternalSalesPerformance = this.host + "admin/Analytics/GetInternalExternalSalesPerformance";
+    public apiUrlGetTeamMemberSalesPerformance = this.host + "admin/Analytics/GetTeamMemberSalesPerformance";
     
-    private apiUrlGetSalesPerformanceByStatus = this.host + "admin/Analytics/GetSalesPerformanceByStatus";
-    private apiUrlGetRecentOrderInfo = this.host +"admin/Analytics/GetRecentOrderInfo";
+    public apiUrlGetSalesPerformanceByStatus = this.host + "admin/Analytics/GetSalesPerformanceByStatus";
+    public apiUrlGetRecentOrderInfo = this.host +"admin/Analytics/GetRecentOrderInfo";
 
     /**
      * Constructor
@@ -31,7 +31,7 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient,
+        public _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
         protected _router : Router
     )

@@ -37,9 +37,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
     userStatusOptions: any[];
 
     numberOfNewMessage: number;
-    // Private
-    private _unsubscribeAll: Subject<any>;
-    private username :string;
+    // public
+    public _unsubscribeAll: Subject<any>;
+    public username :string;
     /**
      * Constructor
      *
@@ -48,13 +48,13 @@ export class ToolbarComponent implements OnInit, OnDestroy
      * @param {TranslateService} _translateService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService,
-        private _authService : AuthentificationService,
-        private dialog: MatDialog,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private chatService: ChatService
+        public _fuseConfigService: FuseConfigService,
+        public _fuseSidebarService: FuseSidebarService,
+        public _translateService: TranslateService,
+        public _authService : AuthentificationService,
+        public dialog: MatDialog,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public chatService: ChatService
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
@@ -109,7 +109,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         this.navigation = navigation;
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

@@ -29,8 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -45,17 +45,17 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {TranslateService} _translateService
      */
     constructor(
-        @Inject(DOCUMENT) private document: any,
-        private _fuseConfigService: FuseConfigService,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseSplashScreenService: FuseSplashScreenService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _translateService: TranslateService,
-        private _platform: Platform,
-        private chatService: ChatService, 
-        private _ngZone: NgZone,
-        private _snackBar: MatSnackBar
+        @Inject(DOCUMENT) public document: any,
+        public _fuseConfigService: FuseConfigService,
+        public _fuseNavigationService: FuseNavigationService,
+        public _fuseSidebarService: FuseSidebarService,
+        public _fuseSplashScreenService: FuseSplashScreenService,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _translateService: TranslateService,
+        public _platform: Platform,
+        public chatService: ChatService, 
+        public _ngZone: NgZone,
+        public _snackBar: MatSnackBar
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.document.body.classList.add('is-mobile');
         }
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

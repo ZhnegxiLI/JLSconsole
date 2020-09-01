@@ -30,20 +30,20 @@ export class ChatService extends appServiceBase
 
     public noReadMessageSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
-    private apiUrlMessageHub = this.host + 'MessageHub'
-    private apiUrlUpdateReadedDialog = this.host + 'admin/User/UpdateReadedDialog';
-    private apiUrlGetNoReadedDialog = this.host + 'admin/User/GetNoReadedDialog';
+    public apiUrlMessageHub = this.host + 'MessageHub'
+    public apiUrlUpdateReadedDialog = this.host + 'admin/User/UpdateReadedDialog';
+    public apiUrlGetNoReadedDialog = this.host + 'admin/User/GetNoReadedDialog';
 
     messageReceived = new EventEmitter<Message>();
     connectionEstablished = new EventEmitter<Boolean>();
-    private connectionIsEstablished = false;
-    private _hubConnection: HubConnection;
+    public connectionIsEstablished = false;
+    public _hubConnection: HubConnection;
 
     constructor(
         protected _httpClient: HttpClient,
         protected _matSnackBar: MatSnackBar,
         protected _router : Router,
-        private userService:UserService
+        public userService:UserService
     )
     {
         super(_httpClient,_matSnackBar,_router);
@@ -72,7 +72,7 @@ export class ChatService extends appServiceBase
         this._hubConnection.invoke('NewMessage', message);
     }
 
-    private createConnection() {
+    public createConnection() {
         this._hubConnection = new HubConnectionBuilder()
             .withUrl(this.apiUrlMessageHub)
             .build();
@@ -160,7 +160,7 @@ export class ChatService extends appServiceBase
     }
 
 
-    private startConnection(): void {
+    public startConnection(): void {
         this._hubConnection
             .start()
             .then(() => {
@@ -173,7 +173,7 @@ export class ChatService extends appServiceBase
             }); 
     }
 
-    private registerOnServerEvents(): void {
+    public registerOnServerEvents(): void {
         this._hubConnection.on('MessageReceived', (data: any) => {
             if(data.fromUser!= localStorage.getItem('userId')){
                 /* Build not read object  */

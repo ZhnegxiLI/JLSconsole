@@ -19,9 +19,9 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
-    // Private
-    private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _fusePerfectScrollbar: FusePerfectScrollbarDirective;
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -32,13 +32,13 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
      * @param {Router} _router
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
+        public _fuseConfigService: FuseConfigService,
+        public _fuseNavigationService: FuseNavigationService,
+        public _fuseSidebarService: FuseSidebarService,
+        public _router: Router
     )
     {
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

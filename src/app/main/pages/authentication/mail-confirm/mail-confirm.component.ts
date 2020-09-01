@@ -18,7 +18,7 @@ export class MailConfirmComponent
      * @param {FuseConfigService} _fuseConfigService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        public _fuseConfigService: FuseConfigService
     )
     {
         // Configure the layout

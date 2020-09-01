@@ -22,13 +22,13 @@ export class Register2Component implements OnInit, OnDestroy
 {
     registerForm: FormGroup;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService
+        public _fuseConfigService: FuseConfigService,
+        public _formBuilder: FormBuilder,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService
     )
     {
         // Configure the layout
@@ -49,7 +49,7 @@ export class Register2Component implements OnInit, OnDestroy
             }
         };
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

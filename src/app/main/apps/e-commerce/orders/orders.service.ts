@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class EcommerceOrdersService extends appServiceBase 
 {
-    private apiUrlGetOrdersByCriteria = this.host +"admin/Order/getOrdersByCriteria";
+    public apiUrlGetOrdersByCriteria = this.host +"admin/Order/getOrdersByCriteria";
 
     /**
      * Constructor

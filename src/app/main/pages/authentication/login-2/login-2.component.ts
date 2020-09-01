@@ -33,14 +33,14 @@ export class Login2Component implements OnInit {
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder,
-        private authService: AuthentificationService,
-        private matSnackBar: MatSnackBar,
-        private router: Router,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _fuseProgressBarService: FuseProgressBarService,
-        private _translateService: TranslateService
+        public _fuseConfigService: FuseConfigService,
+        public _formBuilder: FormBuilder,
+        public authService: AuthentificationService,
+        public matSnackBar: MatSnackBar,
+        public router: Router,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _fuseProgressBarService: FuseProgressBarService,
+        public _translateService: TranslateService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {

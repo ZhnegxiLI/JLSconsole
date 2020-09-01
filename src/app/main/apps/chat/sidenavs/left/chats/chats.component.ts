@@ -26,8 +26,8 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy {
 
     public users: any[] = [];
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -37,8 +37,8 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy {
      * @param {MediaObserver} _mediaObserver
      */
     constructor(
-        private _chatService: ChatService,
-        private _fuseMatSidenavHelperService: FuseMatSidenavHelperService,
+        public _chatService: ChatService,
+        public _fuseMatSidenavHelperService: FuseMatSidenavHelperService,
         public _mediaObserver: MediaObserver,
         public userService: UserService
     ) {
@@ -48,7 +48,7 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy {
         };
         this.searchText = '';
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

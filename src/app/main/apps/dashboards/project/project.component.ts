@@ -42,8 +42,8 @@ export class ProjectDashboardComponent implements OnInit
      * @param {ProjectDashboardService} _projectDashboardService
      */
     constructor(
-        private _fuseSidebarService: FuseSidebarService,
-        private _projectDashboardService: ProjectDashboardService
+        public _fuseSidebarService: FuseSidebarService,
+        public _projectDashboardService: ProjectDashboardService
     )
     {
         /**
@@ -243,7 +243,7 @@ export class FilesDataSource extends DataSource<any>
      *
      * @param _widget11
      */
-    constructor(private _widget11)
+    constructor(public _widget11)
     {
         super();
     }

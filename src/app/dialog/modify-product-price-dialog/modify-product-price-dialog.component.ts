@@ -14,13 +14,13 @@ import { locale as french } from './i18n/fr';
 export class ModifyProductPriceDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<ModifyProductPriceDialogComponent>,
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    public dialogRef: MatDialogRef<ModifyProductPriceDialogComponent>,
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService,
   ) {
     this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
   }
 
-  private product: any = {
+  public product: any = {
     ProductId : 0,
     Quantity : 0,
     Price: 0

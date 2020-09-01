@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 @Injectable()
 export class OrderService extends appServiceBase 
 {
-    private apiUrlAdvancedOrderSearchByCriteria = this.host +"admin/Order/AdvancedOrderSearchByCriteria";
-    private apiUrlGetOrdersListByOrderId = this.host +"api/Order/GetOrdersListByOrderId";
-    private apiUrlSaveAdminOrder = this.host +"admin/Order/SaveAdminOrder";
+    public apiUrlAdvancedOrderSearchByCriteria = this.host +"admin/Order/AdvancedOrderSearchByCriteria";
+    public apiUrlGetOrdersListByOrderId = this.host +"api/Order/GetOrdersListByOrderId";
+    public apiUrlSaveAdminOrder = this.host +"admin/Order/SaveAdminOrder";
 
     constructor(
         protected _httpClient: HttpClient,

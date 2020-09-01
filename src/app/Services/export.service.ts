@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ExportService extends appServiceBase 
 {
  
-    private apiUrlExportAction: string = this.host + "api/Export/ExportAction";
+    public apiUrlExportAction: string = this.host + "api/Export/ExportAction";
 
 
     constructor(

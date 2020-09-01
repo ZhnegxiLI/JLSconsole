@@ -36,20 +36,20 @@ export class EcommerceOrdersComponent implements OnInit
 
     public view: string = "orders";
 
-    private orderList:any[] = [];
-    private totalCount : number = 0;
-    private statusList : any[] = [];
-    private userList : any[] = [];
-    private userSelectSearchText : string = '';
+    public orderList:any[] = [];
+    public totalCount : number = 0;
+    public statusList : any[] = [];
+    public userList : any[] = [];
+    public userSelectSearchText : string = '';
 
-    private orderStatusClass: any[] = [
+    public orderStatusClass: any[] = [
         { Code: 'OrderStatus_Valid', Class: 'green-500' },
         { Code: 'OrderStatus_Refus', Class: 'red-500' },
         { Code: 'OrderStatus_Progressing', Class: 'orange-500' },
     ]
 
 
-    private searchCriteria = {
+    public searchCriteria = {
         FromDate: '',
         ToDate : '',
         StatusId : null,
@@ -71,16 +71,16 @@ export class EcommerceOrdersComponent implements OnInit
     sort: MatSort;
 
     constructor(
-        private datePipe: DatePipe,
-        private referenceService : ReferenceService,
-        private productService : ProductService,
-        private orderService : OrderService,
-        private userService  : UserService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _translateService: TranslateService,
-        private _fuseProgressBarService: FuseProgressBarService,
-        private exportService: ExportService,
-        private _matSnackBar: MatSnackBar,
+        public datePipe: DatePipe,
+        public referenceService : ReferenceService,
+        public productService : ProductService,
+        public orderService : OrderService,
+        public userService  : UserService,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _translateService: TranslateService,
+        public _fuseProgressBarService: FuseProgressBarService,
+        public exportService: ExportService,
+        public _matSnackBar: MatSnackBar,
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);

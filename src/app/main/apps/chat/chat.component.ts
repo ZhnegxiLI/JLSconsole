@@ -17,8 +17,8 @@ export class ChatComponent implements OnInit, OnDestroy
 {
     selectedChat: any;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -26,10 +26,10 @@ export class ChatComponent implements OnInit, OnDestroy
      * @param {ChatService} _chatService
      */
     constructor(
-        private _chatService: ChatService
+        public _chatService: ChatService
     )
     {
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

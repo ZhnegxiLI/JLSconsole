@@ -32,11 +32,11 @@ import { ReferenceService } from 'app/Services/reference.service';
 export class ReferenceCategoryComponent implements OnInit
 {
 
-    private totalCount:number = 0;
-    private referenceCategroyList: any[] = [];
-    private step =10;
-    private begin = 0;
-    private modifyOrAddCategoryPermission = false;
+    public totalCount:number = 0;
+    public referenceCategroyList: any[] = [];
+    public step =10;
+    public begin = 0;
+    public modifyOrAddCategoryPermission = false;
 
     displayedColumns = ['id', 'shortLabel'];
 
@@ -53,13 +53,13 @@ export class ReferenceCategoryComponent implements OnInit
     filter: ElementRef;
 
     constructor(
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
         public _matDialog: MatDialog,
-        private _matSnackBar: MatSnackBar,
-        private referenceService: ReferenceService,
-        private  dialog: MatDialog,
+        public _matSnackBar: MatSnackBar,
+        public referenceService: ReferenceService,
+        public  dialog: MatDialog,
     ){
-        // Set the private defaults
+        // Set the public defaults
         this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
     }
   

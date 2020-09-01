@@ -23,17 +23,17 @@ import { ReferenceService } from 'app/Services/reference.service';
 export class CartComponent implements OnInit {
   displayedColumns = ['image', 'product', 'price', 'quantity', 'total', 'action'];
 
-  private view: string = "cart";
-  private taxRate: number = 0;
+  public view: string = "cart";
+  public taxRate: number = 0;
 
-  private environment = environment;
-  private cartProductList: any[] = [];
+  public environment = environment;
+  public cartProductList: any[] = [];
   constructor(
-    private _translateService: TranslateService,
-    private productService: ProductService,
-    private referenceService: ReferenceService,
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-    private dialog: MatDialog) {
+    public _translateService: TranslateService,
+    public productService: ProductService,
+    public referenceService: ReferenceService,
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    public dialog: MatDialog) {
 
     this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
   }

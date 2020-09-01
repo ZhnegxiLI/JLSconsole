@@ -16,14 +16,14 @@ import { ReferenceService } from 'app/Services/reference.service';
 })
 export class AddressDialog implements OnInit {
 
-  private countryList: any[] = [];
-  private   adreeForm: FormGroup;
+  public countryList: any[] = [];
+  public   adreeForm: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<AddressDialog>,
-    private formBuilder:FormBuilder, 
-    private referenceService: ReferenceService,
-    private translateService: TranslateService,
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    public formBuilder:FormBuilder, 
+    public referenceService: ReferenceService,
+    public translateService: TranslateService,
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
       this._fuseTranslationLoaderService.loadTranslations(english,chinese,french);

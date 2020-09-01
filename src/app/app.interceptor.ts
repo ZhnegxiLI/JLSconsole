@@ -14,11 +14,11 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
 
     export class AppInterceptor implements HttpInterceptor {
 
-    private isTokenRefreshing: boolean = false;
+    public isTokenRefreshing: boolean = false;
 
     tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-    constructor (private acct : AuthentificationService) {}
+    constructor (public acct : AuthentificationService) {}
 
     intercept(request : HttpRequest<any>, next : HttpHandler): Observable<HttpEvent<any>> 
     {
@@ -64,14 +64,14 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
 
 
     // Global error handler method 
-    private handleError(errorResponse : HttpErrorResponse) 
+    public handleError(errorResponse : HttpErrorResponse) 
     {
          return throwError(errorResponse);
     }
 
 
     // Method to handle http error response
-    private handleHttpResponseError(request : HttpRequest<any>, next : HttpHandler) 
+    public handleHttpResponseError(request : HttpRequest<any>, next : HttpHandler) 
     {
 
         // First thing to check if the token is in process of refreshing
@@ -125,7 +125,7 @@ import {  tap, catchError, switchMap, finalize, filter, take } from 'rxjs/operat
     }
 
 
-    private attachTokenToRequest(request: HttpRequest<any>) 
+    public attachTokenToRequest(request: HttpRequest<any>) 
     {
         var token = localStorage.getItem('jwt');
 

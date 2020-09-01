@@ -16,8 +16,8 @@ export class ChatUserSidenavComponent implements OnInit, OnDestroy
     user: any;
     userForm: FormGroup;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -25,10 +25,10 @@ export class ChatUserSidenavComponent implements OnInit, OnDestroy
      * @param {ChatService} _chatService
      */
     constructor(
-        private _chatService: ChatService
+        public _chatService: ChatService
     )
     {
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

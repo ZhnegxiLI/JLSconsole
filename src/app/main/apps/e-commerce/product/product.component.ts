@@ -51,21 +51,21 @@ export class EcommerceProductComponent implements OnInit {
     loading: boolean = false;
 
 
-    private saveLoading: boolean = false
+    public saveLoading: boolean = false
 
-    private previousView: string = "";
+    public previousView: string = "";
     public view: string = "product";
-    private productId: number = 0;
-    private mainCategoryList: any[] = [];
-    private secondCategoryList: any[] = [];
-    private referenceItemList: any[] = [];
-    private taxRateList: any[] = [];
-    private productInfo: any = {};
-    private photoPath: any = [];
+    public productId: number = 0;
+    public mainCategoryList: any[] = [];
+    public secondCategoryList: any[] = [];
+    public referenceItemList: any[] = [];
+    public taxRateList: any[] = [];
+    public productInfo: any = {};
+    public photoPath: any = [];
 
-    private uploadLoading: boolean = false;
+    public uploadLoading: boolean = false;
 
-    private validityList: any[] = [{
+    public validityList: any[] = [{
         Value: true,
         Label: 'Valide'
     }, {
@@ -73,25 +73,25 @@ export class EcommerceProductComponent implements OnInit {
         Label: 'Invalide'
     }
     ];
-    private productName: string = "";
-    private imgURL: any;
-    private progress: any;
+    public productName: string = "";
+    public imgURL: any;
+    public progress: any;
 
-    private ProductEvaluationList: any[] = [];
+    public ProductEvaluationList: any[] = [];
 
     constructor(
-        private referenceService: ReferenceService,
-        private productService: ProductService,
-        private _formBuilder: FormBuilder,
-        private _location: Location,
-        private _matSnackBar: MatSnackBar,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _translateService: TranslateService,
-        private dialog: MatDialog,
-        private activeRoute: ActivatedRoute,
-        private formBuilder: FormBuilder,
-        private _fuseProgressBarService: FuseProgressBarService,
-        private router: Router
+        public referenceService: ReferenceService,
+        public productService: ProductService,
+        public _formBuilder: FormBuilder,
+        public _location: Location,
+        public _matSnackBar: MatSnackBar,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _translateService: TranslateService,
+        public dialog: MatDialog,
+        public activeRoute: ActivatedRoute,
+        public formBuilder: FormBuilder,
+        public _fuseProgressBarService: FuseProgressBarService,
+        public router: Router
     ) {
         // Set the default
         this.product = new Product();
@@ -390,15 +390,15 @@ export class ImageOverViewDialog {
     image: any;
     imagePath: string;
 
-    private removeImageLoading: boolean = false;
+    public removeImageLoading: boolean = false;
 
     constructor(
         public dialogRef: MatDialogRef<ImageOverViewDialog>,
-        private productService: ProductService,
-        private _matSnackBar: MatSnackBar,
-        private _translateService: TranslateService,
+        public productService: ProductService,
+        public _matSnackBar: MatSnackBar,
+        public _translateService: TranslateService,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private dialog: MatDialog) { }
+        public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.image = this.data.image;
@@ -458,16 +458,16 @@ export class ImageOverViewDialog {
 
 export class ProductEvaluationDialog {
    
-    private removeEvaluationLoading: boolean = false;
-    private ProductComment: any = {};
+    public removeEvaluationLoading: boolean = false;
+    public ProductComment: any = {};
 
     constructor(
         public dialogRef: MatDialogRef<ProductEvaluationDialog>,
-        private productService: ProductService,
-        private _matSnackBar: MatSnackBar,
-        private _translateService: TranslateService,
+        public productService: ProductService,
+        public _matSnackBar: MatSnackBar,
+        public _translateService: TranslateService,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private dialog: MatDialog) { }
+        public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.ProductComment = this.data.ProductEvaluation.ProductComment;

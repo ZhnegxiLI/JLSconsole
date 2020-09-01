@@ -37,8 +37,8 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
     @ViewChild('replyForm', {static: false})
     replyForm: NgForm;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -46,11 +46,11 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
      * @param {ChatService} _chatService
      */
     constructor(
-        private _chatService: ChatService,
-        private _ngZone: NgZone
+        public _chatService: ChatService,
+        public _ngZone: NgZone
     )
     {
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

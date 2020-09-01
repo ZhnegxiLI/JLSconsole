@@ -23,11 +23,11 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
-    // Private
-    private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
-    private _unsubscribeAll: Subject<any>;
-    private username: string;
-    private role : string;
+    // public
+    public _fusePerfectScrollbar: FusePerfectScrollbarDirective;
+    public _unsubscribeAll: Subject<any>;
+    public username: string;
+    public role : string;
     /**
      * Constructor
      *
@@ -37,18 +37,18 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      * @param {Router} _router
      */
     constructor(
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _fuseConfigService: FuseConfigService,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _fuseConfigService: FuseConfigService,
+        public _fuseNavigationService: FuseNavigationService,
+        public _fuseSidebarService: FuseSidebarService,
+        public _router: Router
     )
     {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese,french);
         // Bind username 
         this.username = localStorage.getItem('username');
         this.role =  localStorage.getItem('userRole');
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

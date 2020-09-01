@@ -37,13 +37,13 @@ export class ReferenceItemsComponent implements OnInit
 
     loading : boolean = false;
 
-    private referenceItemList : any[] = [];
-    private totalCount : number = 0;
-    private categoryList : any[] = [];
-    private parentReferenceItemList: any[] = [];
+    public referenceItemList : any[] = [];
+    public totalCount : number = 0;
+    public categoryList : any[] = [];
+    public parentReferenceItemList: any[] = [];
     
 
-    private statusList : any[] = [{
+    public statusList : any[] = [{
         Value : true,
         Label : 'Valide'
     },{
@@ -53,7 +53,7 @@ export class ReferenceItemsComponent implements OnInit
     ];
 
 
-    private searchCriteria: any = {
+    public searchCriteria: any = {
         step : 10,
         begin : 0,
         Lang : this._translateService.currentLang,
@@ -75,13 +75,13 @@ export class ReferenceItemsComponent implements OnInit
     filter: ElementRef;
 
     constructor(
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private referenceService : ReferenceService,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public referenceService : ReferenceService,
         public _matDialog: MatDialog,
-        private _matSnackBar: MatSnackBar,
-        private _translateService: TranslateService,
+        public _matSnackBar: MatSnackBar,
+        public _translateService: TranslateService,
         public dialog: MatDialog,
-        private _fuseProgressBarService: FuseProgressBarService,
+        public _fuseProgressBarService: FuseProgressBarService,
     ){
         this._fuseTranslationLoaderService.loadTranslations(english, chinese ,french);
     }
@@ -186,10 +186,10 @@ export class ReferenceItemsComponent implements OnInit
   export class ItemDialog {
     @ViewChild('contactForm',null) contactForm: NgForm;
     
-    private Loading: boolean = false;
-    private CodeExist: boolean = false;
+    public Loading: boolean = false;
+    public CodeExist: boolean = false;
 
-    private itemInfo = {
+    public itemInfo = {
         Id : 0,
         Code : '',
         CategoryId : 0,
@@ -198,7 +198,7 @@ export class ReferenceItemsComponent implements OnInit
         ParentCategoryId:0,
         ParentId :0,
         LabelFR : null,
-        LebelEN: null,
+        LabelEN: null,
         LabelCN : null,
         CreatedOrUpdatedBy: null
     };
@@ -207,10 +207,10 @@ export class ReferenceItemsComponent implements OnInit
     constructor(
       public dialogRef: MatDialogRef<ItemDialog>,
       public dialog: MatDialog,
-      private _matSnackBar: MatSnackBar,
-      private _fuseProgressBarService: FuseProgressBarService,
-      private referenceService : ReferenceService,
-      private _translateService: TranslateService,
+      public _matSnackBar: MatSnackBar,
+      public _fuseProgressBarService: FuseProgressBarService,
+      public referenceService : ReferenceService,
+      public _translateService: TranslateService,
       @Inject(MAT_DIALOG_DATA) public data: any
       ) { 
       }

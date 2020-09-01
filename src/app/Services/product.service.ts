@@ -11,23 +11,23 @@ import { Router } from '@angular/router';
 export class ProductService extends appServiceBase 
 {
  
-    private apiUrlAdvancedProductSearchByCriteria: string = this.host + "admin/Product/AdvancedProductSearchByCriteria";
+    public apiUrlAdvancedProductSearchByCriteria: string = this.host + "admin/Product/AdvancedProductSearchByCriteria";
     
-    private apiUrlGetProductById: string = this.host + "admin/Product/GetProductById";
+    public apiUrlGetProductById: string = this.host + "admin/Product/GetProductById";
 
-    private apiUrlUpdateOrCreateProduct: string = this.host + "admin/Product/UpdateOrCreateProduct";
+    public apiUrlUpdateOrCreateProduct: string = this.host + "admin/Product/UpdateOrCreateProduct";
 
-    private apiUrlUploadPhoto: string = this.host + "admin/Product/UploadPhoto";
+    public apiUrlUploadPhoto: string = this.host + "admin/Product/UploadPhoto";
 
-    private apiUrlGetProductPhotoPathById: string = this.host + "admin/Product/GetProductPhotoPathById";
+    public apiUrlGetProductPhotoPathById: string = this.host + "admin/Product/GetProductPhotoPathById";
     
-    private apiUrlGetProductInfoByReferenceIds: string = this.host + "admin/Product/GetProductInfoByReferenceIds"
+    public apiUrlGetProductInfoByReferenceIds: string = this.host + "admin/Product/GetProductInfoByReferenceIds"
 
-    private apiUrlRemoveImageById: string = this.host + "admin/Product/RemoveImageById"
+    public apiUrlRemoveImageById: string = this.host + "admin/Product/RemoveImageById"
 
-    private apiUrlRemoveProductCommentById: string = this.host + "admin/Product/RemoveProductCommentById";
+    public apiUrlRemoveProductCommentById: string = this.host + "admin/Product/RemoveProductCommentById";
 
-    private apiUrlGetProductCommentListByCriteria: string = this.host + "api/Product/GetProductCommentListByCriteria";
+    public apiUrlGetProductCommentListByCriteria: string = this.host + "api/Product/GetProductCommentListByCriteria";
 
     constructor(
         protected _httpClient: HttpClient,

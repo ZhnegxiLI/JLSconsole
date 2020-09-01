@@ -14,12 +14,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class ShipmentInfoDialogComponent implements OnInit {
 
 
-  private shipmentForm: FormGroup;
+  public shipmentForm: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<ShipmentInfoDialogComponent>,
-    private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-    private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<ShipmentInfoDialogComponent>,
+    public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+    public formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 

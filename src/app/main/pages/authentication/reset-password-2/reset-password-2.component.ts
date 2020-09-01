@@ -17,12 +17,12 @@ export class ResetPassword2Component implements OnInit, OnDestroy
 {
     resetPasswordForm: FormGroup;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
+        public _fuseConfigService: FuseConfigService,
+        public _formBuilder: FormBuilder
     )
     {
         // Configure the layout
@@ -43,7 +43,7 @@ export class ResetPassword2Component implements OnInit, OnDestroy
             }
         };
 
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

@@ -12,9 +12,9 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable()
 export class AuthentificationService extends appServiceBase {
 
-    private baseUrlToken: string = environment.url + 'api/Token/Auth';
+    public baseUrlToken: string = environment.url + 'api/Token/Auth';
 
-    private loginStatus = new BehaviorSubject<boolean>(this.checkLoginStatus());
+    public loginStatus = new BehaviorSubject<boolean>(this.checkLoginStatus());
     /**
      * Constructor
      *
@@ -22,7 +22,7 @@ export class AuthentificationService extends appServiceBase {
      */
     constructor(
         protected _httpClient: HttpClient,
-        private _translateService: TranslateService,
+        public _translateService: TranslateService,
         protected _matSnackBar: MatSnackBar,
         protected _router: Router
     ) {

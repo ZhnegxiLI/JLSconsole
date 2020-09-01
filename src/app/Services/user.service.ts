@@ -10,16 +10,16 @@ import { Router } from '@angular/router';
 @Injectable()
 export class UserService extends appServiceBase 
 {
-    private apiUrlGetUserListByRole = this.host +"admin/User/GetUserListByRole";
-    private apiUrlAdvancedUserSearch = this.host +"admin/User/AdvancedUserSearch";
-    private apiUrlGetUserRoleList = this.host +"admin/User/GetUserRoleList";
-    private apiUrlGetUserById = this.host + "admin/User/GetUserById";
-    private apiUrlCreateOrUpdateUser = this.host + "admin/User/CreateOrUpdateUser";
+    public apiUrlGetUserListByRole = this.host +"admin/User/GetUserListByRole";
+    public apiUrlAdvancedUserSearch = this.host +"admin/User/AdvancedUserSearch";
+    public apiUrlGetUserRoleList = this.host +"admin/User/GetUserRoleList";
+    public apiUrlGetUserById = this.host + "admin/User/GetUserById";
+    public apiUrlCreateOrUpdateUser = this.host + "admin/User/CreateOrUpdateUser";
 
-    private apiUrlCheckUserIsAlreadyExistAsync = this.host + "api/User/CheckUserIsAlreadyExistAsync";
+    public apiUrlCheckUserIsAlreadyExistAsync = this.host + "api/User/CheckUserIsAlreadyExistAsync";
     
-    private apiUrlGetChatedUser = this.host +"admin/User/GetChatedUser";
-    private apiUrlGetChatDialog = this.host +"admin/User/GetChatDialog";
+    public apiUrlGetChatedUser = this.host +"admin/User/GetChatedUser";
+    public apiUrlGetChatDialog = this.host +"admin/User/GetChatDialog";
     
     constructor(
         protected _httpClient: HttpClient,

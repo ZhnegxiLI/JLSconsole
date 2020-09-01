@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 export class ReferenceService extends appServiceBase 
 {
 
-    private apiUrlGetReferenceItemsByCategoryLabels: string = this.host + "admin/Reference/GetReferenceItemsByCategoryLabels";
-    private apiUrlGetAllCategoryList: string = this.host + "admin/Reference/GetAllCategoryList";
-    private apiUrlAdvancedSearchReferenceItem: string = this.host + "admin/Reference/AdvancedSearchReferenceItem";
-    private apiUrlGetAllReferenceItemWithChildren: string = this.host + "admin/Reference/GetAllReferenceItemWithChildren";
-    private apiUrlCheckReferenceCodeExists: string = this.host + "admin/Reference/CheckReferenceCodeExists";
+    public apiUrlGetReferenceItemsByCategoryLabels: string = this.host + "admin/Reference/GetReferenceItemsByCategoryLabels";
+    public apiUrlGetAllCategoryList: string = this.host + "admin/Reference/GetAllCategoryList";
+    public apiUrlAdvancedSearchReferenceItem: string = this.host + "admin/Reference/AdvancedSearchReferenceItem";
+    public apiUrlGetAllReferenceItemWithChildren: string = this.host + "admin/Reference/GetAllReferenceItemWithChildren";
+    public apiUrlCheckReferenceCodeExists: string = this.host + "admin/Reference/CheckReferenceCodeExists";
     
 
-    private apiUrlSaveReferenceItem: string = this.host + "admin/Reference/SaveReferenceItem";
+    public apiUrlSaveReferenceItem: string = this.host + "admin/Reference/SaveReferenceItem";
     
     constructor(
         protected _httpClient: HttpClient,

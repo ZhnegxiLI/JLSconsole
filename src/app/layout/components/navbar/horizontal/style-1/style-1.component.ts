@@ -17,8 +17,8 @@ export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    // public
+    public _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -28,12 +28,12 @@ export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
      * @param {FuseSidebarService} _fuseSidebarService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseSidebarService: FuseSidebarService
+        public _fuseConfigService: FuseConfigService,
+        public _fuseNavigationService: FuseNavigationService,
+        public _fuseSidebarService: FuseSidebarService
     )
     {
-        // Set the private defaults
+        // Set the public defaults
         this._unsubscribeAll = new Subject();
     }
 

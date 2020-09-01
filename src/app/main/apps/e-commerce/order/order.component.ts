@@ -34,18 +34,18 @@ import { ModifyProductPriceDialogComponent } from 'app/dialog/modify-product-pri
 })
 export class EcommerceOrderComponent implements OnInit {
 
-    private displayTransactionModule: boolean = true;
-    private displayShippingModule: boolean = true;
+    public displayTransactionModule: boolean = true;
+    public displayShippingModule: boolean = true;
 
-    private environment = environment;
-    private order: any = {};
-    private orderId: number = 0;
-    private statusList: any[] = [];
-    private taxRateList: any[] = [];
+    public environment = environment;
+    public order: any = {};
+    public orderId: number = 0;
+    public statusList: any[] = [];
+    public taxRateList: any[] = [];
 
-    private countryList: any[] = [];
+    public countryList: any[] = [];
 
-    private criteria: any = {
+    public criteria: any = {
         taxRateId: 0,
         statusId: 0,
         ClientRemark: { Id: 0, Text: null },
@@ -54,32 +54,32 @@ export class EcommerceOrderComponent implements OnInit {
 
     public view: string = "order";
 
-    private basicTotalPrice: number;
+    public basicTotalPrice: number;
 
-    private orderType: string = 'OrderType_Internal'; // OrderType_Internal / OrderType_External
+    public orderType: string = 'OrderType_Internal'; // OrderType_Internal / OrderType_External
 
-    private urlReturnView: string = '';
-    private title: string = '';
-    private Loading: boolean = false;
+    public urlReturnView: string = '';
+    public title: string = '';
+    public Loading: boolean = false;
 
     // todo: place into the configuration file
-    private orderStatusClass: any[] = [
+    public orderStatusClass: any[] = [
         { Code: 'OrderStatus_Valid', Class: 'green-500' },
         { Code: 'OrderStatus_Refus', Class: 'red-500' },
         { Code: 'OrderStatus_Progressing', Class: 'orange-500' },
     ]
 
     constructor(
-        private _formBuilder: FormBuilder,
-        private activeRoute: ActivatedRoute,
-        private referenceService: ReferenceService,
-        private orderService: OrderService,
-        private translationService: TranslateService,
-        private dialog: MatDialog,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _fuseProgressBarService: FuseProgressBarService,
-        private _matSnackBar: MatSnackBar,
-        private router: Router
+        public _formBuilder: FormBuilder,
+        public activeRoute: ActivatedRoute,
+        public referenceService: ReferenceService,
+        public orderService: OrderService,
+        public translationService: TranslateService,
+        public dialog: MatDialog,
+        public _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        public _fuseProgressBarService: FuseProgressBarService,
+        public _matSnackBar: MatSnackBar,
+        public router: Router
     ) {
         this._fuseTranslationLoaderService.loadTranslations(english, chinese, french);
     }
@@ -139,7 +139,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
     }
 
-    private UpdateProductPriceQuantity(product) {
+    public UpdateProductPriceQuantity(product) {
 
         const dialogRef = this.dialog.open(ModifyProductPriceDialogComponent, { // todo change
             data: {
@@ -156,7 +156,7 @@ export class EcommerceOrderComponent implements OnInit {
 
     }
 
-    private getCurrentTaxRatePercentage() {
+    public getCurrentTaxRatePercentage() {
         var taxRate = this.taxRateList.find(p => p.Id == this.criteria.taxRateId);
         if (taxRate != null && taxRate.Value != null) {
             return taxRate.Value;
@@ -299,7 +299,7 @@ export class EcommerceOrderComponent implements OnInit {
 
 
                 this.title = this.translationService.instant('order.OrderNumber') + ' ' + this.orderId; // todo translation
-             
+
             }
             this.Loading = false;
         },
@@ -314,7 +314,7 @@ export class EcommerceOrderComponent implements OnInit {
             ShortLabels: ['Country']
         }).subscribe(result => {
             if (result != null) {
-        
+
                 this.countryList = result.filter(p => p.Validity == true);
             }
         },
@@ -328,7 +328,7 @@ export class EcommerceOrderComponent implements OnInit {
 
 
     modifyAddress(addressType) {
-     
+
         var addressData = null;
         if (addressType == 'InvoiceAddress') {
             if (this.order.FacturationAdress == null) {
@@ -354,7 +354,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-           
+
             if (result != null) {
                 if (result.Type != null) {
                     if (result.Type == 'ShippingAddress') {
@@ -421,7 +421,7 @@ export class EcommerceOrderComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-    
+
             if (result != null) {
                 this.order.ShipmentInfo = result.ShipmentInfo;
             }
