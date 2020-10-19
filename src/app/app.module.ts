@@ -1,5 +1,4 @@
 import { DialogModule } from './dialog/dialog.module';
-import { appServiceBase } from 'app/app.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,7 +8,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
@@ -18,10 +16,8 @@ import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from
 
 import { fuseConfig } from 'app/fuse-config';
 
-import { FakeDbService } from 'app/fake-db/fake-db.service';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
 import { AppStoreModule } from 'app/store/store.module';
 import {MatProgressSpinnerModule} from '@angular/material';
 import {MatDialogModule} from "@angular/material";
@@ -58,11 +54,7 @@ const appRoutes: Routes = [
         path      : '**',
         loadChildren: './main/apps/apps.module#AppsModule',
         canActivate: [AuthGuard]
-    },
-    // {
-    //     path      : '**',
-    //     redirectTo: 'apps/dashboards/analytics'
-    // } 
+    }
 ];
 
 @NgModule({
@@ -70,7 +62,7 @@ const appRoutes: Routes = [
         AppComponent
     ],
     imports     : [
-        DialogModule,
+        DialogModule, // Import into used module 
         MatDialogModule,
         MatProgressSpinnerModule,
         BrowserModule,
@@ -78,10 +70,6 @@ const appRoutes: Routes = [
         HttpClientModule,
         RouterModule.forRoot(appRoutes),
         TranslateModule.forRoot(),
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay             : 0,
-            passThruUnknownUrl: true
-        }),
 
         // Material moment date module
         MatMomentDateModule,
@@ -100,7 +88,6 @@ const appRoutes: Routes = [
         MatSnackBarModule,
         // App modules
         LayoutModule,
-        SampleModule,
         AppStoreModule
     ],
     bootstrap   : [
@@ -111,7 +98,7 @@ const appRoutes: Routes = [
 
         {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true},
     
-        ProductService,
+        ProductService, // TODO place the services into module
         ReferenceService,
         OrderService,
         UserService,

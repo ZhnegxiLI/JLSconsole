@@ -70,7 +70,7 @@ export class Login2Component implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        if (localStorage.getItem('jwt') != null && localStorage.getItem('refreshToken') != null) {
+        if (localStorage.getItem('jwt') != null && localStorage.getItem('refreshToken') != null) { // TODO change to rxjs mode(beahaviourSubjet), 
             this.router.navigate(['apps']);
         }
         this.loginForm = this._formBuilder.group({

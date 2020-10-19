@@ -52,8 +52,6 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProjects(),
-                this.getWidgets(),
                 this.GetTeamMemberSalesPerformance(),
                 this.GetInternalExternalSalesPerformance(),
                 this.GetSalesPerformanceByStatus(),
@@ -127,37 +125,4 @@ export class ProjectDashboardService extends appServiceBase  implements Resolve<
         });
     }
     
-    
-
-    /**
-     * Get projects
-     *
-     * @returns {Promise<any>}
-     */
-    getProjects(): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get('api/project-dashboard-projects')
-                .subscribe((response: any) => {
-                    this.projects = response;
-                    resolve(response);
-                }, reject);
-        });
-    }
-
-    /**
-     * Get widgets
-     *
-     * @returns {Promise<any>}
-     */
-    getWidgets(): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get('api/project-dashboard-widgets')
-                .subscribe((response: any) => {
-                    this.widgets = response;
-                    resolve(response);
-                }, reject);
-        });
-    }
 }
